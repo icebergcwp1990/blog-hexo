@@ -17,10 +17,10 @@
 
       <%- partial('component/category') %>
 
-      <% if (theme.disqus_shortname && theme.url && page.comments){ %>
+      <% if (theme.duoshuo_shortname && theme.url && page.comments){ %>
         <span>
           <i class="icon-comment"></i>
-          <a href="<%= theme.url + url_for(page.path) + '#disqus_thread' %>"></a>
+          <a href="<%= theme.url + url_for(page.path) + '#ds-thread' %>"></a>
         </span>
       <% } %>
 

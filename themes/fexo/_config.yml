@@ -1,7 +1,7 @@
 # Blog info
 blog_name: Iceberg
 slogan: Being the man in whom the tiger sniffs the rose
-url: http://www.forsigner.com
+url: http://www.icebergcwp.com
 
 # Set avatar (Absolute url and relative url)
 avatar: /images/avatar.jpg
@@ -43,9 +43,6 @@ page_nav:
   - name: 关于
     url: /about/
     target_blank: false
-  - name: RSS
-    url: /atom.xml
-    target_blank: true # 在新页面打开
   - name: 搜索
     url: /search/
     target_blank: false # 在新页面打开
@@ -127,9 +124,8 @@ google_analytics:
 baidu_analytics: 57e94d016e201fba3603a8a2b0263af0
 
 # Comment service
-disqus_shortname: iceberg
-# duoshuo_shortname: iceberg
-
+# disqus_shortname: iceberg
+duoshuo_shortname: iceberg
 
 # =========================================================
 # 页面内容设置
@@ -138,9 +134,9 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "Scut，1990，Spring."
-    - "喜欢看书，擅长编程，喜欢打篮球，听民谣."
-    - "MacOS & iOS 应用开发工程师，常用 OC / JavaScript."
+    - "Iceberg，1990."
+    - "看书，编程，打篮球，听民谣."
+    - "MacOS & iOS 应用开发工程师，常用 Objective-C / JavaScript."
   - type: Github
     icon: icon-github
     text_key: Github
@@ -150,7 +146,7 @@ about:
     icon: icon-weibo
     text_key: 微博
     text_value: "@iceberg"
-    text_value_url: http://weibo.com/
+    text_value_url: http://weibo.com/u/5153417297
   - type: mail
     icon: icon-mail
     text_key: Gmail
@@ -160,30 +156,14 @@ about:
     text_value: 长沙
 
 link:
-  - name: 织网
-    info: 身体和灵魂，总有一个在路上
-    url: http://zheng-ji.info/
-    avatar: https://avatars3.githubusercontent.com/u/1414745?v=3&s=100
-  - name: Dongyado
-    info: 生命不止，折腾不息
-    url: http://dongyado.com/
+  - name: 阮一峰
+    info: ruanyf
+    url: http://www.ruanyifeng.com/home.html
+    avatar: https://avatars1.githubusercontent.com/u/905434?v=3&s=400
+  - name: KALZUMEUS
+    info: Patrick McKenzie
+    url: http://www.kalzumeus.com/
     avatar: https://avatars0.githubusercontent.com/u/6274940?v=3&s=100
-  - name: OrangeCoder
-    info: android ffmpeg nodejs gradle
-    url: http://orangecoder.com/
-    avatar: https://avatars0.githubusercontent.com/u/2263785?v=3&s=100
-  - name: EverET
-    info: 好记性不如烂笔头
-    url: http://everet.org/about-me/
-    avatar: https://avatars1.githubusercontent.com/u/1559563?v=3&s=100
-  - name: 题叶
-    info: FP, GUI, Writing
-    url: http://tiye.me/
-    avatar: https://avatars2.githubusercontent.com/u/449224?v=3&s=100
-  - name: idisfkj
-    info: Android成长分享
-    url: http://idisfkj.github.io
-    avatar: https://avatars1.githubusercontent.com/u/8677862?v=3&s=100
 
 project:
   - type: personal

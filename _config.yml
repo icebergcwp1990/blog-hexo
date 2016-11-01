@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Iceberg
 subtitle:
 description:
 author: iceberg
@@ -71,3 +71,4 @@ deploy:
   type: git
   repository: https://github.com/icebergcwp1990/blog-hexo.git 
   branch: gh-pages
+
