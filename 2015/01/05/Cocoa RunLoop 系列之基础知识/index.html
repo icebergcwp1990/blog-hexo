@@ -26,7 +26,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 一、Event Loop &amp;amp; Cocoa RunLoop宏观上：Event Loop
 RunLoop是一个用于循环监听和处理事件或者消息的模型，接收请求，然后派发给相关的处理模块，wikipedia上有更为全面的介绍：Event">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg">
-<meta property="og:updated_time" content="2016-11-20T09:40:45.000Z">
+<meta property="og:updated_time" content="2016-11-21T02:12:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cocoa RunLoop 系列之基础知识">
 <meta name="twitter:description" content="这篇博客主要结合Apple开发者文档和个人的理解，写的一篇关于Cocoa RunLoop基本知识点的文章。在文档的基础上，概况和梳理了RunLoop相关的知识点。
@@ -237,19 +237,19 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 <li>如果RunLoop当前运行模式没有添加Time Sources，则在RunLoop中部署的定时器不会被执行。</li>
 <li>设定的间隔时间与真实的触发时间之间没有必然联系，定时器会根据设定的间隔时间周期性的派发消息到RunLoop，但是真实的触发时间由RunLoop决定，假设RunLoop当前正在处理其一个长时间的任务，则触发时间会被延迟，如果在最终触发之前Timer已经派发了N个消息，RunLoop也只会当做一次派发对待，触发一次对应的处理函数。</li>
 </ul>
-<h4 id="2-运行模式"><a href="#2-运行模式" class="headerlink" title="2. 运行模式"></a>2. 运行模式</h4><p>运行模式类似于一个过滤器，用于屏蔽那些不关心的事件源，让RunLoop专注于监听和处理指定的事件源和回调监听。</p>
+<h4 id="2-运行模式"><a href="#2-运行模式" class="headerlink" title="2. 运行模式"></a>2. 运行模式</h4><p>运行模式类似于一个过滤器，用于屏蔽那些不关心的事件源，让RunLoop专注于监听和处理指定的事件源和RunLoop Observer。</p>
 <p>CFRunLoopMode 和 CFRunLoop 的数据结构大致如下：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">struct</span> __CFRunLoop &#123;</div><div class="line">    <span class="built_in">CFMutableSetRef</span> _commonModes;     <span class="comment">// Set</span></div><div class="line">    <span class="built_in">CFMutableSetRef</span> _commonModeItems; <span class="comment">// Set&lt;Source/Observer/Timer&gt;</span></div><div class="line">    <span class="built_in">CFRunLoopModeRef</span> _currentMode;    <span class="comment">// Current Runloop Mode</span></div><div class="line">    <span class="built_in">CFMutableSetRef</span> _modes;           <span class="comment">// Set</span></div><div class="line">    ...</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">struct</span> __CFRunLoopMode &#123;</div><div class="line">    <span class="built_in">CFStringRef</span> _name;            <span class="comment">// Mode Name, 例如 @"kCFRunLoopDefaultMode"</span></div><div class="line">    <span class="built_in">CFMutableSetRef</span> _sources0;    <span class="comment">// Set</span></div><div class="line">    <span class="built_in">CFMutableSetRef</span> _sources1;    <span class="comment">// Set</span></div><div class="line">    <span class="built_in">CFMutableArrayRef</span> _observers; <span class="comment">// Array</span></div><div class="line">    <span class="built_in">CFMutableArrayRef</span> _timers;    <span class="comment">// Array</span></div><div class="line">    ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>结合以上源码，总结以下几点：</p>
 <ul>
 <li>每种模式通过name属性作为标识。</li>
-<li>一种运行模式（Run Loop Mode）就是一个集合，包含需要监听的事件源Input Sources和Timer Soueces以及需要触发的回调监听observers。</li>
+<li>一种运行模式（Run Loop Mode）就是一个集合，包含需要监听的事件源Input Sources和Timer Soueces以及需要触发的RunLoop observers。</li>
 <li>Cocoa RunLoop包含若干个Mode，调用RunLoop是指定的Mode称之为CurrentMode。RunLoop可以在不同的Mode下切换，切换时退出CurrentMode,并保存相关上下文，再进入新的Mode。</li>
-<li>在启动Cocoa RunLoop是必须指定一种的运行模式，且如果指定的运行模式没有包含事件源或者回调监听，RunLoop会立刻退出。</li>
+<li>在启动Cocoa RunLoop是必须指定一种的运行模式，且如果指定的运行模式没有包含事件源或者observers，RunLoop会立刻退出。</li>
 <li>CFRunLoop结构中的commonModes是Mode集合,将某个Mode的name添加到commonModes集合中，表示这个Mode具有“common”属性。</li>
-<li>CFRunLoop结构中的commonModeItems则是共用源的集合，包括事件源和回调监听。这些共用源会被自动添加到具有“common”属性的Mode中。</li>
+<li>CFRunLoop结构中的commonModeItems则是共用源的集合，包括事件源和执行反馈。这些共用源会被自动添加到具有“common”属性的Mode中。</li>
 </ul>
-<p><strong> Note </strong> : 不同的运行模式区别在于事件源的不同，比如来源于不同端口的事件和端口事件与Timer事件。不能用于区分不同的事件类型，比如鼠标消息事件和键盘消息事件，这两种事件同属于基于端口的事件源。</p>
+<p><strong> Note </strong> : 不同的运行模式区别在于事件源的不同，比如来源于不同端口的事件和端口事件与Timer事件。不能用于区分不同的事件类型，比如鼠标消息事件和键盘消息事件，因为这两种事件都属于基于端口的事件源。</p>
 <p>以下是苹果预定义好的一些运行模式：</p>
 <ul>
 <li>NSDefaultRunLoopMode //默认的运行模式，适用于大部分情况</li>
@@ -275,7 +275,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 <p>以上两方面，将在下一篇博客<a href="">Cocoa RunLoop 系列之源码解析</a>中结合源代码来找到答案。</p>
 <h4 id="4-执行反馈"><a href="#4-执行反馈" class="headerlink" title="4. 执行反馈"></a>4. 执行反馈</h4><p>RunLoop Observers机制属于RunLoop一个反馈机制，将RunLoop一次循环划分成若干个节点，当执行到对应的节点调用相应的回调函数，将RunLoop当前的执行状态反馈给用户。</p>
 <ul>
-<li>用户可以通过Core Foundation框架中的CFRunLoopObserverRef注册回调监听。</li>
+<li>用户可以通过Core Foundation框架中的CFRunLoopObserverRef注册 observers。</li>
 <li><p>监听节点：</p>
 <ul>
 <li>The entrance to the run loop. //RunLoop启动</li>
@@ -289,7 +289,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 <li><p>监听类别分为两种：一次性和重复监听。</p>
 </li>
 </ul>
-<h3 id="三、何时使用RunLoop"><a href="#三、何时使用RunLoop" class="headerlink" title="三、何时使用RunLoop"></a>三、何时使用RunLoop</h3><p>由于主线程的RunLoop在程序启动时被自动创建并执行，因此只有在其他线程中才需要手动启动RunLoop。很多情况下，对于RunLoop的使用都是在主线程中，包括RunLoop模式切换，设置反馈监听等。</p>
+<h3 id="三、何时使用RunLoop"><a href="#三、何时使用RunLoop" class="headerlink" title="三、何时使用RunLoop"></a>三、何时使用RunLoop</h3><p>由于主线程的RunLoop在程序启动时被自动创建并执行，因此只有在其他线程中才需要手动启动RunLoop。很多情况下，对于RunLoop的使用多数情况是在主线程中，包括进行RunLoop模式切换，设置RunLoop Observer等。</p>
 <p>在非主线程中，以下几种情况适用于RunLoop:</p>
 <ul>
 <li>使用基于端口或者自定义的事件源与其他线程进行通信。</li>
