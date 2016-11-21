@@ -26,7 +26,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 一、Event Loop &amp;amp; Cocoa RunLoop宏观上：Event Loop
 RunLoop是一个用于循环监听和处理事件或者消息的模型，接收请求，然后派发给相关的处理模块，wikipedia上有更为全面的介绍：Event">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg">
-<meta property="og:updated_time" content="2016-11-21T02:12:03.000Z">
+<meta property="og:updated_time" content="2016-11-21T02:17:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cocoa RunLoop 系列之基础知识">
 <meta name="twitter:description" content="这篇博客主要结合Apple开发者文档和个人的理解，写的一篇关于Cocoa RunLoop基本知识点的文章。在文档的基础上，概况和梳理了RunLoop相关的知识点。
@@ -247,7 +247,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 <li>Cocoa RunLoop包含若干个Mode，调用RunLoop是指定的Mode称之为CurrentMode。RunLoop可以在不同的Mode下切换，切换时退出CurrentMode,并保存相关上下文，再进入新的Mode。</li>
 <li>在启动Cocoa RunLoop是必须指定一种的运行模式，且如果指定的运行模式没有包含事件源或者observers，RunLoop会立刻退出。</li>
 <li>CFRunLoop结构中的commonModes是Mode集合,将某个Mode的name添加到commonModes集合中，表示这个Mode具有“common”属性。</li>
-<li>CFRunLoop结构中的commonModeItems则是共用源的集合，包括事件源和执行反馈。这些共用源会被自动添加到具有“common”属性的Mode中。</li>
+<li>CFRunLoop结构中的commonModeItems则是共用源的集合，包括事件源和Observers。这些共用源会被自动添加到具有“common”属性的Mode中。</li>
 </ul>
 <p><strong> Note </strong> : 不同的运行模式区别在于事件源的不同，比如来源于不同端口的事件和端口事件与Timer事件。不能用于区分不同的事件类型，比如鼠标消息事件和键盘消息事件，因为这两种事件都属于基于端口的事件源。</p>
 <p>以下是苹果预定义好的一些运行模式：</p>
@@ -275,7 +275,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 <p>以上两方面，将在下一篇博客<a href="">Cocoa RunLoop 系列之源码解析</a>中结合源代码来找到答案。</p>
 <h4 id="4-执行反馈"><a href="#4-执行反馈" class="headerlink" title="4. 执行反馈"></a>4. 执行反馈</h4><p>RunLoop Observers机制属于RunLoop一个反馈机制，将RunLoop一次循环划分成若干个节点，当执行到对应的节点调用相应的回调函数，将RunLoop当前的执行状态反馈给用户。</p>
 <ul>
-<li>用户可以通过Core Foundation框架中的CFRunLoopObserverRef注册 observers。</li>
+<li>用户可以通过Core Foundation框架中的CFRunLoopObserverRef注册observers。</li>
 <li><p>监听节点：</p>
 <ul>
 <li>The entrance to the run loop. //RunLoop启动</li>
