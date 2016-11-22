@@ -1,14 +1,12 @@
 
 title: Objective-C Runtime 解析
-date: 2015-10-13 22:46:07
+date: 2015-01-01 22:46:07
 tags: 
-- Objective-C 
 - Runtime
 categories: 
-- Objective-C
 - Cocoa
 - 翻译
-Keywords: Runtime
+keywords: Runtime
 decription: 关于Objective-C Runtime的译文
 
 ---
@@ -478,5 +476,94 @@ class_addMethod()最后一个参数“v@:”表示函数fooMethod的返回值和
 ```
 这些可选值与@property语法的可选值相匹配。
 
-#### 混合虚函数表派发（Hybrid vTable Dispatch）
+### 混合虚函数表派发（Hybrid vTable Dispatch）
+
+如果你查阅现代版运行时的源代码，你会看到以下内容（[位于objc-runtime-new.m](http://opensource.apple.com/source/objc4/objc4-437/runtime/objc-runtime-new.m)）:
+
+``` objc 
+
+	/***********************************************************************
+	* vtable dispatch
+	* 
+	* Every class gets a vtable pointer. The vtable is an array of IMPs.
+	* The selectors represented in the vtable are the same for all classes
+	*   (i.e. no class has a bigger or smaller vtable).
+	* Each vtable index has an associated trampoline which dispatches to 
+	*   the IMP at that index for the receiver class's vtable (after 
+	*   checking for NULL). Dispatch fixup uses these trampolines instead 
+	*   of objc_msgSend.
+	* Fragility: The vtable size and list of selectors is chosen at launch 
+	*   time. No compiler-generated code depends on any particular vtable 
+	*   configuration, or even the use of vtable dispatch at all.
+	* Memory size: If a class's vtable is identical to its superclass's 
+	*   (i.e. the class overrides none of the vtable selectors), then 
+	*   the class points directly to its superclass's vtable. This means 
+	*   selectors to be included in the vtable should be chosen so they are 
+	*   (1) frequently called, but (2) not too frequently overridden. In 
+	*   particular, -dealloc is a bad choice.
+	* Forwarding: If a class doesn't implement some vtable selector, that 
+	*   selector's IMP is set to objc_msgSend in that class's vtable.
+	* +initialize: Each class keeps the default vtable (which always 
+	*   redirects to objc_msgSend) until its +initialize is completed.
+	*   Otherwise, the first message to a class could be a vtable dispatch, 
+	*   and the vtable trampoline doesn't include +initialize checking.
+	* Changes: Categories, addMethod, and setImplementation all force vtable 
+	*   reconstruction for the class and all of its subclasses, if the 
+	*   vtable selectors are affected.
+	**********************************************************************/
+	
+```
+上述内容阐述的要点就是运行时会尽量存储调用最频繁的函数以达到提高软件运行速度的目的，因为通过虚函数表查找比调用objc_msgSend函数使用的指令更少。虚函数表中的16个函数调用次数远多于其他所有函数。实际上，进一步深入研究代码你会发现垃圾回收机制和无垃圾回收机制下虚函数表中默认的函数：
+
+```objc
+	static const char * const defaultVtable[] = {
+	    "allocWithZone:", 
+	    "alloc", 
+	    "class", 
+	    "self", 
+	    "isKindOfClass:", 
+	    "respondsToSelector:", 
+	    "isFlipped", 
+	    "length", 
+	    "objectForKey:", 
+	    "count", 
+	    "objectAtIndex:", 
+	    "isEqualToString:", 
+	    "isEqual:", 
+	    "retain", 
+	    "release", 
+	    "autorelease", 
+	};
+	static const char * const defaultVtableGC[] = {
+	    "allocWithZone:", 
+	    "alloc", 
+	    "class", 
+	    "self", 
+	    "isKindOfClass:", 
+	    "respondsToSelector:", 
+	    "isFlipped", 
+	    "length", 
+	    "objectForKey:", 
+	    "count", 
+	    "objectAtIndex:", 
+	    "isEqualToString:", 
+	    "isEqual:", 
+	    "hash", 
+	    "addObject:", 
+	    "countByEnumeratingWithState:objects:count:", 
+	};
+```
+那么你如何知道是否调用了这些函数？调试模式下，你将会在栈中看到以下函数中的某一个被调用，出于调试的目的，所有的这些方法都可以视为通过objc_msgSend函数调用的。
+
+1. objc_msgSend_fixup：是当运行时正在派发一个位于虚函数表的函数时触发，即用于派发虚函数表中的函数。
+2. objc_msgSend_fixedup：是当调用一个本应存在于虚函数表的函数但是现在已经不存在的函数时触发（个人觉得应该是调用在objc_msgSend_fixup函数之后，并且由前者触发的）。
+3. objc_msgSend_vtable[0-15]：调试模式下，也许会看到某个函数调用类似于objc_msgSend_vtable5意味着正在调用虚函数表中对应序号的某个函数。
+
+运行时可以决定是否派发这些函数，所以不要指望以下这种情况存在：objc_msgSend_vtable10在运行时的一次循环中对应的函数是-length,意味着后面任一次循环中也是同样情况。
+
+### 结论
+
+我希望你能喜欢这些内容，这篇文章基本上覆盖了我在[Des Moines Cocoaheads ](http://cocoaheads.org/us/DesMoinesIowa/index.html)上谈及的内容。Objective-C运行时是一个了不起的杰作，它为我们的Cocoa/Objective-C应用提供了一个强大的平台，让很多我们正在受用的功能都成为可能。如果你还没有查阅关于如何使用Objective-C运行时的Apple开发文档，我希望你马上行动，谢谢。附上：[运行时开发文档](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html)，[运行时介绍文档](https://developer.apple.com/reference/objectivec/1657527-objective_c_runtime)
+
+
 

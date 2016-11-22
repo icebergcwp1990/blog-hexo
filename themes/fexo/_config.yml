@@ -78,7 +78,7 @@ backtop:
   about: false
 
 donation:
-  show: true
+  show: false
   btn_text: Kick my ass
   tip: Buy me a coke ?
   items:
@@ -103,7 +103,7 @@ post:
 # =========================================================
 
 # Custom CSS style, 推荐把样式文件放在blog源码文件夹，而不是主题里面
-personal_style: /css/personal-style.css
+#personal_style: /css/personal-style.css #关闭自定义样式
 
 # 这个值取决于你得背景图片是深色还是浅色，深色用dark，浅色用light
 home_background_scheme: light # dark、light
@@ -164,6 +164,10 @@ link:
     info: Patrick McKenzie
     url: http://www.kalzumeus.com/
     avatar: https://avatars0.githubusercontent.com/u/6274940?v=3&s=100
+  - name: COCOA SAMURAI
+    info: I am a Cocoa Developer & Enthusiast working on Mac & iOS apps. 
+    url: http://cocoasamurai.blogspot.jp/
+    avatar: https://avatars3.githubusercontent.com/u/2963?v=3&s=400
 
 project:
   - type: personal
