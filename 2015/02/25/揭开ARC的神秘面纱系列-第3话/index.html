@@ -15,20 +15,23 @@
     <meta name="keywords" content="ARC," />
   
 
-  <meta name="description" content="“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。
+  <meta name="description" content="原文地址
+“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。
 因此，思考一下下面的函数：
 1234567void foo() &amp;#123;    @autoreleasepool &amp;#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="揭开ARC的神秘面纱系列-第3话">
 <meta property="og:url" content="http://yoursite.com/2015/02/25/揭开ARC的神秘面纱系列-第3话/index.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。
+<meta property="og:description" content="原文地址
+“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。
 因此，思考一下下面的函数：
 1234567void foo() &amp;#123;    @autoreleasepool &amp;#123;">
-<meta property="og:updated_time" content="2016-12-08T03:02:39.000Z">
+<meta property="og:updated_time" content="2016-12-08T07:35:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="揭开ARC的神秘面纱系列-第3话">
-<meta name="twitter:description" content="“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。
+<meta name="twitter:description" content="原文地址
+“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。
 因此，思考一下下面的函数：
 1234567void foo() &amp;#123;    @autoreleasepool &amp;#123;">
 
@@ -189,7 +192,8 @@
 
   <div class="article-content">
     
-      <p>“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。<a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html#autoreleasepool" target="_blank" rel="external">LLVM提及到</a>autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。</p>
+      <p><a href="http://www.galloway.me.uk/2012/02/a-look-under-arcs-hood-episode-3/" target="_blank" rel="external">原文地址</a></p>
+<p>“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。<a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html#autoreleasepool" target="_blank" rel="external">LLVM提及到</a>autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。</p>
 <p>因此，思考一下下面的函数：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">void</span> foo() &#123;</div><div class="line">    <span class="keyword">@autoreleasepool</span> &#123;</div><div class="line">        <span class="built_in">NSNumber</span> *number = [<span class="built_in">NSNumber</span> numberWithInt:<span class="number">0</span>];</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"number = %p"</span>, number);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>显然，这完全是不和谐的代码段，但是它能让我看到发生什么。在非ARC模式下，我们可能会假设：number将会在numberWithInt:函数中被分配内存，并返回的是一个自动释放的对象。因此当自动释放池随后被销毁时，number对象将会被释放。所以让我们看看是否如上所述（一如往常，使用的是ARMv7指令集）：</p>
