@@ -52,7 +52,7 @@ Input Sources通过异步派发的方式将事件转送到目标线程，事件�
 	
 * Custom Input Sources ：
 
-	* 用户自定义的输入源：使用Core Foundation框架中CFRunLoopSourceRef对象的相关函数实现。（具体流程暂未研究，留坑待填）
+	* 用户自定义的输入源：使用Core Foundation框架中CFRunLoopSourceRef对象的相关函数实现。具体实现可以查看另外一篇博客：[Cocoa RunLoop 系列之Configure Custom InputSource](http://icebergcwp.com/2015/01/10/Cocoa%20RunLoop%E7%B3%BB%E5%88%97%E4%B9%8B%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BE%93%E5%85%A5%E6%BA%90/)
 	* Cocoa Perform Selector Sources：Cocoa框架内部实现的自定义输入源，可以跨线程调用，实现线程见通信，有点类似于Port-Based事件源，不同的是这种事件源只在RunLoop上部署一次，执行结束后便会自动移除。如果目标线程中没有启动RunLoop也就意味着无法部署这类事件源，因此不会得到预期的结果。
 	
 		使用Cocoa自定义事件源的函数接口，如下：
@@ -121,7 +121,7 @@ CFRunLoopMode 和 CFRunLoop 的数据结构大致如下：
 * Cocoa RunLoop包含若干个Mode，调用RunLoop是指定的Mode称之为CurrentMode。RunLoop可以在不同的Mode下切换，切换时退出CurrentMode,并保存相关上下文，再进入新的Mode。
 * 在启动Cocoa RunLoop是必须指定一种的运行模式，且如果指定的运行模式没有包含事件源或者observers，RunLoop会立刻退出。
 * CFRunLoop结构中的commonModes是Mode集合,将某个Mode的name添加到commonModes集合中，表示这个Mode具有“common”属性。
-* CFRunLoop结构中的commonModeItems则是共用源的集合，包括事件源和Observers。这些共用源会被自动添加到具有“common”属性的Mode中。
+* CFRunLoop结构中的commonModeItems则是共用源的集合，包括事件源和执行反馈。这些共用源会被自动添加到具有“common”属性的Mode中。
 
 ** Note ** : 不同的运行模式区别在于事件源的不同，比如来源于不同端口的事件和端口事件与Timer事件。不能用于区分不同的事件类型，比如鼠标消息事件和键盘消息事件，因为这两种事件都属于基于端口的事件源。
  
@@ -162,7 +162,7 @@ Apple文档中提到:开发者不需要手动创建RunLoop对象，每个线程�
 
 RunLoop Observers机制属于RunLoop一个反馈机制，将RunLoop一次循环划分成若干个节点，当执行到对应的节点调用相应的回调函数，将RunLoop当前的执行状态反馈给用户。
 
-* 用户可以通过Core Foundation框架中的CFRunLoopObserverRef注册observers。
+* 用户可以通过Core Foundation框架中的CFRunLoopObserverRef注册 observers。
 * 监听节点：
 
 	* The entrance to the run loop. //RunLoop启动

@@ -1,10 +1,9 @@
-
 title: Objective-C Runtime 解析
 date: 2015-01-01 22:46:07
 tags: 
 - Runtime
 categories: 
-- Cocoa
+- Objective-C
 - 翻译
 keywords: Runtime
 decription: 关于Objective-C Runtime的译文
@@ -416,15 +415,15 @@ class_addMethod()最后一个参数“v@:”表示函数fooMethod的返回值和
 
 目前我们所了解到关于Modern Runtime的概念之一是实例变量无碎片化（Non Fragile ivars）。编译器在编译类的时候确定了实例变量的布局，决定了某个实例变量的访问位置。这属于底层细节，关乎于获得一个对象的指针，查找某个实例变量相对于对象起始位置的偏移，根据实例变量的类型读取相应数量的字节。因此，实例变量的布局可能如下所示，左侧的数字表示实例变量的字节偏移量
 
-![](https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/runtime-f-1.png)
+![](https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/translation/runtime-f-1.png)
 
 如上所示，NSObject对象的实例变量布局以及继承NSObject后添加了自己的变量之后的布局。这样的布局在苹果发布更新之前都能正常运行，但是苹果发布了Mac OS X 10.6之后，布局就会变成如下所示：
 
-![](https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/runtime-f-2.png)
+![](https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/translation/runtime-f-2.png)
 
 因为与父类的实例变量重叠，自定义的对象的实例变量被抹掉。防止这样的情况发生唯一的可能是苹果能保持更新之前的布局。但是如果苹果这样做的话，那么苹果的框架将不可能得到改进，因为这些框架的实例变量布局已经写死了。处于实例变量碎片化的情况下只能通过重新编译所有继承于苹果类的类来保证兼容新的框架。那么实例变量无碎片化的情况下会是如何处理？
 
-![](https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/runtime-f-3.png)
+![](https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/translation/runtime-f-3.png)
 
 实例变量无碎片化的前提下，编译器创建同实例变量碎片化情况下一样的实例变量布局。但是当运行时检测到一个重叠的父类时会调整自定义变量的偏移量，因此子类中自定义的变量得以保留。
 

@@ -22,9 +22,9 @@ home_nav:
   - name: Github
     url: https://github.com/icebergcwp1990
     target_blank: true
-  - name: Twitter
-    url: https://twitter.com/IcebergCao
-    target_blank: true
+  - name: About
+    url: /about/
+    target_blank: false
 
 # config page nav
 page_nav:
@@ -134,9 +134,8 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "Iceberg，1990."
-    - "看书，编程，打篮球，听民谣."
-    - "MacOS & iOS 应用开发工程师，常用 Objective-C / JavaScript."
+    - "Iceberg，Horseman"
+    - "而我。。。想成为一名有趣的man"
   - type: Github
     icon: icon-github
     text_key: Github
@@ -153,7 +152,7 @@ about:
     text_value: "icebergcwp1990r@gmail.com"
   - type: location
     icon: icon-location
-    text_value: 长沙
+    text_value: ChangSha
 
 link:
   - name: 阮一峰
@@ -170,7 +169,11 @@ link:
     avatar: https://avatars3.githubusercontent.com/u/2963?v=3&s=400
 
 project:
-  - type: personal
-    name: VASandboxFileAccess
-    url: https://github.com/icebergcwp1990/VASandboxFileAccess
-    intro: sandboxing aware file access glue code 
+  - type: public
+    name: CustomRunLoopInputSourceDemo
+    url: https://github.com/icebergcwp1990/CustomRunLoopInputSourceDemo
+    intro: A demo show how to custom input source in run loop
+  - type: public
+    name: NSStreamOnNon-MainThread
+    url: https://github.com/icebergcwp1990/NSStreamOnNon-MainThread
+    intro:  NSStream schedule in runloop of non-main thread
