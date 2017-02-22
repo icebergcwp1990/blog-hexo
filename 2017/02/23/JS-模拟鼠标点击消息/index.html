@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-3.png">
-<meta property="og:updated_time" content="2017-02-22T18:02:24.000Z">
+<meta property="og:updated_time" content="2017-02-22T18:04:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="原生JS代码模拟鼠标点击消息">
 <meta name="twitter:description" content="近两天都忙于更新之前做的一个关于国外某知名音乐网站项目，因为自己一直做iOS开发并没有系统的学习过JS，所以属于半吊子水平。
@@ -155,7 +155,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#分析DOM元素结构"><span class="toc-text">分析DOM元素结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模拟鼠标点击消息"><span class="toc-text">模拟鼠标点击消息</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#分析DOM元素结构"><span class="toc-text">分析DOM元素结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模拟鼠标点击消息"><span class="toc-text">模拟鼠标点击消息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
   </div>
 
 
@@ -204,7 +204,7 @@
 <p>以下是解决思路流程：</p>
 <p>ps：以下调试和代码均在Chrome浏览器的控制台执行。</p>
 <h4 id="分析DOM元素结构"><a href="#分析DOM元素结构" class="headerlink" title="分析DOM元素结构"></a>分析DOM元素结构</h4><p>页面样式</p>
-<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-1.png" alt="页面样式">·</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-1.png" alt="页面样式"></p>
 <p>DOM结构</p>
 <p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-2.png" alt="DOM结构"></p>
 <p>由上图可知，DIV元素VolumeSlider作为父元素，其下有四个子元素，分,包括显示音量的slider和控制音量的handle元素。</p>
@@ -223,8 +223,7 @@
 <p>上述代码能获得当前鼠标消息对象。使用鼠标点击音量条，在控制台获得如下结果：</p>
 <p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/js-simulate-mouse-click-3.png" alt="DOM结构"></p>
 <p>对比真实的鼠标消息，确定模拟的鼠标消息中的坐标值是吻合的。但是二者的target元素不同，这也正是原因所在。修改了target元素之后，代码执行结果达到了预期的结果。通过这个方法可以快速定位响应鼠标消息的目标元素。</p>
-<p>####小结####</p>
-<p>在刚开始要使用原生js模拟鼠标消息的时候，感觉一片茫然。在网上查了很多资料，没有找到满足需求的代码。最后只能硬着头皮自己写，期间各种不确定性都需要一一测试，折腾了大半天，好在最终达到预期的结果。与此同时，对模拟鼠标消息也有了新的体会，至少以后能够比较轻松的完成类似的功能。</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>在刚开始要使用原生js模拟鼠标消息的时候，感觉一片茫然。在网上查了很多资料，没有找到满足需求的代码。最后只能硬着头皮自己写，期间各种不确定性都需要一一测试，折腾了大半天，好在最终达到预期的结果。与此同时，对模拟鼠标消息也有了新的体会，至少以后能够比较轻松的完成类似的功能。</p>
 
     
   </div>
