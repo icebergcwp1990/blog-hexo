@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>两个特殊函数+load &amp; +initialize | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Category," />
+  
+
+  <meta name="description" content="记得还在上一家公司任职的时候，在研发部的探讨会会上就“+load的加载过程”这一议题有过激烈的讨论，大家各执一词，争得面红耳赤。最终是部门老大专门做了一期讲解，才平息了这场争执。但是那时候的讲解并未涉及到源代码分析，而是基于测试代码做的分析，故我并没有完全理解。
+在苹果开发文档中提及到：+load是在类或者分类被添加到runtime的时候被调用，而+initialize则是在类或者子类第一次调用实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="两个特殊函数+load & +initialize">
+<meta property="og:url" content="http://yoursite.com/2015/04/01/两个特殊函数+Load方法& +initialize方法/index.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="记得还在上一家公司任职的时候，在研发部的探讨会会上就“+load的加载过程”这一议题有过激烈的讨论，大家各执一词，争得面红耳赤。最终是部门老大专门做了一期讲解，才平息了这场争执。但是那时候的讲解并未涉及到源代码分析，而是基于测试代码做的分析，故我并没有完全理解。
+在苹果开发文档中提及到：+load是在类或者分类被添加到runtime的时候被调用，而+initialize则是在类或者子类第一次调用实">
+<meta property="og:updated_time" content="2017-02-26T15:25:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="两个特殊函数+load & +initialize">
+<meta name="twitter:description" content="记得还在上一家公司任职的时候，在研发部的探讨会会上就“+load的加载过程”这一议题有过激烈的讨论，大家各执一词，争得面红耳赤。最终是部门老大专门做了一期讲解，才平息了这场争执。但是那时候的讲解并未涉及到源代码分析，而是基于测试代码做的分析，故我并没有完全理解。
+在苹果开发文档中提及到：+load是在类或者分类被添加到runtime的时候被调用，而+initialize则是在类或者子类第一次调用实">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#load"><span class="toc-text">+load</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#initialize"><span class="toc-text">+initialize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-两个特殊函数+Load方法&amp; +initialize方法" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">两个特殊函数+load &amp; +initialize</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.04.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Objective-C/">Objective-C</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.icebergcwp.com/2015/04/01/两个特殊函数+Load方法&amp; +initialize方法/#ds-thread"></a>
+        </span>
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>记得还在上一家公司任职的时候，在研发部的探讨会会上就“+load的加载过程”这一议题有过激烈的讨论，大家各执一词，争得面红耳赤。最终是部门老大专门做了一期讲解，才平息了这场争执。但是那时候的讲解并未涉及到源代码分析，而是基于测试代码做的分析，故我并没有完全理解。</p>
+<p>在苹果开发文档中提及到：+load是在类或者分类被添加到runtime的时候被调用，而+initialize则是在类或者子类第一次调用实例方法或者类方法之前被调用。</p>
+<p>上面的说明只是说明了这两个函数调用时机，但是并没有涉及父类、子类和分类之间的调用顺序和相互影响，于是试着结合apple公司的开源代码分析一下这两个函数的加载过程，以加深理解。</p>
+<h4 id="load"><a href="#load" class="headerlink" title="+load"></a>+load</h4><h4 id="initialize"><a href="#initialize" class="headerlink" title="+initialize"></a>+initialize</h4><h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>在上一篇博客<a href="http://icebergcwp.com/2015/03/25/Objective-C%20Category%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" target="_blank" rel="external">Objective-C Category 深入浅出系列之实现原理</a>中结合源代码分析了Category的实现原理。其中有一个重要的知识点就是分类Category中函数会覆盖主类中同名的函数。然而这种情况发生的前提是函数必须是通过runtime机制（使用objc_msgSend发送消息）调用，因为这样才会通过遍历类的方法列表去获得方法对应的实现。</p>
+
+    
+  </div>
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+  <section class="duoshuo-comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="http://yoursite.com/2015/04/01/两个特殊函数+Load方法&amp; +initialize方法/index.html" data-title="两个特殊函数+load &amp; +initialize" data-url="http://yoursite.com/2015/04/01/两个特殊函数+Load方法&amp; +initialize方法/index.html"></div>
+    <!-- 多说评论框 end -->
+  </section>
+
+
+
+
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"iceberg"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
