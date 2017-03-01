@@ -1,4 +1,4 @@
-title: Objective-C Category 深入浅出系列-第1话
+title: Objective-C Category的实现原理
 date: 2015-03-25 10:48:07
 tags: 
 - Category
@@ -49,7 +49,7 @@ Objective-C Category（分类）之于我而言有种神秘感，虽然自己已
  
  ```
  
- 通过Category的定义可以看出，Category与Class存在很相似。不过Category没有isa指针，这也说明Category不是一个类，只能作为一个类的拓展存在。
+ 通过Category的定义可以看出，Category与Class的结构很相似。不过Category没有isa指针，结合OC中对类的定义，说明Category不是一个类，只能作为一个类的拓展存在。
 
  关键Method-1: _read_images()
  
@@ -95,8 +95,8 @@ Objective-C Category（分类）之于我而言有种神秘感，虽然自己已
 	            // Then, rebuild the class's method lists (etc) if
 	            // the class is realized.
 	            
-	            //检测目标类是否已实现
 	            BOOL classExists = NO;
+	            //将分类中的实例方法添加在类的实例方法列表
 	            if (cat->instanceMethods ||  cat->protocols
 	                ||  cat->instanceProperties)
 	            {
@@ -112,7 +112,7 @@ Objective-C Category（分类）之于我而言有种神秘感，虽然自己已
 	                }
 	            }
 	            
-	            //Categoty存在方法列表或者协议列表
+	            //将分类中的类方法添加到类的类方法列表中
 	            if (cat->classMethods  ||  cat->protocols
 	                /* ||  cat->classProperties */)
 	            {
@@ -341,7 +341,7 @@ attachCategoryMethods()函数的功能也比较简单，对与目标类的Catego
 
 ```
 
-attachMethodLists才是最关键的函数。函数中为目标类分配了一个新的函数列表，先加入Category中的方法，再加入目标类原有方法。这也就是为什么如果Category中的函数与目标类中的函数重名，那么目标类的函数会被覆盖的原因。因为Runtime在遍历方法列表时会先发现Category中的函数。
+attachMethodLists才是最关键的函数。函数中为目标类分配了一个新的函数列表，先加入Category中的方法，再加入目标类原有方法。这也就是为什么如果Category中的函数与目标类中的函数重名，那么目标类的函数会被覆盖的原因，因为Runtime在遍历方法列表时会先发现Category中的函数。另外，这也是为什么即便不导入category的头文件也可以通过-performSelector：方式调用category中的方法的原因。
 
 ### 小结
 
