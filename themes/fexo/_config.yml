@@ -125,7 +125,8 @@ baidu_analytics: 57e94d016e201fba3603a8a2b0263af0
 
 # Comment service
 # disqus_shortname: iceberg
-duoshuo_shortname: iceberg
+# duoshuo_shortname: iceberg
+youyan_shortname: iceberg
 
 # =========================================================
 # 页面内容设置
