@@ -7,39 +7,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Iceberg</title>
+  <title>Objective-C中布尔类型 | Iceberg</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iceberg,Maxos,iOS,nodejs,JavaScript" />
+    <meta name="keywords" content="Objective-C," />
   
 
-  <meta name="description" content="title: Objective-C中布尔类型date: 2016-08-10 12:45:07tags:
-
-Objective-Ccategories:
-Objective-Ckeywords: 布尔类型decription: 关于Objective-C中布尔类型的知识总结
-
-Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed">
+  <meta name="description" content="Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed char。
+用@encode去看看BOOL的类型串：
+12@encode(BOOL) // 64位iOS系统：&quot;B&quot;@encode(BOOL) // 32位iOS系统，32/64位OS X：&quot;c&quot;
+众所周知，在C\C++语言中bool类型中的两个常量false为0，true为1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Iceberg">
-<meta property="og:url" content="http://yoursite.com/2017/09/12/Objective-C的布尔类型/index.html">
+<meta property="og:title" content="Objective-C中布尔类型">
+<meta property="og:url" content="http://yoursite.com/2016/10/15/Objective-C的布尔类型/index.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="title: Objective-C中布尔类型date: 2016-08-10 12:45:07tags:
-
-Objective-Ccategories:
-Objective-Ckeywords: 布尔类型decription: 关于Objective-C中布尔类型的知识总结
-
-Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed">
-<meta property="og:updated_time" content="2017-09-28T15:27:52.000Z">
+<meta property="og:description" content="Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed char。
+用@encode去看看BOOL的类型串：
+12@encode(BOOL) // 64位iOS系统：&quot;B&quot;@encode(BOOL) // 32位iOS系统，32/64位OS X：&quot;c&quot;
+众所周知，在C\C++语言中bool类型中的两个常量false为0，true为1">
+<meta property="og:updated_time" content="2017-09-28T15:37:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Iceberg">
-<meta name="twitter:description" content="title: Objective-C中布尔类型date: 2016-08-10 12:45:07tags:
-
-Objective-Ccategories:
-Objective-Ckeywords: 布尔类型decription: 关于Objective-C中布尔类型的知识总结
-
-Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed">
+<meta name="twitter:title" content="Objective-C中布尔类型">
+<meta name="twitter:description" content="Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed char。
+用@encode去看看BOOL的类型串：
+12@encode(BOOL) // 64位iOS系统：&quot;B&quot;@encode(BOOL) // 32位iOS系统，32/64位OS X：&quot;c&quot;
+众所周知，在C\C++语言中bool类型中的两个常量false为0，true为1">
 
   
 
@@ -163,12 +157,12 @@ Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而�
 <div class="content content-post CENTER">
    <article id="post-Objective-C的布尔类型" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">(no title)</h1>
+    <h1 class="post-title">Objective-C中布尔类型</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2017.09.12</span>
+        <span>2016.10.15</span>
       </span>
 
       
@@ -179,12 +173,17 @@ Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而�
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Objective-C/">Objective-C</a>
+  </span>
+
 
 
       
         <span>
           <i class="icon-comment"></i>
-          <a href="http://www.icebergcwp.com/2017/09/12/Objective-C的布尔类型/#yy-thread"></a>
+          <a href="http://www.icebergcwp.com/2016/10/15/Objective-C的布尔类型/#yy-thread"></a>
         </span>
       
 
@@ -193,14 +192,7 @@ Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而�
 
   <div class="article-content">
     
-      <p>title: Objective-C中布尔类型<br>date: 2016-08-10 12:45:07<br>tags:</p>
-<ul>
-<li>Objective-C<br>categories:</li>
-<li><p>Objective-C<br>keywords: 布尔类型<br>decription: 关于Objective-C中布尔类型的知识总结</p>
-<hr>
-<p>Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed char。</p>
-</li>
-</ul>
+      <p> Objective-C中的BOOL类型在iWatch和64位iOS上的原始类型为bool，而在其它情况下是signed char。</p>
 <p>用@encode去看看BOOL的类型串：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@encode</span>(<span class="built_in">BOOL</span>) <span class="comment">// 64位iOS系统："B"</span></div><div class="line"><span class="keyword">@encode</span>(<span class="built_in">BOOL</span>) <span class="comment">// 32位iOS系统，32/64位OS X："c"</span></div></pre></td></tr></table></figure>
 <p>众所周知，在C\C++语言中bool类型中的两个常量false为0，true为1，且非0值都被认为true。Objective-C是建立在C++基础的面相对象的语言，因此bool的定义应该也是如此。</p>
