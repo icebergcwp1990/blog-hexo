@@ -41,6 +41,11 @@
     <link rel="icon" href="/favicon.ico">
   
 
+  
+    <link rel="stylesheet" href="https://icebergcwp1990.github.io/gitalk/dist/gitalk.css">
+    <script type="https://icebergcwp1990.github.io/gitalk/dist/gitalk.min.js"></script>
+  
+
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -181,11 +186,6 @@
 
 
       
-        <span>
-          <i class="icon-comment"></i>
-          <a href="http://www.icebergcwp.com/2016/10/15/Objective-C的布尔类型/#yy-thread"></a>
-        </span>
-      
 
     </div>
   </header>
@@ -308,12 +308,25 @@
   
       <div class="fexo-comments comments-post">
     
-  <!-- UY BEGIN -->
-    <section id="youyan-comments">
-        <div id="yy-thread"></div>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140937"></script>
-    </section>
-    <!-- UY END -->
+
+ <section class="gitalk-comments">
+    <!-- 评论框 start -->
+    <div class="gt-thread" data-thread-key="http://yoursite.com/2016/10/15/Objective-C的布尔类型/index.html" data-title="Objective-C中布尔类型" data-url="http://yoursite.com/2016/10/15/Objective-C的布尔类型/index.html"></div>
+    <!-- 评论框 end -->
+  </section>
+
+  <script type="text/javascript">
+    const gitalk = new Gitalk({
+      clientID: 'fa6d900315185857f892',
+      clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+      repo: 'git@github.com:icebergcwp1990/blog-hexo.git',
+      owner: 'icebergcwp1990',
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
+  </script>
 
 
   </div>

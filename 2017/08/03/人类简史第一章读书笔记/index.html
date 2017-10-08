@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Iceberg">
 <meta property="og:description" content="人类：只是一种普通的动物一直以来，我和很多人一样以为地球同一时期只有一种人类且是独特于其他的物种之外的特殊物种，不然怎么会站在了食物链的顶端。现在我才知道这种想法是错误的，其实我们现代人即智人（human sepiens）只是人属的一种，就像豹属包括狮子，豹子等。人属也包括多个物种，只是现存的人种只有智人，就容易让人造成智人是唯一人种的假象。
 早在250万年前人类开始由猿属中的南方古猿开始演化，人">
-<meta property="og:updated_time" content="2017-08-15T16:39:40.000Z">
+<meta property="og:updated_time" content="2017-10-08T15:11:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="人类简史之认知革命读书笔记">
 <meta name="twitter:description" content="人类：只是一种普通的动物一直以来，我和很多人一样以为地球同一时期只有一种人类且是独特于其他的物种之外的特殊物种，不然怎么会站在了食物链的顶端。现在我才知道这种想法是错误的，其实我们现代人即智人（human sepiens）只是人属的一种，就像豹属包括狮子，豹子等。人属也包括多个物种，只是现存的人种只有智人，就容易让人造成智人是唯一人种的假象。
@@ -33,6 +33,11 @@
 
   
     <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://icebergcwp1990.github.io/gitalk/dist/gitalk.css">
+    <script type="https://icebergcwp1990.github.io/gitalk/dist/gitalk.min.js"></script>
   
 
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
@@ -180,11 +185,6 @@
 
 
       
-        <span>
-          <i class="icon-comment"></i>
-          <a href="http://www.icebergcwp.com/2017/08/03/人类简史第一章读书笔记/#yy-thread"></a>
-        </span>
-      
 
     </div>
   </header>
@@ -318,12 +318,25 @@
   
       <div class="fexo-comments comments-post">
     
-  <!-- UY BEGIN -->
-    <section id="youyan-comments">
-        <div id="yy-thread"></div>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140937"></script>
-    </section>
-    <!-- UY END -->
+
+ <section class="gitalk-comments">
+    <!-- 评论框 start -->
+    <div class="gt-thread" data-thread-key="http://yoursite.com/2017/08/03/人类简史第一章读书笔记/index.html" data-title="人类简史之认知革命读书笔记" data-url="http://yoursite.com/2017/08/03/人类简史第一章读书笔记/index.html"></div>
+    <!-- 评论框 end -->
+  </section>
+
+  <script type="text/javascript">
+    const gitalk = new Gitalk({
+      clientID: 'fa6d900315185857f892',
+      clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+      repo: 'git@github.com:icebergcwp1990/blog-hexo.git',
+      owner: 'icebergcwp1990',
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
+  </script>
 
 
   </div>
