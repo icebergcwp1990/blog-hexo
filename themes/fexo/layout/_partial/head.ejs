@@ -45,6 +45,11 @@
     <link rel="icon" href="<%- theme.favicon %>">
   <% } %>
 
+  <% if (theme.gitalk_shortname){ %>
+    <link rel="stylesheet" href="https://icebergcwp1990.github.io/gitalk/dist/gitalk.css">
+    <script type="https://icebergcwp1990.github.io/gitalk/dist/gitalk.min.js"></script>
+  <% } %>
+
   <%- partial('style') %>
 
   <% if (theme.personal_style){ %>
