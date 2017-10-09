@@ -232,7 +232,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -323,16 +323,15 @@
   </section>
 
   <script type="text/javascript">
-    const gitalk = new Gitalk({
-      clientID: 'fa6d900315185857f892',
-      clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-      repo: 'blog-hexo',
-      owner: 'icebergcwp1990',
-      // facebook-like distraction free mode
-      distractionFreeMode: false
+    var gitment = new Gitment({
+        owner: 'icebergcwp1990',
+        repo: 'blog-hexo',
+        oauth: {
+          client_id: 'fa6d900315185857f892',
+          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+        },
     })
-
-    gitalk.render('gitment')
+    gitment.render('gitment')
   </script>
 
 

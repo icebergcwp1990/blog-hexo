@@ -157,7 +157,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、Event-Loop-amp-Cocoa-RunLoop"><span class="toc-text">一、Event Loop & Cocoa RunLoop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#宏观上：Event-Loop"><span class="toc-text">宏观上：Event Loop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#微观上-Cocoa-RunLoop"><span class="toc-text">微观上: Cocoa RunLoop</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、-Cocoa-RunLoop的内部结构"><span class="toc-text">二、 Cocoa RunLoop的内部结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-事件源"><span class="toc-text">1. 事件源</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-Input-Sources"><span class="toc-text">1.1. Input Sources</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-Timer-Sources"><span class="toc-text">1.2. Timer Sources</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-运行模式"><span class="toc-text">2. 运行模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-循环机制"><span class="toc-text">3. 循环机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-RunLoop与线程之间的关系"><span class="toc-text">3.1. RunLoop与线程之间的关系</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-RunLoop事件处理流程"><span class="toc-text">3.2. RunLoop事件处理流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-执行反馈"><span class="toc-text">4. 执行反馈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、何时使用RunLoop"><span class="toc-text">三、何时使用RunLoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、总结"><span class="toc-text">四、总结</span></a></li></ol>
   </div>
 
@@ -319,7 +319,7 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -410,16 +410,15 @@ RunLoop是一个用于循环监听和处理事件或者消息的模型，接收�
   </section>
 
   <script type="text/javascript">
-    const gitalk = new Gitalk({
-      clientID: 'fa6d900315185857f892',
-      clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-      repo: 'blog-hexo',
-      owner: 'icebergcwp1990',
-      // facebook-like distraction free mode
-      distractionFreeMode: false
+    var gitment = new Gitment({
+        owner: 'icebergcwp1990',
+        repo: 'blog-hexo',
+        oauth: {
+          client_id: 'fa6d900315185857f892',
+          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+        },
     })
-
-    gitalk.render('gitment')
+    gitment.render('gitment')
   </script>
 
 
