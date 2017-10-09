@@ -2,20 +2,19 @@
 
  <section class="gitalk-comments">
     <!-- 评论框 start -->
-    <div class="gt-thread" data-thread-key="<%= url %>" data-title="<%= page.title %>" data-url="<%= url %>"></div>
+    <div id="gitment" data-thread-key="<%= url %>" data-title="<%= page.title %>" data-url="<%= url %>"></div>
     <!-- 评论框 end -->
   </section>
 
   <script type="text/javascript">
-    const gitalk = new Gitalk({
-      clientID: 'fa6d900315185857f892',
-      clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-      repo: 'git@github.com:icebergcwp1990/blog-hexo.git',
-      owner: 'icebergcwp1990',
-      // facebook-like distraction free mode
-      distractionFreeMode: false
+    var gitment = new Gitment({
+        owner: 'icebergcwp1990',
+        repo: 'blog-hexo',
+        oauth: {
+          client_id: 'fa6d900315185857f892',
+          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+        },
     })
-
-    gitalk.render('gitalk-container')
+    gitment.render('gitment')
   </script>
 <% } %>

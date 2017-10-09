@@ -1,0 +1,21 @@
+<% if (theme.gitalk_shortname){ %>
+
+ <section class="gitalk-comments">
+    <!-- 评论框 start -->
+    <div id="gitalk-container" data-thread-key="<%= url %>" data-title="<%= page.title %>" data-url="<%= url %>"></div>
+    <!-- 评论框 end -->
+  </section>
+
+  <script type="text/javascript">
+    const gitalk = new Gitalk({
+      clientID: 'fa6d900315185857f892',
+      clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+      repo: 'git@github.com:icebergcwp1990/blog-hexo.git',
+      owner: 'icebergcwp1990',
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
+  </script>
+<% } %>
