@@ -45,8 +45,8 @@
   
 
   
-    <link rel="stylesheet" href="/css/gitment.css">
-    <script src="/js/gitment.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
 
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
@@ -161,7 +161,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#浓缩咖啡（Espresso）"><span class="toc-text">浓缩咖啡（Espresso）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#玛奇朵（Espresso-Macchiato）"><span class="toc-text">玛奇朵（Espresso Macchiato）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#美式咖啡（Americano）"><span class="toc-text">美式咖啡（Americano）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拿铁（Caffe-Latte）"><span class="toc-text">拿铁（Caffè Latte）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#白咖啡（Flat-White）"><span class="toc-text">白咖啡（Flat White）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#康宝蓝（Espresso-Con-Panna）"><span class="toc-text">康宝蓝（Espresso Con Panna）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布雷维-半拿铁（Cafe-Breve）"><span class="toc-text">布雷维/半拿铁（Cafe Breve）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卡布奇诺（Cappuccino）"><span class="toc-text">卡布奇诺（Cappuccino）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#摩卡（Caffe-Mocha）"><span class="toc-text">摩卡（Caffè Mocha）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#焦糖玛奇朵（Caramel-Macchiato）"><span class="toc-text">焦糖玛奇朵（Caramel Macchiato）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#爱尔兰咖啡（Irish-Coffee）"><span class="toc-text">爱尔兰咖啡（Irish Coffee）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#维也纳咖啡（Viennese-Coffee）"><span class="toc-text">维也纳咖啡（Viennese Coffee）</span></a></li></ol>
   </div>
 
@@ -254,7 +254,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -340,20 +340,21 @@
 
  <section class="gitalk-comments">
     <!-- 评论框 start -->
-    <div id="gitment" data-thread-key="http://yoursite.com/2016/11/23/StartFucks Coffee - 操蛋的咖啡/index.html" data-title="StartFucks Coffee - 操蛋的咖啡" data-url="http://yoursite.com/2016/11/23/StartFucks Coffee - 操蛋的咖啡/index.html"></div>
+    <div id="gitalk" data-thread-key="http://yoursite.com/2016/11/23/StartFucks Coffee - 操蛋的咖啡/index.html" data-title="StartFucks Coffee - 操蛋的咖啡" data-url="http://yoursite.com/2016/11/23/StartFucks Coffee - 操蛋的咖啡/index.html"></div>
     <!-- 评论框 end -->
   </section>
 
   <script type="text/javascript">
-    var gitment = new Gitment({
-        owner: 'icebergcwp1990',
+    var gitalk = new Gitalk({
+        clientID: 'fa6d900315185857f892',
+        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
         repo: 'blog-hexo',
-        oauth: {
-          client_id: 'fa6d900315185857f892',
-          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        },
+        owner: 'icebergcwp1990',
+        admin: [],
+        // facebook-like distraction free mode
+        distractionFreeMode: false
     })
-    gitment.render('gitment')
+    gitalk.render('gitalk')
   </script>
 
 
@@ -385,9 +386,9 @@
   }
 
   window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
+    //loadScript('/js/bundle.js?235683', function() {
       // load success
-    });
+    //});
   }
 </script>
 

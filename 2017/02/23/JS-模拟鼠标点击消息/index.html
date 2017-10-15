@@ -43,8 +43,8 @@
   
 
   
-    <link rel="stylesheet" href="/css/gitment.css">
-    <script src="/js/gitment.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
 
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
@@ -159,7 +159,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#分析DOM元素结构"><span class="toc-text">分析DOM元素结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模拟鼠标点击消息"><span class="toc-text">模拟鼠标点击消息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
   </div>
 
@@ -245,7 +245,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -331,20 +331,21 @@
 
  <section class="gitalk-comments">
     <!-- 评论框 start -->
-    <div id="gitment" data-thread-key="http://yoursite.com/2017/02/23/JS-模拟鼠标点击消息/index.html" data-title="原生JS代码模拟鼠标点击消息" data-url="http://yoursite.com/2017/02/23/JS-模拟鼠标点击消息/index.html"></div>
+    <div id="gitalk" data-thread-key="http://yoursite.com/2017/02/23/JS-模拟鼠标点击消息/index.html" data-title="原生JS代码模拟鼠标点击消息" data-url="http://yoursite.com/2017/02/23/JS-模拟鼠标点击消息/index.html"></div>
     <!-- 评论框 end -->
   </section>
 
   <script type="text/javascript">
-    var gitment = new Gitment({
-        owner: 'icebergcwp1990',
+    var gitalk = new Gitalk({
+        clientID: 'fa6d900315185857f892',
+        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
         repo: 'blog-hexo',
-        oauth: {
-          client_id: 'fa6d900315185857f892',
-          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        },
+        owner: 'icebergcwp1990',
+        admin: [],
+        // facebook-like distraction free mode
+        distractionFreeMode: false
     })
-    gitment.render('gitment')
+    gitalk.render('gitalk')
   </script>
 
 
@@ -376,9 +377,9 @@
   }
 
   window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
+    //loadScript('/js/bundle.js?235683', function() {
       // load success
-    });
+    //});
   }
 </script>
 

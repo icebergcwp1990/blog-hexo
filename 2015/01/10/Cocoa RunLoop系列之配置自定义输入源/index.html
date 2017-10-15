@@ -38,8 +38,8 @@
   
 
   
-    <link rel="stylesheet" href="/css/gitment.css">
-    <script src="/js/gitment.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
 
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
@@ -154,7 +154,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#理论概述"><span class="toc-text">理论概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码实现"><span class="toc-text">代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建并配置InputSource对象"><span class="toc-text">创建并配置InputSource对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建并配置InputSourceContext对象"><span class="toc-text">创建并配置InputSourceContext对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建并配置工作线程"><span class="toc-text">创建并配置工作线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#完善主线程配置"><span class="toc-text">完善主线程配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
@@ -271,7 +271,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -357,20 +357,21 @@
 
  <section class="gitalk-comments">
     <!-- 评论框 start -->
-    <div id="gitment" data-thread-key="http://yoursite.com/2015/01/10/Cocoa RunLoop系列之配置自定义输入源/index.html" data-title="Cocoa RunLoop 系列之Configure Custom InputSource" data-url="http://yoursite.com/2015/01/10/Cocoa RunLoop系列之配置自定义输入源/index.html"></div>
+    <div id="gitalk" data-thread-key="http://yoursite.com/2015/01/10/Cocoa RunLoop系列之配置自定义输入源/index.html" data-title="Cocoa RunLoop 系列之Configure Custom InputSource" data-url="http://yoursite.com/2015/01/10/Cocoa RunLoop系列之配置自定义输入源/index.html"></div>
     <!-- 评论框 end -->
   </section>
 
   <script type="text/javascript">
-    var gitment = new Gitment({
-        owner: 'icebergcwp1990',
+    var gitalk = new Gitalk({
+        clientID: 'fa6d900315185857f892',
+        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
         repo: 'blog-hexo',
-        oauth: {
-          client_id: 'fa6d900315185857f892',
-          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        },
+        owner: 'icebergcwp1990',
+        admin: [],
+        // facebook-like distraction free mode
+        distractionFreeMode: false
     })
-    gitment.render('gitment')
+    gitalk.render('gitalk')
   </script>
 
 
@@ -402,9 +403,9 @@
   }
 
   window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
+    //loadScript('/js/bundle.js?235683', function() {
       // load success
-    });
+    //});
   }
 </script>
 

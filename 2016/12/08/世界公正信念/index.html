@@ -38,8 +38,8 @@
   
 
   
-    <link rel="stylesheet" href="/css/gitment.css">
-    <script src="/js/gitment.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
 
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
@@ -228,7 +228,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -314,20 +314,21 @@
 
  <section class="gitalk-comments">
     <!-- 评论框 start -->
-    <div id="gitment" data-thread-key="http://yoursite.com/2016/12/08/世界公正信念/index.html" data-title="Belief in a Just World" data-url="http://yoursite.com/2016/12/08/世界公正信念/index.html"></div>
+    <div id="gitalk" data-thread-key="http://yoursite.com/2016/12/08/世界公正信念/index.html" data-title="Belief in a Just World" data-url="http://yoursite.com/2016/12/08/世界公正信念/index.html"></div>
     <!-- 评论框 end -->
   </section>
 
   <script type="text/javascript">
-    var gitment = new Gitment({
-        owner: 'icebergcwp1990',
+    var gitalk = new Gitalk({
+        clientID: 'fa6d900315185857f892',
+        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
         repo: 'blog-hexo',
-        oauth: {
-          client_id: 'fa6d900315185857f892',
-          client_secret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        },
+        owner: 'icebergcwp1990',
+        admin: [],
+        // facebook-like distraction free mode
+        distractionFreeMode: false
     })
-    gitment.render('gitment')
+    gitalk.render('gitalk')
   </script>
 
 
@@ -359,9 +360,9 @@
   }
 
   window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
+    //loadScript('/js/bundle.js?235683', function() {
       // load success
-    });
+    //});
   }
 </script>
 
