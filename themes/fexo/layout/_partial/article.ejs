@@ -17,13 +17,6 @@
 
       <%- partial('component/category') %>
 
-      <% if ((theme.duoshuo_shortname || theme.youyan_shortname) && theme.url && page.comments){ %>
-        <span>
-          <i class="icon-comment"></i>
-          <a href="<%= theme.url + url_for(page.path) + '#yy-thread' %>"></a>
-        </span>
-      <% } %>
-
     </div>
   </header>
 
@@ -39,4 +32,13 @@
       <%- post.content %>
     <% } %>
   </div>
+
+  <% if ((theme.gitment_shortname) && theme.url){ %>
+        <% if (page.comments){ %>
+          <%- partial('component/gitment') %>
+        <% } else { %>
+          <div class="git"></div>
+        <% } %>
+   <% } %>
+
 </article>
