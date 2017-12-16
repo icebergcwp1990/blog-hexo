@@ -34,15 +34,13 @@
   </div>
 
 <% if (page.comments && theme.url){ %>
-  <% if ((theme.gitment_shortname) ){ %>
+  <% if (theme.gitment_shortname){ %>
         <%- partial('component/gitment') %>
-   <% } else { %>
+   <% } else if (theme.gitalk_shortname) { %>
         <%- partial('component/gitalk') %>
    <% }%>
 <% } else { %>
     <div class="git"></div>
 <% } %>
-
-  
 
 </article>
