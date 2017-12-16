@@ -33,12 +33,16 @@
     <% } %>
   </div>
 
-  <% if ((theme.gitment_shortname) && theme.url){ %>
-        <% if (page.comments){ %>
-          <%- partial('component/gitment') %>
-        <% } else { %>
-          <div class="git"></div>
-        <% } %>
-   <% } %>
+<% if (page.comments && theme.url){ %>
+  <% if ((theme.gitment_shortname) ){ %>
+        <%- partial('component/gitment') %>
+   <% } else { %>
+        <%- partial('component/gitalk') %>
+   <% }%>
+<% } else { %>
+    <div class="git"></div>
+<% } %>
+
+  
 
 </article>
