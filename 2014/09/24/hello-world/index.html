@@ -39,7 +39,7 @@ Quick">
     <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
-
+  
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -152,7 +152,7 @@ Quick">
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
   </div>
 
@@ -184,8 +184,6 @@ Quick">
 
 
 
-      
-
     </div>
   </header>
 
@@ -203,6 +201,33 @@ Quick">
 
     
   </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
 </article>
 </div>
 
@@ -221,7 +246,7 @@ Quick">
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -304,25 +329,24 @@ Quick">
   
       <div class="fexo-comments comments-post">
     
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
 
- <section class="gitalk-comments">
-    <!-- 评论框 start -->
-    <div id="gitalk" data-thread-key="http://yoursite.com/2014/09/24/hello-world/index.html" data-title="Hello,World" data-url="http://yoursite.com/2014/09/24/hello-world/index.html"></div>
-    <!-- 评论框 end -->
-  </section>
-
-  <script type="text/javascript">
-    var gitalk = new Gitalk({
-        clientID: 'fa6d900315185857f892',
-        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        repo: 'blog-hexo',
-        owner: 'icebergcwp1990',
-        admin: [],
-        // facebook-like distraction free mode
-        distractionFreeMode: false
-    })
-    gitalk.render('gitalk')
-  </script>
 
 
   </div>
@@ -333,7 +357,7 @@ Quick">
   function loadScript(url, callback) {
     var script = document.createElement('script')
     script.type = 'text/javascript';
-
+    
     if (script.readyState) { //IE
       script.onreadystatechange = function() {
         if (script.readyState == 'loaded' ||

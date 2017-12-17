@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
-
+  
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -161,7 +161,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#浓缩咖啡（Espresso）"><span class="toc-text">浓缩咖啡（Espresso）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#玛奇朵（Espresso-Macchiato）"><span class="toc-text">玛奇朵（Espresso Macchiato）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#美式咖啡（Americano）"><span class="toc-text">美式咖啡（Americano）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拿铁（Caffe-Latte）"><span class="toc-text">拿铁（Caffè Latte）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#白咖啡（Flat-White）"><span class="toc-text">白咖啡（Flat White）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#康宝蓝（Espresso-Con-Panna）"><span class="toc-text">康宝蓝（Espresso Con Panna）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布雷维-半拿铁（Cafe-Breve）"><span class="toc-text">布雷维/半拿铁（Cafe Breve）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卡布奇诺（Cappuccino）"><span class="toc-text">卡布奇诺（Cappuccino）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#摩卡（Caffe-Mocha）"><span class="toc-text">摩卡（Caffè Mocha）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#焦糖玛奇朵（Caramel-Macchiato）"><span class="toc-text">焦糖玛奇朵（Caramel Macchiato）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#爱尔兰咖啡（Irish-Coffee）"><span class="toc-text">爱尔兰咖啡（Irish Coffee）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#维也纳咖啡（Viennese-Coffee）"><span class="toc-text">维也纳咖啡（Viennese Coffee）</span></a></li></ol>
   </div>
 
@@ -192,8 +192,6 @@
   </span>
 
 
-
-      
 
     </div>
   </header>
@@ -236,6 +234,33 @@
 
     
   </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
 </article>
 </div>
 
@@ -254,7 +279,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -337,25 +362,24 @@
   
       <div class="fexo-comments comments-post">
     
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
 
- <section class="gitalk-comments">
-    <!-- 评论框 start -->
-    <div id="gitalk" data-thread-key="http://yoursite.com/2016/11/23/StartFucks Coffee - 操蛋的咖啡/index.html" data-title="StartFucks Coffee - 操蛋的咖啡" data-url="http://yoursite.com/2016/11/23/StartFucks Coffee - 操蛋的咖啡/index.html"></div>
-    <!-- 评论框 end -->
-  </section>
-
-  <script type="text/javascript">
-    var gitalk = new Gitalk({
-        clientID: 'fa6d900315185857f892',
-        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        repo: 'blog-hexo',
-        owner: 'icebergcwp1990',
-        admin: [],
-        // facebook-like distraction free mode
-        distractionFreeMode: false
-    })
-    gitalk.render('gitalk')
-  </script>
 
 
   </div>
@@ -366,7 +390,7 @@
   function loadScript(url, callback) {
     var script = document.createElement('script')
     script.type = 'text/javascript';
-
+    
     if (script.readyState) { //IE
       script.onreadystatechange = function() {
         if (script.readyState == 'loaded' ||

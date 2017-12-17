@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   
-
+  
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -159,7 +159,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C-Runtime库是开源的"><span class="toc-text">Objective-C Runtime库是开源的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态-amp-静态-语言"><span class="toc-text">动态 & 静态 语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#何为Runtime-运行时"><span class="toc-text">何为Runtime(运行时)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C-运行时术语"><span class="toc-text">Objective-C 运行时术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类定义对象同时类本身也是对象？何解？"><span class="toc-text">类定义对象同时类本身也是对象？何解？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么继承Apple的原生类？"><span class="toc-text">为什么继承Apple的原生类？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类缓存机制"><span class="toc-text">类缓存机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-msgSend的工作流程是什么？"><span class="toc-text">objc_msgSend的工作流程是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C消息传送"><span class="toc-text">Objective-C消息传送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例变量的无碎片化（Modern-Runtime）"><span class="toc-text">实例变量的无碎片化（Modern Runtime）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C-关联对象"><span class="toc-text">Objective-C 关联对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#混合虚函数表派发（Hybrid-vTable-Dispatch）"><span class="toc-text">混合虚函数表派发（Hybrid vTable Dispatch）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol>
   </div>
 
@@ -190,8 +190,6 @@
   </span>
 
 
-
-      
 
     </div>
   </header>
@@ -319,6 +317,33 @@
 
     
   </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
 </article>
 </div>
 
@@ -337,7 +362,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -420,25 +445,24 @@
   
       <div class="fexo-comments comments-post">
     
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
 
- <section class="gitalk-comments">
-    <!-- 评论框 start -->
-    <div id="gitalk" data-thread-key="http://yoursite.com/2015/01/01/objective-c_runtime_解析/index.html" data-title="Objective-C Runtime 解析" data-url="http://yoursite.com/2015/01/01/objective-c_runtime_解析/index.html"></div>
-    <!-- 评论框 end -->
-  </section>
-
-  <script type="text/javascript">
-    var gitalk = new Gitalk({
-        clientID: 'fa6d900315185857f892',
-        clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
-        repo: 'blog-hexo',
-        owner: 'icebergcwp1990',
-        admin: [],
-        // facebook-like distraction free mode
-        distractionFreeMode: false
-    })
-    gitalk.render('gitalk')
-  </script>
 
 
   </div>
@@ -449,7 +473,7 @@
   function loadScript(url, callback) {
     var script = document.createElement('script')
     script.type = 'text/javascript';
-
+    
     if (script.readyState) { //IE
       script.onreadystatechange = function() {
         if (script.readyState == 'loaded' ||
