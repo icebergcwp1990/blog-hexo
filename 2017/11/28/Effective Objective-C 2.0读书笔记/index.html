@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iceberg,Maxos,iOS,nodejs,JavaScript" />
+  
+
+  <meta name="description" content="title: Effective Objective-C 2.0读书笔记date: 2017-10-07 23:06:07tags: 
+
+Effective Objective-Ccategories: 
+专业keywords: 
+Objective-Cdecription: 读书笔记
+
+–
+###第4章 协议与分类###
+####23：通过委托与数据源协议进行对象间通信####
+
+委托模式为对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Iceberg">
+<meta property="og:url" content="http://yoursite.com/2017/11/28/Effective Objective-C 2.0读书笔记/index.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="title: Effective Objective-C 2.0读书笔记date: 2017-10-07 23:06:07tags: 
+
+Effective Objective-Ccategories: 
+专业keywords: 
+Objective-Cdecription: 读书笔记
+
+–
+###第4章 协议与分类###
+####23：通过委托与数据源协议进行对象间通信####
+
+委托模式为对象">
+<meta property="og:updated_time" content="2017-12-17T15:10:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Iceberg">
+<meta name="twitter:description" content="title: Effective Objective-C 2.0读书笔记date: 2017-10-07 23:06:07tags: 
+
+Effective Objective-Ccategories: 
+专业keywords: 
+Objective-Cdecription: 读书笔记
+
+–
+###第4章 协议与分类###
+####23：通过委托与数据源协议进行对象间通信####
+
+委托模式为对象">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Effective Objective-C 2.0读书笔记" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">(no title)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.28</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>title: Effective Objective-C 2.0读书笔记<br>date: 2017-10-07 23:06:07<br>tags: </p>
+<ul>
+<li>Effective Objective-C<br>categories: </li>
+<li>专业<br>keywords: </li>
+<li>Objective-C<br>decription: 读书笔记</li>
+</ul>
+<p>–</p>
+<p>###第4章 协议与分类###</p>
+<p>####23：通过委托与数据源协议进行对象间通信####</p>
+<ul>
+<li>委托模式为对象提供了一套接口，使其可由此将相关事件告知其他对象</li>
+<li>当某对象需要从另外一个对象中获得数据时，可以使用委托模式【数据源协议】。</li>
+<li>若有必要，可实现含有位段的结构体，将委托对象是否能响应相关协议方法这一信息缓存至其中。</li>
+</ul>
+<p>####24：将类的实现代码分散到便于管理的数个分类之中####</p>
+<ul>
+<li>使用分类机制将类的实现代码划分成易于管理的小块</li>
+<li>将应该视为“私有”的方法归入名叫private的分类中，以隐藏实现细节。</li>
+</ul>
+<p>####25：总是为第三方类的分类名称加前缀</p>
+<ul>
+<li>分类机制通常用于向无源代码的既有类中增加新功能，且分类中的方法会覆盖既有类的同名方法，后一个分类会覆盖前一个分类的同名方法。</li>
+<li>为了减少同名函数覆盖的概率，以命名空间来区分各个分类的名称与其中所定义的方法，在Objective-C中实现命名空间的方法就是给分类名和函数名添加专用的前缀。</li>
+</ul>
+<p>####26：勿在分类中声明属性####</p>
+<ul>
+<li>属性是封装数据的方式，尽管可以通过关联对象的方式合成实例变量，但是建议最好全部在主接口中实现，分类的作用在于扩展类的功能，而非封装数据</li>
+<li>除了“class-continuation分类【匿名分类】”之外可以定义属性，其他分类最好只定义方法</li>
+</ul>
+<p>####27：使用“class-continuation分类”隐藏实现细节####</p>
+<ul>
+<li>匿名分类可以定义方法和实例变量，原因在于“稳固的ABI”机制（详见第6条）</li>
+<li>在实现块中添加匿名分类可隐藏实现细节，即私有变量和方法。</li>
+<li>编译objective-C++时，在匿名分类中定义c++相关的变量，从而避免了因为在头文件中声明C++变量，进而导致凡是引用该类的其他类都必须改为Objective-C++类。</li>
+<li>利用匿名分类扩展头文件中声明为“只读”的属性为“可读写”状态</li>
+<li>利用匿名分类隐藏该类遵循的协议。</li>
+</ul>
+<p>####28：通过协议提供匿名对象####</p>
+<ul>
+<li>使用协议可将具体的对象类型谈化成遵循某种协议的id类型，协议中规定了对象需实现的方法</li>
+<li>如果对象类型不重要，重要的是对象是否实现了某些方法，此时可用“匿名对象”来实现这一概念，与Python的“鸭子类型”有点相似。</li>
+</ul>
+<p>###第5章 内存管理###</p>
+<p>####第29条：理解引用计数####</p>
+<ul>
+<li>悬挂指针：对象在release之后，内存被放回“可用内存池”，但是不一定保证马上被回收，此时指针属于悬挂指针，容易导致crash。</li>
+<li>为了避免不经意间使用了悬挂指针，在调用完release之后清空指针</li>
+<li>autorelease能延长对象生命周期，使其在跨越方法调用边界后依然跨越存活一段时间，释放操作会在清空最外层自动释放池时执行，即在当前线程进入下一次事件循环时释放。</li>
+<li>通常采用“弱引用”来避免循环引用发生，从而避免内存泄漏</li>
+</ul>
+<p>####第30条：以ARC简化引用计数####</p>
+<ul>
+<li>Clang的静态分析器（static analyzer）不但可以指明程序中引用计数出现问题的地方，还能根据需要预先加入适当的retain和release操作以避免这些问题。自动引用计（ARC）数的思路也是源于此。</li>
+<li>ARC在执行retain、release和autorelease等操作时，不是通过普通的Objective-C消息派送机制，而是直接调用其对应的C语言版本，这样效率更高。</li>
+<li>ARC通过命名约定将内存管理标准化，方法名以下列词语开头，其返回的对象归调用者所有：<ul>
+<li>alloc</li>
+<li>new</li>
+<li>copy</li>
+<li>mutableCopy<br>否则，返回对象会自动释放，即相当于执行autorelease操作.</li>
+</ul>
+</li>
+<li>在编译期和运行期，ARC都把能够相互抵消的retain、release、autorelease操作约简。</li>
+<li>运行期，为了优化代码，在方法返回自动释放的对象时，调用objc_autoreleaseReturnValue,此函数会检视当前函数调用的代码是否需要对返回对象执行retain操作，如果是则设置一个全局标志位。而不执行autorelease操作；与只对应的是在调用代码如果要保留对象，则不执行retain操作，而是调用objc_retainAutoreleasedRetuenValue.此函数检测之前设置的全局标志位，如果已经置位，则不执行retain操作。</li>
+<li>ARC环境优化方式具体实现由编译器决定，比如将全局标志位存储在STL(Thread Local Storage:线程局部存储，以key-value的形式读写)中，STL只适用于调用和被调用方都是ARC模式的情况，使用__builtin_return_address可以在被调用函数中获得调用函数的栈空间，进而可以推算出调用方后续操作是否调用了objc_retainAutoreleasedReturnValue，如果调用则是ARC环境，反之使用没优化的老逻辑。</li>
+<li>变量的内存管理的边界问题，在设置变量值时，需要先保留新值，释放旧值，最后设置实例变量，确保即便是新值与旧值是同一对象也不能引发错误。在ARC情况下，无需考虑这种“边界情况”</li>
+<li>ARC下清理实例变量是借用Objective-C++的析构函数实现的，不需要重载dealloc，如果存在CoreFoundation等非Objective-C对象时，只需在dealloc函数中执行CFRetain/CFRelease等释放操作，而不需要调用超类的dealloc方法。</li>
+</ul>
+<p>####第31条：合理使用dealloc方法####</p>
+<ul>
+<li>在dealloc中只释放对其他对象的引用，解除监听和取消订阅的KVO等，不要做其他事情</li>
+<li>不要在dealloc中释放开销大或系统内稀缺资源，如文件描述符、套接字以及大块内存等，因为这些资源可能被其他对象持有，不宜保留过长时间，而是实现一个专门用于清理的函数，如close等</li>
+<li>出于优化效率的目的，系统不能保证每一个对象的dealloc都会执行</li>
+<li>不应在dealloc中调用执行异步任务的方法或只能在正常状态下执行的方法，因为dealloc所在的线程会执行final release。</li>
+</ul>
+<p>####第32条：编写“异常安全代码”时留意内存管理问题</p>
+<ul>
+<li>MRC环境下，在@try中创建的对象应在@finaly中释放而非@try中，以避免因抛出异常导致内存泄漏</li>
+<li>ARC环境下，出于对运行期的性能考虑默认情况下是不会处理异常捕获过程中出现的内存泄漏情况。</li>
+<li>ARC环境下，可以通过-fobjc-arc-exceptions这个编译标志开启安全处理异常功能，默认情况是关闭的，但是出于Objectve-C++模式下会自动打开。</li>
+</ul>
+<p>####第33条：以弱引用避免保留环####</p>
+<ul>
+<li>虽然垃圾回收机制可以检测并回收保留环，但是Mac OS X 10.8之后以及iOS平台不支持这个功能</li>
+<li>MRC环境下，使用unsafe_unretained（表明属性不安全且不归实例所拥有）或者weak属性来避免保留环，且效果等同</li>
+<li>ARC环境下，weak属性在修饰对象被回收后自动清空，更为安全，避免访问悬挂指针。</li>
+</ul>
+<p>####第34条：以“自动释放池块”降低内存峰值####</p>
+<ul>
+<li>GCD或主线程都默认自带自动释放池。</li>
+<li>自动释放池是以栈的形式存在的，对象收到autorelease消息后，会被放入最近的自动释放池的栈顶。</li>
+<li>合理运用自动释放池，用以降低应用程序的内存峰值，如for循环中。</li>
+<li>ARC环境下的@autoreleasepool比MRC环境下NSAutoreleasepool更为轻便与安全。</li>
+</ul>
+<p>####第35条：用“僵尸对象”调试内存管理问题####</p>
+<ul>
+<li>向已回收的对象发送消息是不安全与不稳当的，如果内存已经被复用且复用的对象不能响应此消息则会crash，如果复用对象能够响应消息也许输出不能达到预期，如果内存部分存活则可能消息可能依然有效。</li>
+<li>“僵尸对象”是调试内存管理问题最佳方式。</li>
+<li>僵尸类是从名为<em>NSZombie</em>的模板类复制而来，通过创建一个名为<em>NSZombie</em>原类名的新类，再将已回收对象的指针指向新类，原对象的类变了，但是内存结构不变，便于调试。示例代码：</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Class cls = object_getClass(<span class="keyword">self</span>);</div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *clsName = class_getName(cls);</div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *zombieClsName = <span class="string">"_NSZombie_"</span> + clsName;</div><div class="line">Class zombieCls = objc_lookUpClass(zombieClsName);</div><div class="line"><span class="keyword">if</span> (!zombieCls) &#123;</div><div class="line">	<span class="keyword">class</span> baseZomeCls = objc_lookUpClass(<span class="string">"_NSZombie_"</span>);</div><div class="line">	zombieCls = objc_duplicateClass(baseZombieCls, zombieClsName, <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">//Perform normal destruction of the object being deallocated</span></div><div class="line">objc_destructInstance(<span class="keyword">self</span>);</div><div class="line"><span class="comment">//Set the class of the object being deallocated to the zombie class</span></div><div class="line">objc_setClass(<span class="keyword">self</span>, zombieCls);</div></pre></td></tr></table></figure>
+<p>代码的关键在于：对象的内存没有释放，因此这块内存不可被其他对象复用，虽然会造成内存泄漏，但是出于调试的目的可以忽略。</p>
+<ul>
+<li>僵尸类的作用是通过消息转发机制体现，因为僵尸类没有实现任何方法，和Object一样是根类，只有一个实例变量isa。在消息转发机制通过类名检测到当前对象是一个僵尸对象时会进行特殊处理：打印原类的相关信息，然后终止程序。示例代码：</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Class cls = object_getClass(<span class="keyword">self</span>);</div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *clsName = class_getName(cls);</div><div class="line"><span class="comment">//If so, this is a zombie</span></div><div class="line"><span class="keyword">if</span> (string_has_prefix(clsName, <span class="string">"_NSZombie_"</span>)) &#123;</div><div class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *originClsName = substring_from(clsName, <span class="number">10</span>);</div><div class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *selectorName = sel_getName(_cmd));</div><div class="line">	</div><div class="line">	Log(<span class="string">"*** - [%s %s]: message sent to deallocated instance %p"</span> , originalClsName, selectorName, <span class="keyword">self</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####第36条：不要使用retainCount####</p>
+<ul>
+<li>retainCount返回的保留计数只是某个给定时间点上的值，并未考虑到对象加入自动释放池的情况，因此不能反映真实的保留计数。</li>
+<li>有时系统出于优化的目的，retainCount可能永远都不返还0，在保留计数为1的时候就被回收了。</li>
+</ul>
+<p>###第6章 块与大中枢派发###</p>
+<p>####第37条 理解“块”这一概念####</p>
+<ul>
+<li>块在定义与使用方面与函数类似，但是块本身是一个对象，有引用计数。</li>
+<li>在块中直接访问实例变量，虽没有显性使用self，但是self变量还是会被块捕获。</li>
+<li>块的内存结构中，最重要的是invoke函数指针，指向块的实现代码，第一个void *参数指代块，用于访问块对象所捕获的变量。此外descriptor变量指向结构体指针，每个块里都包含此结构体，其中声明了块对象的总大小和copy与dispose两个辅助函数的指针。</li>
+<li>根据内存位置分为全局块、栈块和堆块。</li>
+<li>栈块只在定义氛围有效，下述代码存在一个比较隐蔽的错误，存在危险：块的内存都分配在if及else范围内，在离开相应范围后如果编译器覆写了分配给块的内存则会导致crash，否则正常运行。</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> (^block)();</div><div class="line"><span class="keyword">if</span> (<span class="comment">/* some condition */</span>) &#123;</div><div class="line">	block = ^&#123; <span class="built_in">NSLog</span>(<span class="string">@"I am block A"</span>); &#125;;</div><div class="line">&#125;<span class="keyword">else</span> &#123; </div><div class="line">	block = ^&#123; <span class="built_in">NSLog</span>(<span class="string">@"I am block B"</span>); &#125;;</div><div class="line">&#125;</div><div class="line"><span class="comment">//解决方式：将块拷贝到堆中，成为堆块</span></div><div class="line"><span class="keyword">void</span> (^block)();</div><div class="line"><span class="keyword">if</span> (<span class="comment">/* some condition */</span>) &#123;</div><div class="line">	block = [^&#123; <span class="built_in">NSLog</span>(<span class="string">@"I am block A"</span>); &#125; <span class="keyword">copy</span>];</div><div class="line">&#125;<span class="keyword">else</span> &#123; </div><div class="line">	block = [^&#123; <span class="built_in">NSLog</span>(<span class="string">@"I am block B"</span>); &#125; <span class="keyword">copy</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>在全局范围声明的块及为全局块，其所使用的内存区域也在编译器全部确定。</li>
+</ol>
+<p>####第38条 为常用的块类型创建typedef####</p>
+<ul>
+<li>以typedef重新定义块类型，可令块变量用起来更简单</li>
+<li>定义新类型时应遵循现有的命名习惯，勿使其名称与别的类型相冲突。</li>
+<li>可以为同一个块签名定义多个类型的别名，便于理解类型的用途。</li>
+</ul>
+<p>####第39条 用handler块降低代码分散程度####</p>
+<ul>
+<li>异步任务执行完成之后，可使用委托协议或者内联块。相比于委托代理，块更为简洁和聚合。</li>
+<li>建议使用同一个块来处理成功与失败的情况。</li>
+<li>设计API时如果用的了handler块，可以增加一个参数，使调用者可通过此参数来决定块执行的队列。</li>
+</ul>
+<p>####第40条 用块引用其所属对象时不要出现保留环####</p>
+<ul>
+<li>如果块所捕获的对象直接或者间接地保留了块本身，那么得注意是否存在保留环的问题。</li>
+<li>一定要找个适当的时机解除保留环，而不能把责任推给API调用者。</li>
+<li>网络下载器可在任务启动时将自己加入全局的容器对象中，在任务结束后移除，从而保证自己在任务执行期间存活的同时不需要API调用方引用，大部分网络通信库都是采用这办法，如Twitter框架的TWRequest对象。</li>
+</ul>
+<p>####第41条 多用派发队列，少用同步锁####</p>
+<ul>
+<li>同步块@synchronized(obj)会根据给定对象自动创建一个锁，锁在代码块执行完成释放。由于给定对象相同，那么意味着它们使用的同一个锁，代码块需按顺序执行。如果在两个或多个没有逻辑关联的代码块给同一个对象加锁，会影响执行效率。</li>
+<li>滥用@synchronized(self)很危险，因为所有同步块都会彼此抢夺同一个锁。示例：使用@synchronized实现属性的原子性（atomic）：</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)someString &#123;</div><div class="line">	<span class="keyword">@synchronized</span>(<span class="keyword">self</span>) &#123;</div><div class="line">		<span class="keyword">return</span> _someString;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setSomeString:(<span class="built_in">NSString</span> *)someString &#123;</div><div class="line">	<span class="keyword">@synchronized</span>(<span class="keyword">self</span>) &#123;</div><div class="line">		_someString = someString;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果有很多属性都是类似写法，那么每个属性的同步块都要等其他同步块执行完成才能执行。理想情况应该是属性各自独立地同步。</p>
+<ul>
+<li>使用GCD实现属性原子性：</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">_syncQueue = dispatch_queue_create(<span class="string">"com.effectiveobjectivec.syncQueue"</span>, <span class="literal">NULL</span>);</div><div class="line"><span class="comment">//同步队列+同步派发</span></div><div class="line">- (<span class="built_in">NSString</span> *)someString &#123;</div><div class="line">	__block <span class="built_in">NSString</span> *localSomeString;</div><div class="line">	<span class="built_in">dispatch_sync</span>(_syncQueue, ^&#123;</div><div class="line">		localSomeString = _someString;</div><div class="line">	&#125;);</div><div class="line">	<span class="keyword">return</span> localSomeString;</div><div class="line">&#125;</div><div class="line"><span class="comment">//同步队列+同步派发</span></div><div class="line">- (<span class="keyword">void</span>)setSomeString:(<span class="built_in">NSString</span> *)someString &#123;</div><div class="line">	<span class="built_in">dispatch_sync</span>(_syncQueue, ^&#123;  </div><div class="line">		_someString = someString;</div><div class="line">	&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>GCD版本优化：设置方法不需要返回值，所以并不一定非得同步；获取方法可以并发执行，且设置方法与获取方法之间不能并执行。</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">_syncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</div><div class="line"><span class="comment">//异步队列+同步派发</span></div><div class="line">- (<span class="built_in">NSString</span> *)someString &#123;</div><div class="line">	__block <span class="built_in">NSString</span> *localSomeString;</div><div class="line">	<span class="built_in">dispatch_sync</span>(_syncQueue, ^&#123;</div><div class="line">		localSomeString = _someString;</div><div class="line">	&#125;);</div><div class="line">	<span class="keyword">return</span> localSomeString;</div><div class="line">&#125;</div><div class="line"><span class="comment">//异步队列+异步派发（同步派发可能效率更高，原因在于异步派发需要拷贝块，如果拷贝时间超过代码执行时间，则得不偿失。异步派发适合较为复杂的任务）+栅栏块</span></div><div class="line">- (<span class="keyword">void</span>)setSomeString:(<span class="built_in">NSString</span> *)someString &#123;</div><div class="line">	<span class="comment">//栅栏块会单独执行，执行前会等待当前所有并发块执行完成，避免出现读写竞赛</span></div><div class="line">	dispatch_barrier_async(_syncQueue, ^&#123;  </div><div class="line">		_someString = someString;</div><div class="line">	&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####第42条 多用GCD，少用performSelector系列方法####</p>
+<ul>
+<li>performSelector系列方法在内存管理方面容易有疏忽，由于无法确认将要执行的选择子是什么，因而ARC编译器无法插入适当的内存管理方法。</li>
+<li>performSelector系列方法所能处理的选择子有局限性，选择子的参数个数与类型以及返回类型都受到限制。</li>
+</ul>
+<p>####第43条 掌握GCD及操作队列的使用时机####</p>
+<ul>
+<li>对于只需要执行一次的代码来说，GCD的dispatch_once是首选，但是执行后台任务则可以考虑NSOperationQueue。</li>
+<li>在iOS4与Mac OSX 10.6开始，操作队列在底层是用GCD来实现的。</li>
+<li>GCD是纯C的API，任务使用轻量级数据结构块来表示；操作队列则是Objective-C的对象，采用更为重量级的NSOperation对象执行任务。</li>
+<li>使用操作队列的优势：<ul>
+<li>可取消还未启动的任务</li>
+<li>可指定操作间的依赖关系</li>
+<li>可通过键值观测机制监控NSOperation对象的属性</li>
+<li>可指定操作的优先级，而GCD只能指定队列的优先级</li>
+<li>可重用NSOperation对象</li>
+</ul>
+</li>
+<li>是否使用底层实现方案还是高层API，可通过实际性能测试来确定。</li>
+</ul>
+<p>####第44条 通过Dispatch Group机制，根据系统资源状况来执行任务####</p>
+<ul>
+<li>一系列的任务可归入一个dispatch group中，开发者可以在所有任务完成后获得通知</li>
+<li>利用dispatch group并发地执行多项任务。</li>
+<li>dispatch_apply是持续阻塞的，直到所有任务都执行完成。</li>
+</ul>
+<p>####第45条 使用dispatch_once来执行只需要运行一次的线程安全代码####</p>
+<ul>
+<li>dispatch_once采用“原子访问”来判断块中的代码是否已经执行过，而非使用重量级的同步机制，相比于@sychronized更为高效</li>
+<li>标记dispatch_once_t应该声明为static，确保每次调用都复用同一个变量。</li>
+</ul>
+<p>####第46条 不要使用dispatch_get_current_queue####</p>
+<ul>
+<li>dispatch_get_current_queue已被废弃，只应做调试使用</li>
+<li>派发队列是按层级来组织的，子队列是包含于父队列的，所以无法单用某个队列对象来描述“当前队列”这一概念</li>
+<li>dispatch_get_current_queue用于解决由不可重入代码所引发的死锁，可以使用“队列特定数据”来解决：dispatch_queue_set_specific(dispatch_queue_t queue,const void *key, void *context, dispatch_function_t destructor);</li>
+</ul>
+<p>###第7章 系统框架###</p>
+<ul>
+<li>标准根类NSObject属于Foundation框架，而非语言本身。如果不适应Foundation框架，则需要自己实现根类</li>
+</ul>
+<p>####第47条 熟悉系统框架####</p>
+<ul>
+<li>在众多框架中，Foundation和CoreFoundation这两个框架最为重要，提供了许多核心功能</li>
+<li>Objective-C编程经常会使用纯C实现的框架，比如CoreFoundation，里面用到底层C语言级API，这样可以绕过运行时系统，提升速度，但是需要手动管理内存。</li>
+</ul>
+<p>####第48条 多用块枚举，少用for循环####</p>
+<ul>
+<li>遍历collection有四种方式。最基础的是for循环，其次是NSEnumerator遍历和NSFastEnumeration协议下的快速遍历，最快、最先进的方式是“块枚举发”</li>
+<li>“块枚举法”本身能够通过GCD来并发执行遍历，无须另行代码，其他遍历方式则不能做到这一点</li>
+<li>如果提前知道遍历collection中的对象，应修改块签名，指出对象的具体对象。</li>
+</ul>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

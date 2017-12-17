@@ -24,7 +24,7 @@
 <meta property="og:description" content="在上一篇博客Cocoa RunLoop 系列之基础知识介绍了RunLoop的InpuSource有两种：一种是基于Mach端口且由内核触发的source1，另外一种就是自定义且需要手动触发的source0。
 其中source0包括两种自定义形式：一种是Apple实现的自定义InputSource，提供了一系列接口，直接调用即可；另外一种就是由用户根据开发需要完全自定义实现。本文要介绍的就是后者。">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Multithreading/Art/custominputsource.jpg">
-<meta property="og:updated_time" content="2016-12-01T09:07:38.000Z">
+<meta property="og:updated_time" content="2017-12-17T15:09:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cocoa RunLoop 系列之Configure Custom InputSource">
 <meta name="twitter:description" content="在上一篇博客Cocoa RunLoop 系列之基础知识介绍了RunLoop的InpuSource有两种：一种是基于Mach端口且由内核触发的source1，另外一种就是自定义且需要手动触发的source0。
@@ -37,11 +37,6 @@
     <link rel="icon" href="/favicon.ico">
   
 
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-  
-  
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -154,7 +149,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
+    <strong class="toc-title">文章目录</strong>
     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#理论概述"><span class="toc-text">理论概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码实现"><span class="toc-text">代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建并配置InputSource对象"><span class="toc-text">创建并配置InputSource对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建并配置InputSourceContext对象"><span class="toc-text">创建并配置InputSourceContext对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建并配置工作线程"><span class="toc-text">创建并配置工作线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#完善主线程配置"><span class="toc-text">完善主线程配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
@@ -181,7 +176,7 @@
       
   <span class="article-category">
     <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/Cocoa/">Cocoa</a>
+    <a class="article-category-link" href="/categories/专业/">专业</a>
   </span>
 
 
@@ -296,7 +291,7 @@ gitalk.render('git')
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
+      <span id="close" class="btn-close">关闭</span>
     </div>
     <hr>
     <div class="modal-body">

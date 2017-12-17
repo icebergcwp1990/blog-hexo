@@ -29,7 +29,7 @@
 原文地址
 翻译Cocoa的KVO特性强大和实用。可惜它的API真的有点糟糕，一些实现方式存在着固有的缺陷。我想探讨一下缺陷所在以及提供一套完善的方案。
 缺陷何在？KVO的API中存在三个主要的问题，全部都与类的多重继承结构注册监听器相关。这很重要，因">
-<meta property="og:updated_time" content="2017-03-12T06:52:01.000Z">
+<meta property="og:updated_time" content="2017-12-17T15:11:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVO的缺陷">
 <meta name="twitter:description" content="最近在学习和研究Cocoa库的KVO特性，期间发现大神Mike Ash的一篇关于讲述KVO缺陷的博客，觉得很有学习价值，遂想试着翻译以加深理解。
@@ -44,11 +44,6 @@
     <link rel="icon" href="/favicon.ico">
   
 
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-  
-  
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -161,7 +156,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
+    <strong class="toc-title">文章目录</strong>
     <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#翻译"><span class="toc-text">翻译</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缺陷何在？"><span class="toc-text">缺陷何在？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#完善方案"><span class="toc-text">完善方案</span></a></li></ol></li></ol>
   </div>
 
@@ -188,7 +183,7 @@
       
   <span class="article-category">
     <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/Objective-C/">Objective-C</a> / <a class="article-category-link" href="/categories/Objective-C/翻译/">翻译</a>
+    <a class="article-category-link" href="/categories/专业/">专业</a> / <a class="article-category-link" href="/categories/专业/翻译/">翻译</a>
   </span>
 
 
@@ -272,7 +267,7 @@ gitalk.render('git')
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
+      <span id="close" class="btn-close">关闭</span>
     </div>
     <hr>
     <div class="modal-body">

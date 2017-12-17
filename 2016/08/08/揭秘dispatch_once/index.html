@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="dispatch_once," />
+    <meta name="keywords" content="GCD," />
   
 
   <meta name="description" content="这是一篇译文，原文Secrets of dispatch的作者是Mike Ash大神。在拜读这篇文章之后，颇有收获，不得不感叹Mike Ash专业知识的深度与广度。因此，我想试着进行翻译以加深理解。
@@ -25,7 +25,7 @@
 <meta property="og:description" content="这是一篇译文，原文Secrets of dispatch的作者是Mike Ash大神。在拜读这篇文章之后，颇有收获，不得不感叹Mike Ash专业知识的深度与广度。因此，我想试着进行翻译以加深理解。
 以下是原文
 一位名为Paul Kim的读者向我推荐了Micheal Tsai的一篇关于“让dispatch_once执行更快”的博客。虽然dispatch_once源代码中的注释精彩且详实，但是它并没">
-<meta property="og:updated_time" content="2017-09-17T10:42:58.000Z">
+<meta property="og:updated_time" content="2017-12-17T15:07:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="揭秘dispatch_once的内部实现">
 <meta name="twitter:description" content="这是一篇译文，原文Secrets of dispatch的作者是Mike Ash大神。在拜读这篇文章之后，颇有收获，不得不感叹Mike Ash专业知识的深度与广度。因此，我想试着进行翻译以加深理解。
@@ -38,11 +38,6 @@
     <link rel="icon" href="/favicon.ico">
   
 
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-  
-  
   <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
@@ -177,7 +172,7 @@
       
   <span class="article-category">
     <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/Cocoa/">Cocoa</a> / <a class="article-category-link" href="/categories/Cocoa/翻译/">翻译</a>
+    <a class="article-category-link" href="/categories/专业/">专业</a> / <a class="article-category-link" href="/categories/专业/翻译/">翻译</a>
   </span>
 
 
@@ -317,7 +312,7 @@ gitalk.render('git')
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
+      <span id="close" class="btn-close">关闭</span>
     </div>
     <hr>
     <div class="modal-body">
