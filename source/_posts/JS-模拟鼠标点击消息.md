@@ -3,7 +3,7 @@ date: 2017-02-23 01:58:07
 tags:
 - JS
 categories:
-- JS
+- 专业
 keywords: Click Event
 decription: 原生JS代码模拟鼠标点击消息
 

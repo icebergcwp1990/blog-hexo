@@ -1,9 +1,9 @@
 title: 揭秘dispatch_once的内部实现
 date: 2016-08-08 22:25:07
 tags:
-- dispatch_once
+- GCD
 categories:
-- Cocoa
+- 专业
 - 翻译
 keywords: dispatch_once
 decription: 一篇剖析dispatch_once实现原理的译文

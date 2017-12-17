@@ -3,7 +3,7 @@ date: 2015-02-25 23:45:07
 tags: 
 - ARC
 categories: 
-- Objective-C
+- 专业
 - 翻译
 keywords: ARC
 decription: 关于揭秘ARC内部实现的译文

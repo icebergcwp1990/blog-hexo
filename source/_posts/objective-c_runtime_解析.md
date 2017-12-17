@@ -3,7 +3,7 @@ date: 2015-01-01 22:46:07
 tags: 
 - Runtime
 categories: 
-- Objective-C
+- 专业
 - 翻译
 keywords: Runtime
 decription: 关于Objective-C Runtime的译文

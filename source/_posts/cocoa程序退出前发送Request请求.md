@@ -3,7 +3,7 @@ date: 2017-05-05 17:06:07
 tags: 
 - cocoa
 categories: 
-- cocoa
+- 专业
 keywords: HttpRequest
 decription: Cocoa程序退出前发送HttpRequest请求
 

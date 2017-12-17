@@ -1,10 +1,12 @@
 title: 两个特殊函数+load & +initialize
 date: 2015-04-01 23:50:07
 tags: 
-- Category
-categories: 
 - Objective-C
-keywords: Category
+categories: 
+- 专业
+keywords: 
+- +load
+- +initialize
 decription: 分析两个特殊函数+load和+initialize
 
 ---
