@@ -3,7 +3,6 @@ date: 2016-10-15 12:16:07
 tags: 
 - PlistBuddy
 categories: 
-- Shell脚本
 - 专业
 keywords: PlistBuddy
 decription: 使用PlistBuddy动态修改APP名称
