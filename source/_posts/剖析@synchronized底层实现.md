@@ -31,15 +31,16 @@ int main(int argc, const char * argv[]) {
         id _sync_obj = (id)obj;
         objc_sync_enter(_sync_obj);
         try {
-            struct _SYNC_EXIT {
-                _SYNC_EXIT(id arg) : sync_exit(arg) {}
-                ~_SYNC_EXIT() {
-                    objc_sync_exit(sync_exit);
-                }
-                id sync_exit;
-            } _sync_exit(_sync_obj);
+	            struct _SYNC_EXIT {
+	                _SYNC_EXIT(id arg) : sync_exit(arg) {}
+	                ~_SYNC_EXIT() {
+	                    objc_sync_exit(sync_exit);
+	                }
+	                id sync_exit;
+	            } _sync_exit(_sync_obj);
 
                 NSLog((NSString *)&__NSConstantStringImpl__var_folders_8l_rsj0hqpj42b9jsw81mc3xv_40000gn_T_block_main_54f70c_mi_1 , obj);
+                
             } catch (id e) {
                 _rethrow = e;
             }
@@ -58,6 +59,8 @@ int main(int argc, const char * argv[]) {
 
 }
 ```
+    通过分析C++代码可以看到@sychronized的实现主要依赖于两个函数：objc_sync_enter和objc_sync_exit。此外还有try{}catch{}语句用于捕捉@sychronized{}语法块中代码执行过程中出现的异常。
+    我们发现objc_sync_enter函数是在try语句之前调用，参数为需要加锁的对象，而objc_sync_exit则是在_SYNC_EXIT结构体中的析构函数中调用，参数同样是当前加锁的对象。因为C++中没有try{}catch{}finally{}语句，所以不能在finally{}调用objc_sync_exit函数。
 
 [源代码](https://github.com/opensource-apple/objc4/blob/master/runtime/objc-sync.mm)
 
