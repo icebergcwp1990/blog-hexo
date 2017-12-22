@@ -25,7 +25,7 @@
 <meta property="og:description" content="这是一篇译文，原文Secrets of dispatch的作者是Mike Ash大神。在拜读这篇文章之后，颇有收获，不得不感叹Mike Ash专业知识的深度与广度。因此，我想试着进行翻译以加深理解。
 以下是原文
 一位名为Paul Kim的读者向我推荐了Micheal Tsai的一篇关于“让dispatch_once执行更快”的博客。虽然dispatch_once源代码中的注释精彩且详实，但是它并没">
-<meta property="og:updated_time" content="2017-12-17T15:07:22.000Z">
+<meta property="og:updated_time" content="2017-12-22T16:46:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="揭秘dispatch_once的内部实现">
 <meta name="twitter:description" content="这是一篇译文，原文Secrets of dispatch的作者是Mike Ash大神。在拜读这篇文章之后，颇有收获，不得不感叹Mike Ash专业知识的深度与广度。因此，我想试着进行翻译以加深理解。
@@ -255,9 +255,30 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x = <span class="number">1</span>;</div><div class="line">y = <span class="number">2</span>;</div></pre></td></tr></table></figure>
 <p>CPU可能会先写入Y变量的值。有些情况下编译器也会对语法重新排序，即便你屏蔽了编译器的行为，CPU仍然会乱序执行。如果是多核CPU，在其他的CPU看了写入的顺序是乱序的。即使是按代码顺序写入的，其他的CPU也会乱序读取。综合考虑，其它的线程在读取x和y的值时会发现y的值已经改变而x还是原来的值。</p>
 <p>在你需要这些值必须按照既定的顺序写入的时候，内存屏障就派上用场了。设置内存屏障以确保上述代码中x的值先被更新：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = <span class="number">1</span>;</div><div class="line">memory_barrier();</div><div class="line">y = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>x = 1;</li>
+<li>memory_barrier();</li>
+<li>y = 2;</li>
+</ul>
 <p>同样地，内存屏障可以确保读的顺序：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">use(x);</div><div class="line">memory_barrier();</div><div class="line">use(y);</div><div class="line">```	</div><div class="line">然而，因为内存屏障的主要功能导致CPU的执行速度，所以自然而然影响性能。</div><div class="line"></div><div class="line">对于<span class="built_in">dispatch_once</span>来说，代码必须按照既定的顺序执行，因此必须设置内存屏障。但是，内存屏障会导致代码效率低下，所以为了避免额外的开销，我们想办法避免设置内存屏障。</div><div class="line"></div><div class="line"><span class="meta">####CPU的分支预测和推测性执行####</span></div><div class="line"></div><div class="line">流水线和乱序工作模式适用于一系列线性执行的指令，但是对于添加分支语句则变得麻烦。CPU在分支语句执行完之前不知道下一步该执行什么指令，因此不得不停止运行等待前面的分支语句结束再重新运行。这就是所谓的pipeline stall，在一定程度上影响CPU性能。</div><div class="line"></div><div class="line">为了弥补pipeline stall带了的性能损失，CPU加入了推测性执行。当CPU遇到一个分支语句则会进行分支预测判断哪一个分支可能被执行。现在的CPU配置精密的分支预判硬件，准确率在<span class="number">90</span>%以上。在做出预判之后，CPU开始执行假设的分支中的代码块，而不是等待分支语句的结果。如果分支预判是正确的则继续后续执行。如果预判错误则清空推测执行结果重新执行另外一个分支代码块。</div><div class="line"></div><div class="line">这种情况被用在了<span class="built_in">dispatch_once</span>的读取端，这也是我们期望执行速度越快越好的地方。<span class="built_in">dispatch_once</span>中有一个判断predicate的值得分支语句。CPU应该会预判并执行<span class="keyword">else</span>分支，因为这个大多数情况下会执行的分支，即绕过block执行然后立即返回结果。在推测性执行过程中，CPU可能会从内存中加载那些后续需要但是还未被其他线程初始化的变量。如果分支预判是正确的，CPU会使用未初始化的值进行推测性执行。</div><div class="line"></div><div class="line"><span class="meta">####非对称屏障####</span></div><div class="line"></div><div class="line">内存屏障一般都是需要对称的：在写的一端确保按照正确的顺序写入，在读的一端确保按照正确的顺序读取。然而，我们需要非对称屏障来满足我们的性能需求：我们可以容忍写入端的速度缓慢，但是让读的速度越快越好。</div><div class="line"></div><div class="line">这个技巧用来防范推测性执行导致的问题。当分支预判是错误的，推测性执行的结果会被弃用。如果<span class="built_in">dispatch_once</span>可以在初始化完成之后强制确定CPU的分支预判，这个问题则可以被避免。</div><div class="line"></div><div class="line">此处有一个间隔时间，即最初的推测性执行到条件语句执行结束之间的间隔时间。间隔具体的时间因CPU而异，但是最多几十个CPU周期的时间。</div><div class="line"></div><div class="line">在英特尔CPU中，<span class="built_in">dispatch_once</span>使用spuid指令到达上述目的。cpuid指令主要是用于获取CPU的ID和功能等信息，但是也可以强行序列化指令流并需要耗费几百个CPU周期的时间。</div><div class="line"></div><div class="line">在<span class="built_in">dispatch_once</span>的源代码中，你会发现在读的一端没有使用内存屏障：</div><div class="line"></div><div class="line">```objc</div><div class="line"> DISPATCH_INLINE DISPATCH_ALWAYS_INLINE DISPATCH_NONNULL_ALL DISPATCH_NOTHROW</div><div class="line"><span class="keyword">void</span></div><div class="line">_<span class="built_in">dispatch_once</span>(<span class="built_in">dispatch_once_t</span> *predicate, dispatch_block_t block)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (DISPATCH_EXPECT(*predicate, ~<span class="number">0</span>l) != ~<span class="number">0</span>l) &#123;</div><div class="line">        <span class="built_in">dispatch_once</span>(predicate, block);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">#define dispatch_once _dispatch_once</span></div></pre></td></tr></table></figure>
+<ul>
+<li>use(x);</li>
+<li>memory_barrier();</li>
+<li>use(y);</li>
+</ul>
+<p>然而，因为内存屏障的主要功能导致CPU的执行速度，所以自然而然影响性能。</p>
+<p>对于dispatch_once来说，代码必须按照既定的顺序执行，因此必须设置内存屏障。但是，内存屏障会导致代码效率低下，所以为了避免额外的开销，我们想办法避免设置内存屏障。</p>
+<p>####CPU的分支预测和推测性执行####</p>
+<p>流水线和乱序工作模式适用于一系列线性执行的指令，但是对于添加分支语句则变得麻烦。CPU在分支语句执行完之前不知道下一步该执行什么指令，因此不得不停止运行等待前面的分支语句结束再重新运行。这就是所谓的pipeline stall，在一定程度上影响CPU性能。</p>
+<p>为了弥补pipeline stall带了的性能损失，CPU加入了推测性执行。当CPU遇到一个分支语句则会进行分支预测判断哪一个分支可能被执行。现在的CPU配置精密的分支预判硬件，准确率在90%以上。在做出预判之后，CPU开始执行假设的分支中的代码块，而不是等待分支语句的结果。如果分支预判是正确的则继续后续执行。如果预判错误则清空推测执行结果重新执行另外一个分支代码块。</p>
+<p>这种情况被用在了dispatch_once的读取端，这也是我们期望执行速度越快越好的地方。dispatch_once中有一个判断predicate的值得分支语句。CPU应该会预判并执行else分支，因为这个大多数情况下会执行的分支，即绕过block执行然后立即返回结果。在推测性执行过程中，CPU可能会从内存中加载那些后续需要但是还未被其他线程初始化的变量。如果分支预判是正确的，CPU会使用未初始化的值进行推测性执行。</p>
+<p>####非对称屏障####</p>
+<p>内存屏障一般都是需要对称的：在写的一端确保按照正确的顺序写入，在读的一端确保按照正确的顺序读取。然而，我们需要非对称屏障来满足我们的性能需求：我们可以容忍写入端的速度缓慢，但是让读的速度越快越好。</p>
+<p>这个技巧用来防范推测性执行导致的问题。当分支预判是错误的，推测性执行的结果会被弃用。如果dispatch_once可以在初始化完成之后强制确定CPU的分支预判，这个问题则可以被避免。</p>
+<p>此处有一个间隔时间，即最初的推测性执行到条件语句执行结束之间的间隔时间。间隔具体的时间因CPU而异，但是最多几十个CPU周期的时间。</p>
+<p>在英特尔CPU中，dispatch_once使用spuid指令到达上述目的。cpuid指令主要是用于获取CPU的ID和功能等信息，但是也可以强行序列化指令流并需要耗费几百个CPU周期的时间。</p>
+<p>在dispatch_once的源代码中，你会发现在读的一端没有使用内存屏障：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">DISPATCH_INLINE DISPATCH_ALWAYS_INLINE DISPATCH_NONNULL_ALL DISPATCH_NOTHROW</div><div class="line"><span class="keyword">void</span></div><div class="line">_<span class="built_in">dispatch_once</span>(<span class="built_in">dispatch_once_t</span> *predicate, dispatch_block_t block)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (DISPATCH_EXPECT(*predicate, ~<span class="number">0</span>l) != ~<span class="number">0</span>l) &#123;</div><div class="line">        <span class="built_in">dispatch_once</span>(predicate, block);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">#define dispatch_once _dispatch_once</span></div></pre></td></tr></table></figure>
 <p>这段代码位于头文件中，并内联只调用者的代码块。DISPATCH_EXPECT宏告诉编译器去告知CPU：*predicate = ~0l是更有可能发生的分支。这可以提高分支预判的准确性，继而提升执行效率。基本上，这里只有一个普通的if语句，没有设置任何屏障。调用dispatch_once的执行速度接近0.5纳秒的黄金标准。</p>
 <p>在dispatch_once实现文件中可以看到写入端的实现，在block执行后立即执行了下面的宏：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_atomic_maximally_synchronizing_barrier();</div></pre></td></tr></table></figure>
@@ -312,7 +333,7 @@ gitalk.render('git')
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
+      <span id="close" class="btn-close">关闭</span>
     </div>
     <hr>
     <div class="modal-body">
