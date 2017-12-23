@@ -295,18 +295,17 @@ CPU可能会先写入Y变量的值。有些情况下编译器也会对语法重�
 
 在你需要这些值必须按照既定的顺序写入的时候，内存屏障就派上用场了。设置内存屏障以确保上述代码中x的值先被更新：
 
-```objc
-x = 1;
-memory_barrier();
-y = 2;
-```
+* x = 1;
+* memory_barrier();
+* y = 2;
+
 同样地，内存屏障可以确保读的顺序：
 
-```objc
-use(x);
-memory_barrier();
-use(y);
-```	
+* use(x);
+* memory_barrier();
+* use(y);
+
+
 然而，因为内存屏障的主要功能导致CPU的执行速度，所以自然而然影响性能。
 
 对于dispatch_once来说，代码必须按照既定的顺序执行，因此必须设置内存屏障。但是，内存屏障会导致代码效率低下，所以为了避免额外的开销，我们想办法避免设置内存屏障。
@@ -332,7 +331,7 @@ use(y);
 在dispatch_once的源代码中，你会发现在读的一端没有使用内存屏障：
 
 ```objc
- DISPATCH_INLINE DISPATCH_ALWAYS_INLINE DISPATCH_NONNULL_ALL DISPATCH_NOTHROW
+DISPATCH_INLINE DISPATCH_ALWAYS_INLINE DISPATCH_NONNULL_ALL DISPATCH_NOTHROW
 void
 _dispatch_once(dispatch_once_t *predicate, dispatch_block_t block)
 {

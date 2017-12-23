@@ -14,7 +14,6 @@ NSTimer是Foundation框架中的一个使用频率很高的类，然而其调用
 以下的NSTimer提供的三个常用的创建或者初始化的API：
 
 ```objc
-
 + (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;
 
 + (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;
@@ -30,7 +29,6 @@ NSTimer是Foundation框架中的一个使用频率很高的类，然而其调用
 多数情况，我们都会将创建后NSTimer实例对象保存为当前类的实例变量，然后NSTimer的target参数设置为self指针。我写代码的习惯就是这样的。实例代码如下：
 
 ```objc
-
 #import <Foundation/Foundation.h>
 
 @interface MyObject : NSObject {
@@ -73,7 +71,6 @@ int main (int argc , const char * argv[]) {
   
     return 0;
 }
-
 ```
 
 上述代码就是典型的计时器使用情景之一。如果计时器只是一次执行而非反复触发，那么计时器会在执行后自动失效，也就不会有“保留环”的问题。但是如果是设置反复触发的计时器类型，那么NSTimer对象会强引用MyObject对象，而当前类也一直持有NSTimer对象，因此，如果NSTimer不调用invalidate设置无效，MyObject对象不会背释放，其dealloc函数也一直被调用，然而NSTimer的invalidate恰好是MyObject对象的dealloc函数中调用。这样两个对象都不会释放。
@@ -116,13 +113,11 @@ typedef void(^ICETimerScheduleBlock)(void);
 }
 
 @end
-
 ```
 
 **使用方式**
 
 ```objc
-
 __weak typeof(self) weakSelf = self;
 mTimer = [NSTimer zd_scheduledTimerWithTimeInterval:1.0f block:^{
     //添加一次局部强引用，确保即使在block执行过程中外部的self被释放了也能顺利完成。局部变量strongSelf的生命周期只限于当前block，不会一直持有self，所以不影响外部self对象的引用计数平衡。
@@ -130,7 +125,6 @@ mTimer = [NSTimer zd_scheduledTimerWithTimeInterval:1.0f block:^{
     __strong typeof(weakSelf) strongSelf = weakSelf;
     [strongSelf timerFiredFun];
 } repeats:YES];
-
 ```
 上述解决方案使用了NSTimer+BlockSupported分类对NSTimer原生函数进行了二次封装，将调用方需要的执行的函数转移到block中执行，再结合__weak指针解除NSTimer对self的强引用。NSTimer原生API调用照样会对target强引用，但是此时的target变成Timer类对象。因为类对象生命周期与应用程序一置的，不受引用计数限制，所以没关系。
 
