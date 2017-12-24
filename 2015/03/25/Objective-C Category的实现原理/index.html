@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Objective-C Category 深入浅出系列-第1话 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Category," />
+  
+
+  <meta name="description" content="Objective-C Category（分类）之于我而言有种神秘感，虽然自己已经在实际开发过程中已经多次使用它，且感受到了它带来的便利与高效。但是我却仅仅是停留在对它的基本使用层面，除此之外一无所知。我能感觉它的强大，心中也一直有种对它内部实现一探究竟的冲动，奈何迟迟没有行动。时间愈久，这种情绪愈发浓烈，今天终究是按耐不住了… 知其然对于苹果应用开发者来说，开发者想要快速地了解或是回顾某个知识点">
+<meta name="keywords" content="Category">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C Category 深入浅出系列-第1话">
+<meta property="og:url" content="http://icebergcwp.com/2015/03/25/Objective-C Category的实现原理/index.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="Objective-C Category（分类）之于我而言有种神秘感，虽然自己已经在实际开发过程中已经多次使用它，且感受到了它带来的便利与高效。但是我却仅仅是停留在对它的基本使用层面，除此之外一无所知。我能感觉它的强大，心中也一直有种对它内部实现一探究竟的冲动，奈何迟迟没有行动。时间愈久，这种情绪愈发浓烈，今天终究是按耐不住了… 知其然对于苹果应用开发者来说，开发者想要快速地了解或是回顾某个知识点">
+<meta property="og:updated_time" content="2017-12-17T15:11:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C Category 深入浅出系列-第1话">
+<meta name="twitter:description" content="Objective-C Category（分类）之于我而言有种神秘感，虽然自己已经在实际开发过程中已经多次使用它，且感受到了它带来的便利与高效。但是我却仅仅是停留在对它的基本使用层面，除此之外一无所知。我能感觉它的强大，心中也一直有种对它内部实现一探究竟的冲动，奈何迟迟没有行动。时间愈久，这种情绪愈发浓烈，今天终究是按耐不住了… 知其然对于苹果应用开发者来说，开发者想要快速地了解或是回顾某个知识点">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#知其然"><span class="toc-text">知其然</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#知其然所以然"><span class="toc-text">知其然所以然</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Objective-C Category的实现原理" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Objective-C Category 深入浅出系列-第1话</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.03.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>Objective-C Category（分类）之于我而言有种神秘感，虽然自己已经在实际开发过程中已经多次使用它，且感受到了它带来的便利与高效。但是我却仅仅是停留在对它的基本使用层面，除此之外一无所知。我能感觉它的强大，心中也一直有种对它内部实现一探究竟的冲动，奈何迟迟没有行动。时间愈久，这种情绪愈发浓烈，今天终究是按耐不住了…</p>
+<h3 id="知其然"><a href="#知其然" class="headerlink" title="知其然"></a>知其然</h3><p>对于苹果应用开发者来说，开发者想要快速地了解或是回顾某个知识点，<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Category.html#//apple_ref/doc/uid/TP40008195-CH5-SW1" target="_blank" rel="noopener">Apple开发者文档</a>往往是不二首选。</p>
+<p>文档上如是说：你可以使用Category为一个已经存在的类添加额外的方法，比如Cocoa库中的类，即便是这个类的源代码是不可见的-不能子类化。使用Category给类添加的方法能被其子类继承，且在Runtime下其与类原有的方法是无差别的。</p>
+<p>分类的使用场景：</p>
+<ul>
+<li>在不改变某个类源文件和不使用继承的前提下，为该类添加先的方法</li>
+<li>声明类的私有方法</li>
+<li>将一个类的实现拆分为多个独立的源文件</li>
+</ul>
+<p>很明显，Category其实就是设计模式之一的装饰者模式的具体实现。</p>
+<p> <em>注意，Category是一个类的拓展，为不是一个新类。</em></p>
+<p>借助Apple开发者文档了解到Category的“知其然”，然后就是基于<a href="https://opensource.apple.com/tarballs/objc4/" target="_blank" rel="noopener">Apple Opensource</a>来解决“知其所以然”的问题？</p>
+<h3 id="知其然所以然"><a href="#知其然所以然" class="headerlink" title="知其然所以然"></a>知其然所以然</h3><p> 此处使用的源码版本是objc4-532.2。与本文相关的代码都在源文件objc-runtime-new.mm中，接下来就结合关键的代码与注释进行分析。</p>
+<p> Catrgory的定义</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">typedef</span> <span class="keyword">struct</span> category_t &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">    classref_t cls;</span><br><span class="line">    <span class="keyword">struct</span> method_list_t *instanceMethods;</span><br><span class="line">    <span class="keyword">struct</span> method_list_t *classMethods;</span><br><span class="line">    <span class="keyword">struct</span> protocol_list_t *protocols;</span><br><span class="line">    <span class="keyword">struct</span> property_list_t *instanceProperties;</span><br><span class="line">&#125; category_t;</span><br></pre></td></tr></table></figure>
+<p> 通过Category的定义可以看出，Category与Class存在很相似。不过Category没有isa指针，这也说明Category不是一个类，只能作为一个类的拓展存在。</p>
+<p> 关键Method-1: _read_images()</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">void</span> _read_images(header_info **hList, uint32_t hCount)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line"><span class="meta">#define EACH_HEADER \</span></span><br><span class="line">hIndex = <span class="number">0</span>;         \</span><br><span class="line">crashlog_header_name(<span class="literal">NULL</span>) &amp;&amp; hIndex &lt; hCount &amp;&amp; (hi = hList[hIndex]) &amp;&amp; crashlog_header_name(hi); \</span><br><span class="line">hIndex++</span><br><span class="line">   </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Discover categories.</span></span><br><span class="line">    <span class="comment">//遍历工程中所有的头文件</span></span><br><span class="line">    <span class="keyword">for</span> (EACH_HEADER) &#123;</span><br><span class="line">        <span class="comment">//Category列表</span></span><br><span class="line">        category_t **catlist =</span><br><span class="line">        _getObjc2CategoryList(hi, &amp;count);</span><br><span class="line">        <span class="comment">//遍历Category列表</span></span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            category_t *cat = catlist[i];</span><br><span class="line">            <span class="comment">//Category拓展的类的指针</span></span><br><span class="line">            class_t *cls = remapClass(cat-&gt;cls);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (!cls) &#123;</span><br><span class="line">                <span class="comment">// Category's target class is missing (probably weak-linked).</span></span><br><span class="line">                <span class="comment">// Disavow any knowledge of this category.</span></span><br><span class="line">                catlist[i] = <span class="literal">NULL</span>;</span><br><span class="line">                <span class="keyword">if</span> (PrintConnecting) &#123;</span><br><span class="line">                    _objc_inform(<span class="string">"CLASS: IGNORING category \?\?\?(%s) %p with "</span></span><br><span class="line">                                 <span class="string">"missing weak-linked target class"</span>,</span><br><span class="line">                                 cat-&gt;name, cat);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// Process this category.</span></span><br><span class="line">            <span class="comment">// First, register the category with its target class.</span></span><br><span class="line">            <span class="comment">// Then, rebuild the class's method lists (etc) if</span></span><br><span class="line">            <span class="comment">// the class is realized.</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">//检测目标类是否已实现</span></span><br><span class="line">            <span class="built_in">BOOL</span> classExists = <span class="literal">NO</span>;</span><br><span class="line">            <span class="keyword">if</span> (cat-&gt;instanceMethods ||  cat-&gt;protocols</span><br><span class="line">                ||  cat-&gt;instanceProperties)</span><br><span class="line">            &#123;</span><br><span class="line">                addUnattachedCategoryForClass(cat, cls, hi);</span><br><span class="line">                <span class="keyword">if</span> (isRealized(cls)) &#123;</span><br><span class="line">                    remethodizeClass(cls);</span><br><span class="line">                    classExists = <span class="literal">YES</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (PrintConnecting) &#123;</span><br><span class="line">                    _objc_inform(<span class="string">"CLASS: found category -%s(%s) %s"</span>,</span><br><span class="line">                                 getName(cls), cat-&gt;name,</span><br><span class="line">                                 classExists ? <span class="string">"on existing class"</span> : <span class="string">""</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//Categoty存在方法列表或者协议列表</span></span><br><span class="line">            <span class="keyword">if</span> (cat-&gt;classMethods  ||  cat-&gt;protocols</span><br><span class="line">                <span class="comment">/* ||  cat-&gt;classProperties */</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//关键函数块</span></span><br><span class="line">                </span><br><span class="line">                <span class="comment">//添加Category到目标类</span></span><br><span class="line">                addUnattachedCategoryForClass(cat, cls-&gt;isa, hi);</span><br><span class="line">                </span><br><span class="line">                <span class="comment">//重构目标类的方法列表</span></span><br><span class="line">                <span class="keyword">if</span> (isRealized(cls-&gt;isa)) &#123;</span><br><span class="line">                	<span class="comment">//关键函数！</span></span><br><span class="line">                    remethodizeClass(cls-&gt;isa);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (PrintConnecting) &#123;</span><br><span class="line">                    _objc_inform(<span class="string">"CLASS: found category +%s(%s)"</span>,</span><br><span class="line">                                 getName(cls), cat-&gt;name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Category discovery MUST BE LAST to avoid potential races</span></span><br><span class="line">    <span class="comment">// when other threads call the new category code before</span></span><br><span class="line">    <span class="comment">// this thread finishes its fixups.</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// +load handled by prepare_load_methods()</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#undef EACH_HEADER</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> _read_images()是赋值读取镜像文件的函数，函数末尾就是处理Category的代码块。其中将工程中所有的Category分别与其目标类建立关联，然后调用了remethodizeClass()对目标类的进行重构。</p>
+<p> 关键Method-2: remethodizeClass()</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">static</span> <span class="keyword">void</span> remethodizeClass(class_t *cls)</span><br><span class="line">&#123;</span><br><span class="line">    category_list *cats;</span><br><span class="line">    <span class="built_in">BOOL</span> isMeta;</span><br><span class="line">    </span><br><span class="line">    rwlock_assert_writing(&amp;runtimeLock);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//识别目标类是否为元类</span></span><br><span class="line">    isMeta = isMetaClass(cls);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Re-methodizing: check for more categories</span></span><br><span class="line">    <span class="comment">//重构目标类的方法列表</span></span><br><span class="line">    <span class="keyword">if</span> ((cats = unattachedCategoriesForClass(cls))) &#123;</span><br><span class="line">        chained_property_list *newproperties;</span><br><span class="line">        <span class="keyword">const</span> protocol_list_t **newprotos;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (PrintConnecting) &#123;</span><br><span class="line">            _objc_inform(<span class="string">"CLASS: attaching categories to class '%s' %s"</span>,</span><br><span class="line">                         getName(cls), isMeta ? <span class="string">"(meta)"</span> : <span class="string">""</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Update methods, properties, protocols</span></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">BOOL</span> vtableAffected = <span class="literal">NO</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//添加Category中的方法到目标类</span></span><br><span class="line">        <span class="comment">//关键函数！</span></span><br><span class="line">        attachCategoryMethods(cls, cats, &amp;vtableAffected);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//将Category中的属性插入属性链表的头部，只有匿名Category才能额外添加属性</span></span><br><span class="line">        newproperties = buildPropertyList(<span class="literal">NULL</span>, cats, isMeta);</span><br><span class="line">        <span class="keyword">if</span> (newproperties) &#123;</span><br><span class="line">            newproperties-&gt;next = cls-&gt;data()-&gt;properties;</span><br><span class="line">            cls-&gt;data()-&gt;properties = newproperties;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//将Category中的协议加入目标类</span></span><br><span class="line">        <span class="comment">//查看buildProtocolList函数得知，新的协议的加入目标类原有协议的尾部</span></span><br><span class="line">        newprotos = buildProtocolList(cats, <span class="literal">NULL</span>, cls-&gt;data()-&gt;protocols);</span><br><span class="line">        <span class="keyword">if</span> (cls-&gt;data()-&gt;protocols  &amp;&amp;  cls-&gt;data()-&gt;protocols != newprotos) &#123;</span><br><span class="line">            _free_internal(cls-&gt;data()-&gt;protocols);</span><br><span class="line">        &#125;</span><br><span class="line">        cls-&gt;data()-&gt;protocols = newprotos;</span><br><span class="line">        </span><br><span class="line">        _free_internal(cats);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Update method caches and vtables</span></span><br><span class="line">        flushCaches(cls);</span><br><span class="line">        <span class="keyword">if</span> (vtableAffected) flushVtables(cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> remethodizeClass()函数的功能比较简单，进一步细化了对Category中的方法列表、协议列表和属性列表的处理。其中，属性列表的处理则是直接插入原属性链表头部，协议列表则是附加到原协议列表的尾部。接下来，重点分析处理Category方法列表的attachCategoryMethods函数。</p>
+<p>关键Method-3: attachCategoryMethods()</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> attachCategoryMethods(class_t *cls, category_list *cats,</span><br><span class="line">                      <span class="built_in">BOOL</span> *inoutVtablesAffected)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!cats) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (PrintReplacedMethods) printReplacements(cls, cats);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">BOOL</span> isMeta = isMetaClass(cls);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//为每个Category分配函数列表</span></span><br><span class="line">    method_list_t **mlists = (method_list_t **)</span><br><span class="line">    _malloc_internal(cats-&gt;count * <span class="keyword">sizeof</span>(*mlists));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Count backwards through cats to get newest categories first</span></span><br><span class="line">    <span class="keyword">int</span> mcount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i = cats-&gt;count;</span><br><span class="line">    <span class="built_in">BOOL</span> fromBundle = <span class="literal">NO</span>;</span><br><span class="line">    <span class="comment">//汇总所有Category的拓展方法</span></span><br><span class="line">    <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">        method_list_t *mlist = cat_method_list(cats-&gt;list[i].cat, isMeta);</span><br><span class="line">        <span class="keyword">if</span> (mlist) &#123;</span><br><span class="line">            mlists[mcount++] = mlist;</span><br><span class="line">            fromBundle |= cats-&gt;list[i].fromBundle;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//关键函数!</span></span><br><span class="line">    <span class="comment">//将Category中的拓展方法加入到目标类</span></span><br><span class="line">    attachMethodLists(cls, mlists, mcount, <span class="literal">NO</span>, fromBundle, inoutVtablesAffected);</span><br><span class="line">    </span><br><span class="line">    _free_internal(mlists);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>attachCategoryMethods()函数的功能也比较简单，对与目标类的Category中所有方法进行汇总，然后调用attachMethodLists函数进行处理。</p>
+<p>关键Method-4: attachMethodLists()</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> attachMethodLists(class_t *cls, method_list_t **addedLists, <span class="keyword">int</span> addedCount,</span><br><span class="line">                  <span class="built_in">BOOL</span> baseMethods, <span class="built_in">BOOL</span> methodsFromBundle,</span><br><span class="line">                  <span class="built_in">BOOL</span> *inoutVtablesAffected)</span><br><span class="line">&#123;</span><br><span class="line">    rwlock_assert_writing(&amp;runtimeLock);</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Method list array is NULL-terminated.</span></span><br><span class="line">    <span class="comment">// Some elements of lists are NULL; we must filter them out.</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//方法列表以NULL作为结束符，因此需要过滤掉目标类中的NULL函数</span></span><br><span class="line">    method_list_t *oldBuf[<span class="number">2</span>];</span><br><span class="line">    method_list_t **oldLists;</span><br><span class="line">    <span class="keyword">int</span> oldCount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (cls-&gt;data()-&gt;flags &amp; RW_METHOD_ARRAY) &#123;</span><br><span class="line">        oldLists = cls-&gt;data()-&gt;method_lists;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        oldBuf[<span class="number">0</span>] = cls-&gt;data()-&gt;method_list;</span><br><span class="line">        oldBuf[<span class="number">1</span>] = <span class="literal">NULL</span>;</span><br><span class="line">        oldLists = oldBuf;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (oldLists) &#123;</span><br><span class="line">        <span class="keyword">while</span> (oldLists[oldCount]) oldCount++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> newCount = oldCount;</span><br><span class="line">    <span class="comment">//同上，过滤掉Category方法列表中的NULL函数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; addedCount; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (addedLists[i]) newCount++;  <span class="comment">// only non-NULL entries get added</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//创建新的方法列表</span></span><br><span class="line">    method_list_t *newBuf[<span class="number">2</span>];</span><br><span class="line">    method_list_t **newLists;</span><br><span class="line">    <span class="keyword">if</span> (newCount &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        newLists = (method_list_t **)</span><br><span class="line">        _malloc_internal((<span class="number">1</span> + newCount) * <span class="keyword">sizeof</span>(*newLists));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        newLists = newBuf;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Add method lists to array.</span></span><br><span class="line">    <span class="comment">// Reallocate un-fixed method lists.</span></span><br><span class="line">    <span class="comment">// The new methods are PREPENDED to the method list array.</span></span><br><span class="line">    </span><br><span class="line">    newCount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//先将Category加入到新的方法列表</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; addedCount; i++) &#123;</span><br><span class="line">        method_list_t *mlist = addedLists[i];</span><br><span class="line">        <span class="keyword">if</span> (!mlist) <span class="keyword">continue</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Fixup selectors if necessary</span></span><br><span class="line">        <span class="keyword">if</span> (!isMethodListFixedUp(mlist)) &#123;</span><br><span class="line">            mlist = fixupMethodList(mlist, methodsFromBundle, <span class="literal">true</span><span class="comment">/*sort*/</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        ...</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Fill method list array</span></span><br><span class="line">        newLists[newCount++] = mlist;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Copy old methods to the method list array、</span></span><br><span class="line">    <span class="comment">//再将目标类原方法加入新的方法列表</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; oldCount; i++) &#123;</span><br><span class="line">        newLists[newCount++] = oldLists[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (oldLists  &amp;&amp;  oldLists != oldBuf) free(oldLists);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// NULL-terminate</span></span><br><span class="line">    newLists[newCount] = <span class="literal">NULL</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//更新目标类的方法列表</span></span><br><span class="line">    <span class="keyword">if</span> (newCount &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        assert(newLists != newBuf);</span><br><span class="line">        cls-&gt;data()-&gt;method_lists = newLists;</span><br><span class="line">        changeInfo(cls, RW_METHOD_ARRAY, <span class="number">0</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        assert(newLists == newBuf);</span><br><span class="line">        cls-&gt;data()-&gt;method_list = newLists[<span class="number">0</span>];</span><br><span class="line">        assert(!(cls-&gt;data()-&gt;flags &amp; RW_METHOD_ARRAY));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>attachMethodLists才是最关键的函数。函数中为目标类分配了一个新的函数列表，先加入Category中的方法，再加入目标类原有方法。这也就是为什么如果Category中的函数与目标类中的函数重名，那么目标类的函数会被覆盖的原因。因为Runtime在遍历方法列表时会先发现Category中的函数。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>这篇博客基于源代码对Category与目标类的组合过程进行了分析，明白了Category中的方法、协议和属性的处理流程。因此，我们可以更加高效和准确地使用Category，甚至利用其中存在的“漏洞”实现一些小魔法。</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

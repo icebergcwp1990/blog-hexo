@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>揭开ARC的神秘面纱系列-第2话 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="ARC," />
+  
+
+  <meta name="description" content="原文地址 以下是正文： 写完第一篇关于揭开ARC神秘面纱的博客，我想和大家分享另外一些有趣的片段。这一次我好奇当你通过函数返回一个存在数组中的对象时会发生什么。非ARC模式，你可能会对这个对象retain一次再返回一个自动释放的对象。ARC模式下，我们虽然可以免去这些内存管理的操作，但还是不放心，觉得别扭。因此，我决定检测一下ARC是否做到位了。 考虑一下这个类： 1234567891011121">
+<meta name="keywords" content="ARC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="揭开ARC的神秘面纱系列-第2话">
+<meta property="og:url" content="http://icebergcwp.com/2015/02/20/揭开ARC的神秘面纱系列-第2话/index.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="原文地址 以下是正文： 写完第一篇关于揭开ARC神秘面纱的博客，我想和大家分享另外一些有趣的片段。这一次我好奇当你通过函数返回一个存在数组中的对象时会发生什么。非ARC模式，你可能会对这个对象retain一次再返回一个自动释放的对象。ARC模式下，我们虽然可以免去这些内存管理的操作，但还是不放心，觉得别扭。因此，我决定检测一下ARC是否做到位了。 考虑一下这个类： 1234567891011121">
+<meta property="og:updated_time" content="2017-12-17T15:06:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="揭开ARC的神秘面纱系列-第2话">
+<meta name="twitter:description" content="原文地址 以下是正文： 写完第一篇关于揭开ARC神秘面纱的博客，我想和大家分享另外一些有趣的片段。这一次我好奇当你通过函数返回一个存在数组中的对象时会发生什么。非ARC模式，你可能会对这个对象retain一次再返回一个自动释放的对象。ARC模式下，我们虽然可以免去这些内存管理的操作，但还是不放心，觉得别扭。因此，我决定检测一下ARC是否做到位了。 考虑一下这个类： 1234567891011121">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-揭开ARC的神秘面纱系列-第2话" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">揭开ARC的神秘面纱系列-第2话</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.02.20</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a> / <a class="article-category-link" href="/categories/专业/翻译/">翻译</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><a href="http://www.galloway.me.uk/2012/01/a-look-under-arcs-hood-episode-2/" target="_blank" rel="noopener">原文地址</a></p>
+<p>以下是正文：</p>
+<p>写完第一篇关于<a href="http://icebergcwp.com/2015/02/05/%E6%8F%AD%E5%BC%80ARC%E7%9A%84%E7%A5%9E%E7%A7%98%E9%9D%A2%E7%BA%B1%E7%B3%BB%E5%88%97-%E7%AC%AC1%E8%AF%9D/">揭开ARC神秘面纱</a>的博客，我想和大家分享另外一些有趣的片段。这一次我好奇当你通过函数返回一个存在数组中的对象时会发生什么。非ARC模式，你可能会对这个对象retain一次再返回一个自动释放的对象。ARC模式下，我们虽然可以免去这些内存管理的操作，但还是不放心，觉得别扭。因此，我决定检测一下ARC是否做到位了。</p>
+<p>考虑一下这个类：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ClassA</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *array;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ClassA</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@synthesize</span> array;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">id</span>)popObject &#123;</span><br><span class="line">    <span class="keyword">id</span> lastObject = [array lastObject];</span><br><span class="line">    <span class="keyword">if</span> (lastObject) &#123;</span><br><span class="line">        [array removeLastObject];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> lastObject;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>在非ARC模式下，调用函数removeLastObject将会释放数组对对象的持有，如果这是对象的最后一个引用则对象的内存将会被释放，意味着返回的对象是一个已经被回收的对象。所以，我们应当retain一次lastObject并在返回前添加autorelease属性（加入自动释放池）。</p>
+<p>尽管我完全明白ARC应该会完成这些工作，但是我还是担忧没有自己添加这些操作。我天真地以为ARC会一行行地解析函数中的代码。如果是这样，我觉得ARC也许没必要在我们引用lastObject对象的时候为它添加一次引用计数，此时ARC并不知道lastObject需要进行retain，所以ARC没必要非得做这些操作。</p>
+<p>这就是我错误所在。显然，ARC在我们引用lastObject对象的时候为其添加一次引用计数，并在对象立刻作用域的时候进行了一次release操作，在我们这个例子中，由于我们是通过函数返回这个对象且函数名不是已关键字new或者copy开头，因此需要将对象加入自动释放池。</p>
+<p>让我们看看上述代码编译之后的样子：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">.thumb_func</span>     <span class="string">"-[ClassA popObject]"</span></span><br><span class="line"><span class="string">"-[ClassA popObject]"</span>:</span><br><span class="line">    <span class="keyword">push </span>   &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r6</span>, <span class="built_in">r7</span>, <span class="built_in">lr</span>&#125;</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r6</span>, :lower16:(_OBJC_IVAR_$_ClassA.array-(LPC0_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r4</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r6</span>, :upper16:(_OBJC_IVAR_$_ClassA.array-(LPC0_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r1</span>, :lower16:(L_OBJC_SELECTOR_REFERENCES_-(LPC0_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_0</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r6</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r1</span>, :upper16:(L_OBJC_SELECTOR_REFERENCES_-(LPC0_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_1</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r1</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r7</span>, <span class="built_in">sp</span>, <span class="number">#12</span></span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r6</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r1</span>, [<span class="built_in">r1</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r4</span>, <span class="built_in">r0</span>]</span><br><span class="line">    <span class="keyword">blx </span>    _objc_msgSend</span><br><span class="line">    <span class="comment">@ InlineAsm Start</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r7</span>, <span class="built_in">r7</span>          <span class="comment">@ marker for objc_retainAutoreleaseReturnValue</span></span><br><span class="line">    <span class="comment">@ InlineAsm End</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_retainAutoreleasedReturnValue</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r5</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">cbz </span>    <span class="built_in">r5</span>, LBB0_2</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r1</span>, :lower16:(L_OBJC_SELECTOR_REFERENCES_2-(LPC0_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r1</span>, :upper16:(L_OBJC_SELECTOR_REFERENCES_2-(LPC0_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r6</span>]</span><br><span class="line"><span class="symbol">LPC0_2</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r1</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r1</span>, [<span class="built_in">r1</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r4</span>, <span class="built_in">r0</span>]</span><br><span class="line">    <span class="keyword">blx </span>    _objc_msgSend</span><br><span class="line"><span class="symbol">LBB0_2</span>:</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleaseReturnValue</span><br><span class="line">    <span class="keyword">pop </span>    &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r6</span>, <span class="built_in">r7</span>, <span class="built_in">pc</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>好吧，事实如此。ARC已经为我们考虑周全了。ARC在代码中插入了objc_retainAutoreleaseReturnValue调用，这意味着ARC已经觉察到需要给一个已经加入自动释放池的返回值增加引用计数，这个操作属于ARC的一种优化处理，它仅仅是把对象从自动释放池中移除而并非真的添加一次引用计数。接下来在函数结尾处，ARC调用了objc_autoreleaseReturnValue，这个函数将即将返回的对象加入自动释放池。</p>
+<p>这仅仅是关于揭开ARC神秘面纱系列的另外一个例子。随着使用ARC的次数增多，我愈发意识它的实用性。ARC减少代码中内存管理相关的错误，并将上述的代码片段进行最佳优化处理。</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
