@@ -1,7 +1,7 @@
 # Blog info
 blog_name: Iceberg
 slogan: Being the man in whom the tiger sniffs the rose
-url: http://www.icebergcwp.com
+url: http://icebergcwp.com
 
 # Set avatar (Absolute url and relative url)
 avatar: /images/avatar.jpg
@@ -10,7 +10,7 @@ avatar: /images/avatar.jpg
 favicon: /favicon.ico
 
 # For seo
-keywords: iceberg,Maxos,iOS,nodejs,JavaScript
+keywords: iceberg,Maxc OS/iOS,Python,电影,读书
 
 home_nav:
   - name: Blog
@@ -118,13 +118,22 @@ init_page_content: HOME_NAV  # HOME_NAV | POST
 # =========================================================
 # Stats
 google_analytics:
-baidu_analytics: 57e94d016e201fba3603a8a2b0263af0
+baidu_analytics: 275aa94150d7be3f234542686997bdfa
 
 # Comment service
 # disqus_shortname: iceberg
 # duoshuo_shortname: iceberg
 # gitment_shortname: iceberg
 gitalk_shortname: iceberg
+
+busuanzi: true
+
+# 自动生成sitemap
+sitemap: 
+    path: sitemap.xml
+baidusitemap:
+    path: baidusitemap.xml
+
 
 # =========================================================
 # 页面内容设置

@@ -5,14 +5,14 @@
 # Site
 title: Iceberg
 subtitle:
-description:
+description: More horse than man.
 author: iceberg
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://icebergcwp.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:

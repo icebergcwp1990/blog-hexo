@@ -4,8 +4,8 @@ tags:
 - Objective-C
 categories: 
 - 专业
-keywords:  synchronizd
-decription:  剖析@synchronizd底层实现原理
+keywords: synchronizd
+decription: 剖析@synchronizd底层实现原理
 
 ---
 
