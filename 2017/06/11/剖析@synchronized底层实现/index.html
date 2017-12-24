@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://icebergcwp.com/2017/06/11/剖析@synchronized底层实现/index.html">
 <meta property="og:site_name" content="Iceberg">
 <meta property="og:description" content="@synchronizd是Objective-C中的一个语法糖，用于给某个对象加锁，因为使用起来简单方便，所以使用频率很高。然而，滥用@synchronizd很容易导致代码效率低下。本篇博客旨在结合@synchronizd底层实现源码并剖析其实现原理，这样可以更好的让我们在适合的情景使用@synchronizd。 @synchronizd本质上是一个编译器标识符，在Objective-C层面看不其">
-<meta property="og:updated_time" content="2017-12-23T15:49:35.000Z">
+<meta property="og:updated_time" content="2017-12-24T13:24:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="剖析@synchronizd底层实现原理">
 <meta name="twitter:description" content="@synchronizd是Objective-C中的一个语法糖，用于给某个对象加锁，因为使用起来简单方便，所以使用频率很高。然而，滥用@synchronizd很容易导致代码效率低下。本篇博客旨在结合@synchronizd底层实现源码并剖析其实现原理，这样可以更好的让我们在适合的情景使用@synchronizd。 @synchronizd本质上是一个编译器标识符，在Objective-C层面看不其">
@@ -285,7 +285,7 @@ gitalk.render('git')
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">

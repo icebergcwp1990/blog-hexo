@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://icebergcwp.com/2017/06/11/%E5%89%96%E6%9E%90@synchronized%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</loc>
-    <lastmod>2017-12-23T15:49:35.000Z</lastmod>
+    <lastmod>2017-12-24T13:24:13.000Z</lastmod>
     <data>
         <display>
         <title>剖析@synchronizd底层实现原理</title>
@@ -17,6 +17,26 @@
            
              
               <breadCrumb title="专业" url="http://icebergcwp.com/categories/%E4%B8%93%E4%B8%9A/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://icebergcwp.com/2017/08/03/%E4%BA%BA%E7%B1%BB%E7%AE%80%E5%8F%B2%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-12-24T13:22:42.000Z</lastmod>
+    <data>
+        <display>
+        <title>人类简史之认知革命读书第一章笔记</title>
+        <pubTime>2017-08-03T15:50:07.000Z</pubTime>
+        
+        <tag>人类简史</tag>
+         
+         
+           
+             
+              <breadCrumb title="读书笔记" url="http://icebergcwp.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
           
         </display>
     </data>
@@ -435,26 +455,6 @@
            
              
               <breadCrumb title="日常" url="http://icebergcwp.com/categories/%E6%97%A5%E5%B8%B8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://icebergcwp.com/2017/08/03/%E4%BA%BA%E7%B1%BB%E7%AE%80%E5%8F%B2%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2017-10-08T15:11:09.000Z</lastmod>
-    <data>
-        <display>
-        <title>人类简史之认知革命读书笔记</title>
-        <pubTime>2017-08-03T15:50:07.000Z</pubTime>
-        
-        <tag>人类简史</tag>
-         
-         
-           
-             
-              <breadCrumb title="读书笔记" url="http://icebergcwp.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
           
         </display>
     </data>
