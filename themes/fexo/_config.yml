@@ -142,8 +142,7 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "Iceberg，Horseman"
-    - "而我。。。想成为一名有趣的man"
+    - "目前处于个人创业阶段，从事MacOS/iOS开发，研究Objective-C与Python源码。"
   - type: Github
     icon: icon-github
     text_key: Github
@@ -157,7 +156,7 @@ about:
   - type: mail
     icon: icon-mail
     text_key: Gmail
-    text_value: "icebergcwp1990r@gmail.com"
+    text_value: "icebergcwp1990@gmail.com"
   - type: location
     icon: icon-location
     text_value: ChangSha
