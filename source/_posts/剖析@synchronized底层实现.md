@@ -218,7 +218,7 @@ static SyncData* id2data(id object, enum usage why)
 {
 	//从全局哈希表sDataLists中获取object对应的SyncList对象
 	//lockp指针指向SyncList对象中自旋锁
-	//listp二级指针是指向SyncData对象指针的指针，这里为什么要用二级指针不是很明白？
+	//listp指向一条SyncData链表
     spinlock_t *lockp = &LOCK_FOR_OBJ(object);
     SyncData **listp = &LIST_FOR_OBJ(object);
     SyncData* result = NULL;
