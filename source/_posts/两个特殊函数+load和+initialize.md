@@ -1,4 +1,4 @@
-title: 两个特殊函数+load & +initialize
+title: 两个特殊函数+load和+initialize
 date: 2015-04-01 23:50:07
 tags: 
 - Objective-C
