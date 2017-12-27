@@ -130,5 +130,7 @@ mTimer = [NSTimer zd_scheduledTimerWithTimeInterval:1.0f block:^{
 
 这种类型的“保留环”问题很隐蔽，因此很有分析与记录价值，与君共享。
 
+[GitHub Demo](https://github.com/icebergcwp1990/ICBTimerWithoutRetainCycle)
+
 *注：这个解决方案参考了Effective Objective-C 2.0一书中第52条，有兴趣的同学可以自行查阅。*
 
