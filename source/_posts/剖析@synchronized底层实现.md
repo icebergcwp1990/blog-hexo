@@ -158,7 +158,7 @@ class StripedMap {
 #endif
 };
 ```
-上述代码中，由于自己对C++模板类不熟悉，所以只能看个大概。其中有两个值得注意的地方，其中StripeCount表示哈希数组的长度，如果是嵌入式系统值为8，否则值为64，也就意味着哈希数组最大长度为64；另外indexForPointer函数是用于计数哈希下标的函数，算法不难，但是很巧妙，值得学习。
+上述代码中，由于自己对C++模板类不熟悉，所以只能看个大概。其中有两个值得注意的地方，其中StripeCount表示哈希数组的长度，如果是嵌入式系统值为8，否则值为64，也就意味着哈希数组最大长度为64；函数indexForPointer为散列函数，算法不难，但是很巧妙，值得学习。
 
 下面开始分析相关的函数实现，首先找到@sychronized直接调用的两个函数：objc_sync_enter和objc_sync_exit，代码如下：
 
@@ -218,7 +218,7 @@ static SyncData* id2data(id object, enum usage why)
 {
 	//从全局哈希表sDataLists中获取object对应的SyncList对象
 	//lockp指针指向SyncList对象中自旋锁
-	//listp指向一条SyncData链表
+	//listp指向一条SyncData链表，因为C++ STL中的哈希表处理地址冲突的方法是链地址法
     spinlock_t *lockp = &LOCK_FOR_OBJ(object);
     SyncData **listp = &LIST_FOR_OBJ(object);
     SyncData* result = NULL;
