@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>在一台电脑搭建两个不同的hexo+github博客 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="hexo,github," />
+  
+
+  <meta name="description" content="草稿： 大概思路：1、先完成一台电脑配置两个不同的github账号，参考https://www.jianshu.com/p/3fc93c16ad2d~/.ssh/config文件下有两个host，分别对应不同的ssh秘钥：# defaultHost github.comHostName github.comUser gitIdentityFile ~/.ssh/id_rsa# industriou">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在一台电脑搭建两个不同的hexo+github博客">
+<meta property="og:url" content="http://icebergcwp.com/在一台电脑搭建两个不同的hexo+github博客.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="草稿： 大概思路：1、先完成一台电脑配置两个不同的github账号，参考https://www.jianshu.com/p/3fc93c16ad2d~/.ssh/config文件下有两个host，分别对应不同的ssh秘钥：# defaultHost github.comHostName github.comUser gitIdentityFile ~/.ssh/id_rsa# industriou">
+<meta property="og:updated_time" content="2018-02-03T14:07:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在一台电脑搭建两个不同的hexo+github博客">
+<meta name="twitter:description" content="草稿： 大概思路：1、先完成一台电脑配置两个不同的github账号，参考https://www.jianshu.com/p/3fc93c16ad2d~/.ssh/config文件下有两个host，分别对应不同的ssh秘钥：# defaultHost github.comHostName github.comUser gitIdentityFile ~/.ssh/id_rsa# industriou">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-在一台电脑搭建两个不同的hexo+github博客" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">在一台电脑搭建两个不同的hexo+github博客</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/github/">github</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>草稿：</p>
+<p>大概思路：<br>1、先完成一台电脑配置两个不同的github账号，参考<a href="https://www.jianshu.com/p/3fc93c16ad2d" target="_blank" rel="noopener">https://www.jianshu.com/p/3fc93c16ad2d</a><br>~/.ssh/config文件下有两个host，分别对应不同的ssh秘钥：<br># default<br>Host github.com<br>HostName github.com<br>User git<br>IdentityFile ~/.ssh/id_rsa<br># industriousonesoft<br>Host ios.github.com<br>HostName github.com<br>User git<br>IdentityFile ~/.ssh/id_rsa_ios</p>
+<p>2、每个账号分别搭建一个hexo博客<br>3、在hexo的目录下，在完成hexo安装和初始化后,以及配置主题之后，运行hexo g，如果运行hexo d，会因为权限限制导致发布失败<br>4、在当前目录下ls -la，进入隐藏目录：.deploy_git中，这个是hexo与github对接的目录，本质上就是git项目文件夹。<br>5、在.deploy_git目录下，运行<br># 取消全局 用户名/邮箱 配置<br>git config –global –unset user.name<br>git config –global –unset user.email<br># 单独设置每个repo 用户名/邮箱<br>git config user.email “xxxx@xx.com”<br>git config user.name “xxxx”</p>
+<p>重新关联git项目：如果是industriousonesoft上的则使用ios.github.com，如果是default则使用github.com，这一步是关键！！!<br>git remote rm origin<br>git remote add origin git@ios.github.com:whatever</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

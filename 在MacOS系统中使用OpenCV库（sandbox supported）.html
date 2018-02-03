@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>在MacOS系统中使用OpenCV库（sandbox supported） | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="OpenCV," />
+  
+
+  <meta name="description" content="最近因工作需要研究图片格式转换相关的知识点，其中使用到OpenCV库（一个基于BSD许可（开源）发行的跨平台计算机视觉库，很强大）中的ssim（结构相似性）算法实现来计算两张图片的相似度，用以做图片转换前后的对比。因此需要在Xcode中配置OpenCV库并且能在沙盒下使用，这一过程花费了将近一天的工作时间才配置成功，由于网上大多数资料基本上都是在非沙盒条件下的配置教程，对我没有太多实质性的帮助，这">
+<meta name="keywords" content="install_name_tool,OpenCV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在MacOS系统中使用OpenCV库（sandbox supported）">
+<meta property="og:url" content="http://icebergcwp.com/在MacOS系统中使用OpenCV库（sandbox supported）.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="最近因工作需要研究图片格式转换相关的知识点，其中使用到OpenCV库（一个基于BSD许可（开源）发行的跨平台计算机视觉库，很强大）中的ssim（结构相似性）算法实现来计算两张图片的相似度，用以做图片转换前后的对比。因此需要在Xcode中配置OpenCV库并且能在沙盒下使用，这一过程花费了将近一天的工作时间才配置成功，由于网上大多数资料基本上都是在非沙盒条件下的配置教程，对我没有太多实质性的帮助，这">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/8.png">
+<meta property="og:updated_time" content="2018-02-03T13:05:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在MacOS系统中使用OpenCV库（sandbox supported）">
+<meta name="twitter:description" content="最近因工作需要研究图片格式转换相关的知识点，其中使用到OpenCV库（一个基于BSD许可（开源）发行的跨平台计算机视觉库，很强大）中的ssim（结构相似性）算法实现来计算两张图片的相似度，用以做图片转换前后的对比。因此需要在Xcode中配置OpenCV库并且能在沙盒下使用，这一过程花费了将近一天的工作时间才配置成功，由于网上大多数资料基本上都是在非沙盒条件下的配置教程，对我没有太多实质性的帮助，这">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/1.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装OpenCV库"><span class="toc-text">安装OpenCV库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在MacOS下配置并使用OpenCV库"><span class="toc-text">在MacOS下配置并使用OpenCV库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用otool查看库依赖关系"><span class="toc-text">使用otool查看库依赖关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#无沙盒"><span class="toc-text">无沙盒</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#有沙盒"><span class="toc-text">有沙盒</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-在MacOS系统中使用OpenCV库（sandbox supported）" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">在MacOS系统中使用OpenCV库（sandbox supported）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.12.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近因工作需要研究图片格式转换相关的知识点，其中使用到OpenCV库（一个基于BSD许可（开源）发行的跨平台计算机视觉库，很强大）中的ssim（结构相似性）算法实现来计算两张图片的相似度，用以做图片转换前后的对比。因此需要在Xcode中配置OpenCV库并且能在沙盒下使用，这一过程花费了将近一天的工作时间才配置成功，由于网上大多数资料基本上都是在非沙盒条件下的配置教程，对我没有太多实质性的帮助，这也是笔者写这篇博客的意义所在。</p>
+<h3 id="安装OpenCV库"><a href="#安装OpenCV库" class="headerlink" title="安装OpenCV库"></a>安装OpenCV库</h3><p>在Mac下，安装OpenCV库的方式一般有两种：使用brew命令或者使用make编译源代码。笔者用的是第一种：在终端执行命令：brew insall opencv，即可安装opencv库及其所依赖的动态库。安装成功之后，会在命令行终端的最后一行显示当前OpenCV库的安装路径和版本号，笔者电脑上的安装路径为：/usr/local/Cellar/opencv/3.4.0_1，版本号为3.4.0_1。</p>
+<p>在/usr/local/Cellar/opencv/3.4.0_1/include目录下有两个文件夹：opencv和opencv2，里面是OpenCV相关的头文件。/usr/local/Cellar/opencv/3.4.0_1/lib/下有许多前缀为libopencv_的dylib文件，这些都是OpenCV的链接库文件。</p>
+<h3 id="在MacOS下配置并使用OpenCV库"><a href="#在MacOS下配置并使用OpenCV库" class="headerlink" title="在MacOS下配置并使用OpenCV库"></a>在MacOS下配置并使用OpenCV库</h3><p>笔者项目中用到OpenCV库中的libopencv_imgproc.3.4.0.dylib库。因此下文以这个库为例进行展开，其他的库类似操作即可。</p>
+<h4 id="使用otool查看库依赖关系"><a href="#使用otool查看库依赖关系" class="headerlink" title="使用otool查看库依赖关系"></a>使用otool查看库依赖关系</h4><p>首先使用otool命令查看libopencv_imgproc.3.4.0.dylib的依赖关系，必须确保其这些依赖的库在系统中能够找到。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L /usr/local/Cellar/opencv/<span class="number">3.4</span><span class="number">.0</span>_1/lib/libopencv_imgproc<span class="number">.3</span><span class="number">.4</span><span class="number">.0</span>.dylib </span><br><span class="line">/usr/local/Cellar/opencv/<span class="number">3.4</span><span class="number">.0</span>_1/lib/libopencv_imgproc<span class="number">.3</span><span class="number">.4</span><span class="number">.0</span>.dylib:</span><br><span class="line">	/usr/local/opt/opencv/lib/libopencv_imgproc<span class="number">.3</span><span class="number">.4</span>.dylib (compatibility version <span class="number">3.4</span><span class="number">.0</span>, current version <span class="number">3.4</span><span class="number">.0</span>)</span><br><span class="line">	@rpath/libopencv_core<span class="number">.3</span><span class="number">.4</span>.dylib (compatibility version <span class="number">3.4</span><span class="number">.0</span>, current version <span class="number">3.4</span><span class="number">.0</span>)</span><br><span class="line">	/usr/local/opt/tbb/lib/libtbb.dylib (compatibility version <span class="number">0.0</span><span class="number">.0</span>, current version <span class="number">0.0</span><span class="number">.0</span>)</span><br><span class="line">	/usr/lib/libc++<span class="number">.1</span>.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">120.1</span><span class="number">.0</span>)</span><br><span class="line">	/usr/lib/libSystem.B.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">1226.10</span><span class="number">.1</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到libopencv_imgproc.3.4.0.dylib一共依赖了4个库，忽略系统自带的libc++.1.dylib和libSystem.B.dylib，因为这两个库任何Mac电脑上都可以找到。另外两个库分别是@rpath/libopencv_core.3.4.dylib和/usr/local/opt/tbb/lib/libtbb.dylib，分别查看这两个库所依赖的库。</p>
+<p>查看libopencv_core.3.4.dylib库的依赖关系。这个库是以libopencv_开头的，与libopencv_imgproc.3.4.0.dylib在同一个目录下。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L  /usr/local/Cellar/opencv/<span class="number">3.4</span><span class="number">.0</span>_1/lib/libopencv_core<span class="number">.3</span><span class="number">.4</span><span class="number">.0</span>.dylib </span><br><span class="line">/usr/local/Cellar/opencv/<span class="number">3.4</span><span class="number">.0</span>_1/lib/libopencv_core<span class="number">.3</span><span class="number">.4</span><span class="number">.0</span>.dylib:</span><br><span class="line">	/usr/local/opt/opencv/lib/libopencv_core<span class="number">.3</span><span class="number">.4</span>.dylib (compatibility version <span class="number">3.4</span><span class="number">.0</span>, current version <span class="number">3.4</span><span class="number">.0</span>)</span><br><span class="line">	/usr/local/opt/tbb/lib/libtbb.dylib (compatibility version <span class="number">0.0</span><span class="number">.0</span>, current version <span class="number">0.0</span><span class="number">.0</span>)</span><br><span class="line">	/usr/lib/libz<span class="number">.1</span>.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">1.2</span><span class="number">.5</span>)</span><br><span class="line">	/System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">1.0</span><span class="number">.0</span>)</span><br><span class="line">	/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">4.0</span><span class="number">.0</span>)</span><br><span class="line">	/usr/lib/libSystem.B.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">1226.10</span><span class="number">.1</span>)</span><br><span class="line">	/usr/lib/libc++<span class="number">.1</span>.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">120.1</span><span class="number">.0</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到，忽略系统自带的库之后其所依赖的库只有一个：/usr/local/opt/tbb/lib/libtbb.dylib。说明libtbb.dylib这个库同时被libopencv_core.3.4.dylib和libopencv_imgproc.3.4.0.dylib引用到。</p>
+<p>查看libtbb.dylib库的依赖关系，在目录/usr/local/opt/tbb/lib/目录下可找到这个库。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L /usr/local/opt/tbb/lib/libtbb.dylib</span><br><span class="line">/usr/local/opt/tbb/lib/libtbb.dylib:</span><br><span class="line">	/usr/local/opt/tbb/lib/libtbb.dylib (compatibility version <span class="number">0.0</span><span class="number">.0</span>, current version <span class="number">0.0</span><span class="number">.0</span>)</span><br><span class="line">	/usr/lib/libSystem.B.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">1226.10</span><span class="number">.1</span>)</span><br><span class="line">	/usr/lib/libc++<span class="number">.1</span>.dylib (compatibility version <span class="number">1.0</span><span class="number">.0</span>, current version <span class="number">120.1</span><span class="number">.0</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到libtbb.dylib库所依赖的都是系统自带的库，所以库依赖关系遍历到此结束。如果当前库还依赖于其他非系统自带库，则需要继续查找下去。</p>
+<p>弄清楚库之间的依赖关系之后，接下来将库配置到Xcode中。</p>
+<h4 id="无沙盒"><a href="#无沙盒" class="headerlink" title="无沙盒"></a>无沙盒</h4><p>如果是无沙盒条件下使用OpenCV还是很简单的，因为使用brew命令安装OpenCV过程中所有依赖的库都已帮你配置好了，只需要配置好头文件和库文件即可，不需要关心库之间的依赖关系。</p>
+<p>首先配置OpenCV库头文件的查找路径，在Xcode-&gt;Target-&gt;Build Settings中找到“Header Search Paths”选项，新添加一项：/usr/local/Cellar/opencv/3.4.0_1/include。</p>
+<p>配置OpenCV库文件的查找路径：在Xcode-&gt;Target-&gt;Build Settings中找到“Lib Search Paths”，新添加一项：/usr/local/Cellar/opencv/3.4.0_1/lib。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/1.png" alt="无沙盒配置头文件"></p>
+<p>接着切换到Xcode-&gt;Target-&gt;Build Phases的tab下，在“Link Binary With Libraries”中，将软件依赖的OpenCV链接库拖拽其中。笔者只用到了libopencv_imgproc.3.4.0.dylib库，因此只需要拖拽这一个库即可。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/2.png" alt="无沙盒配置库文件"></p>
+<p>对于 Lion 操作系统，需要在Xcode-&gt;Target-&gt;Build Settings中，将“C++ Language Dialect”设置成 C++11，将“C++ Standard Library”设置成libstdc++ ，如下图所示。个人感觉是由于Xcode默认设置的GNU++11、libc++与OpenCV库有一些兼容性问题，我在更改该设置前老是出现编译错误。后续版本在Montain Lion系统中解决了这个问题，因此不需要此操作。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/3.png" alt="无沙盒配置编译器"></p>
+<p>注意，如果使用OpenCV库函数的源文件扩展名是.m的，你还需要改成.mm，这样编译器才知道该文件混合使用C++语言和Objective-C语言。</p>
+<p>以上，无沙盒条件下配置完成。这种配置存在一个严重的缺陷，即如果想要编译后的软件在其他电脑上正常运行则必须确保其他电脑在同样系统目录下安装了OpenCV库，即OpenCV库头文件与链接库文件目录与编译电脑一致，显然这是不能接受的。常规的解决方法是将软件所依赖的库一并打包到软件中，具体配置过程可见于下文的有沙盒配置过程。</p>
+<h4 id="有沙盒"><a href="#有沙盒" class="headerlink" title="有沙盒"></a>有沙盒</h4><p>有沙盒与无沙盒的区别出来签名之外，还有一个重要的区别就是访问权限。无沙盒条件下，软件和Xcode一样拥有当前用户下的最高权限，可以访问当前用户下的任何目录，这也是为什么在Xcode的配置项中可以直接使用当前用户的系统路径的原因。</p>
+<p>一旦为添加沙盒条件后，软件所能访问的目录局限于自己的沙盒下，不再有访问当前用户系统目录的权限。此时，只有将软件所依赖的库一并打包到软件中，才能使软件正常运行。具体步骤如下所示。</p>
+<p>首先，将软件所依赖的库文件和头文件拷贝到项目工程下的OpenCV目录中，分别存放于lib目录和include目录中：</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/4.png" alt="有沙盒配置拷贝库相关文件"></p>
+<p>然后，配置OpenCV库头文件的查找路径，在Xcode-&gt;Target-&gt;Build Settings中找到“Header Search Paths”选项，新添加一项：\$(PROJECT_DIR)/OpenCV/include。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/5.png" alt="有沙盒配置头文件"></p>
+<p>接着，配置OpenCV库文件的查找路径：在Xcode-&gt;Target-&gt;Build Settings中找到“Lib Search Paths”，新添加一项：\$(PROJECT_DIR)/OpenCV/lib。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/6.png" alt="有沙盒配置库文件"></p>
+<p>其中PROJECT_DIR宏是Xcode自带的，表示xxx.xcodeproj文件所在的目录路径。</p>
+<p>然后，切换到Xcode-&gt;Target-&gt;Build Phases的tab下，在“Link Binary With Libraries”中，将软件用到依赖的OpenCV链接库拖拽其中。笔者只用到了libopencv_imgproc.3.4.0.dylib库，因此只需要拖拽这一个库即可。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/2.png" alt="有沙盒配置关联库文件"></p>
+<p>接着，切换到Xcode-&gt;Target-&gt;Build Phases的tab下，在“Copy Files”中，将libopencv_imgproc.3.4.0.dylib库及其所依赖的库拷贝到软件目录下的Frameworks中。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/7.png" alt="有沙盒配置关联库文件"></p>
+<p>最后一步，使用install_name_tool命令修改依赖库之间、软件与依赖库的依赖关系。因为使用brew安装，库之间的依赖关系以及库本身的加载路径都是系统路径，在沙盒条件下是无效的。</p>
+<p>切换到Xcode-&gt;Target-&gt;Build Phases的tab下，点击左上角的“+”，选择“New Run Script Phase”，新建一个“Run Script”项目，里面是一个shell脚本文件，在Xcode编译运行前执行。</p>
+<p><img src="https://raw.githubusercontent.com/icebergcwp1990/MarkDownPhotos/master/cocoa/originality/opencv/8.png" alt="有沙盒配置修改库依赖关系"></p>
+<p>修改依赖关系的顺序很重要，如果依赖关系是：软件-&gt;dylibA-&gt;dylibB-&gt;dylibC，则修改依赖关系的顺序是：dylibC-&gt;dylibB-&gt;dylibA-&gt;软件。</p>
+<p>笔者当前软件中的依赖关系是：软件-&gt;libopencv_imgproc.3.4.0.dylib-&gt;libopencv_core.3.4.0.dylib-&gt;libtbb.dylib。</p>
+<p>由于libtbb.dylib库所依赖的都是系统自带库，因此不需要修改。</p>
+<p>修改命令与参数简单介绍，详细使用方式可通过终端执行命令：man install_name_tool查看：<br>install_name_tool -change oldPath newPath lib(or executable file)</p>
+<p><strong>1. 修改libopencv_core.3.4.0.dylib对libtbb.dylib的依赖关系</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install_name_tool -change <span class="string">"/usr/local/opt/tbb/lib/libtbb.dylib"</span> <span class="string">"@loader_path/libtbb.dylib"</span> <span class="string">"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libopencv_core.3.4.0.dylib"</span></span><br></pre></td></tr></table></figure>
+<p>其中@loader_path是Xcode自带的宏，表示库加载路径，即libopencv_core.3.4.0.dylib的加载路径，因为libtbb.dylib与libopencv_core.3.4.0.dylib是在同一目录，因此@loader_path/libtbb.dylib表示告诉libopencv_core.3.4.0.dylib在自身所在目录中加载libtbb.dylib。</p>
+<p>$TARGET_BUILD_DIR是Xcode自带的宏，表示Xcode编译目录，即编译后的软件存放的目录。PRODUCT_NAME宏也是Xcode自带的，表示软件名称。因为笔者项目中是先拷贝库文件到软件目录中，再修改依赖关系。因此libopencv_core.3.4.0.dylib库所在路径为：$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libopencv_core.3.4.0.dylib。</p>
+<p>以下修改命令类似，不再赘述。</p>
+<p><strong>2. 修改libopencv_imgproc.3.4.0.dylib对libtbb.dylib和libopencv_core.3.4.0.dylib的依赖关系</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install_name_tool -change <span class="string">"/usr/local/opt/tbb/lib/libtbb.dylib"</span> <span class="string">"@loader_path/libtbb.dylib"</span> <span class="string">"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libopencv_imgproc.3.4.0.dylib"</span></span><br><span class="line"></span><br><span class="line">install_name_tool -change <span class="string">"@rpath/libopencv_core.3.4.dylib"</span> <span class="string">"@loader_path/libopencv_core.3.4.0.dylib"</span> <span class="string">"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libopencv_imgproc.3.4.0.dylib"</span></span><br></pre></td></tr></table></figure>
+<p><strong>3.软件对libopencv_imgproc.3.4.0.dylib库的依赖关系</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install_name_tool -change <span class="string">"/usr/local/opt/opencv/lib/libopencv_imgproc.3.4.dylib"</span> <span class="string">"@executable_path/../Frameworks/libopencv_imgproc.3.4.0.dylib"</span> <span class="string">"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME"</span></span><br></pre></td></tr></table></figure>
+<p>值得注意的是，软件路径必须可执行文件的路径$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME，而不能是$TARGET_BUILD_DIR/$PRODUCT_NAME.app，因为xxx.app文件本质上的一个目录。</p>
+<p><strong>注意：如果在软件编译后运行时crash，并提示类似ImageLoaderMachO的错误则很可能是因为从系统目录下拷贝过来的库文件没有写的权限。因为OpenCV使用的是brew命令安装，brew使用的是root权限，而Xcode只有当前目录下的最高权限，所以必须确保库文件在当前用户下有读写权限，可以使用chmod +rw /path/to/dylib添加读写权限</strong></p>
+<p>以上，在有沙盒条件下的配置完成。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>笔者在刚开始配置过程中，由于自身知识储备不足的原因被折腾得够呛。现在看来整个配置过程其实不难，通过博客记录一遍思路和流程显得更为清晰，理解也更为深刻。</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>KVO的缺陷 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="KVO," />
+  
+
+  <meta name="description" content="最近在学习和研究Cocoa库的KVO特性，期间发现大神Mike Ash的一篇关于讲述KVO缺陷的博客，觉得很有学习价值，遂想试着翻译以加深理解。  原文地址 翻译Cocoa的KVO特性强大和实用。可惜它的API真的有点糟糕，一些实现方式存在着固有的缺陷。我想探讨一下缺陷所在以及提供一套完善的方案。 缺陷何在？KVO的API中存在三个主要的问题，全部都与类的多重继承结构注册监听器相关。这很重要，因">
+<meta name="keywords" content="Category,KVO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVO的缺陷">
+<meta property="og:url" content="http://icebergcwp.com/KVO的缺陷.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="最近在学习和研究Cocoa库的KVO特性，期间发现大神Mike Ash的一篇关于讲述KVO缺陷的博客，觉得很有学习价值，遂想试着翻译以加深理解。  原文地址 翻译Cocoa的KVO特性强大和实用。可惜它的API真的有点糟糕，一些实现方式存在着固有的缺陷。我想探讨一下缺陷所在以及提供一套完善的方案。 缺陷何在？KVO的API中存在三个主要的问题，全部都与类的多重继承结构注册监听器相关。这很重要，因">
+<meta property="og:updated_time" content="2017-12-17T15:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KVO的缺陷">
+<meta name="twitter:description" content="最近在学习和研究Cocoa库的KVO特性，期间发现大神Mike Ash的一篇关于讲述KVO缺陷的博客，觉得很有学习价值，遂想试着翻译以加深理解。  原文地址 翻译Cocoa的KVO特性强大和实用。可惜它的API真的有点糟糕，一些实现方式存在着固有的缺陷。我想探讨一下缺陷所在以及提供一套完善的方案。 缺陷何在？KVO的API中存在三个主要的问题，全部都与类的多重继承结构注册监听器相关。这很重要，因">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#翻译"><span class="toc-text">翻译</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缺陷何在？"><span class="toc-text">缺陷何在？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#完善方案"><span class="toc-text">完善方案</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-KVO的缺陷" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">KVO的缺陷</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.05.10</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a> / <a class="article-category-link" href="/categories/专业/翻译/">翻译</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>最近在学习和研究Cocoa库的KVO特性，期间发现大神Mike Ash的一篇关于讲述KVO缺陷的博客，觉得很有学习价值，遂想试着翻译以加深理解。</p>
+</blockquote>
+<p><a href="https://www.mikeash.com/pyblog/key-value-observing-done-right.html" target="_blank" rel="noopener">原文地址</a></p>
+<h4 id="翻译"><a href="#翻译" class="headerlink" title="翻译"></a>翻译</h4><p>Cocoa的KVO特性强大和实用。可惜它的API真的有点糟糕，一些实现方式存在着固有的缺陷。我想探讨一下缺陷所在以及提供一套完善的方案。</p>
+<h5 id="缺陷何在？"><a href="#缺陷何在？" class="headerlink" title="缺陷何在？"></a>缺陷何在？</h5><p>KVO的API中存在三个主要的问题，全部都与类的多重继承结构注册监听器相关。这很重要，因为即便是基类NSObject（通过实现函数-bind:toObject:withKeyPath:options:）也会创建监听。</p>
+<p>1、-addObserver:forKeyPath:options:context:函数不接受一个自定义的回调函数</p>
+<p>如果你查阅过相似的APIs，比如NSNotificationCenter，你会发现在为一个指定的消息注册监听器时通常涉及到传入一个回调函数作为注册函数的参数。这样可以很容易将当前类的监听事件与父类进行区分，因为你可以直接将消息导向你自己的回调方法。然而，你使用KVO则不得不重载-observeValueForKeyPath:ofObject:change:context:函数，然后在其中处理你监听的事件或者调用父类实现。判断是否需要处理一个消息或是传递给继承链的上一层处理是个复杂的问题，事实上父类也有可能监听了同样的键值路径或者对象。</p>
+<p>2、上下文指针变成鸡肋</p>
+<p>这个是上一个问题的推论。因为你不能自定义监听的回调函数，也无法通过检测键值路径或者对象来判断父类是否也监听了某个消息。你需要采取其他途径来区分一个消息对象是否属于当前类或是其父类。上下文指针就是为此而生的。你必须创建一个唯一的指针且不会被父类使用，然后做完上下文参数传入函数-addObserver:forKeyPath:options:context:中。随后，你必须在回调函数-observeValueForKeyPath:ofObject:change:context:中检测参数context是否属于当前类。因此，你不能用上下文指针指向一个上下文，也意味着失去了其本该有的功能。</p>
+<p>3、-removeObserver:forKeyPath:接受的参数不完善</p>
+<p>这个函数不能传入上下文指针。这意味着如果当前类和父类在不同时期都监听了同样的对象或是键值路径，你没办法移除你自己的监听。调用这个函数可能注销你的监听，也可能是注销父类的，或是甚至同时注销两者。</p>
+<p>很可惜一个如此强大的工具会有这么严重的缺陷。尤其Apple开始在新的APIs中弱化NSNotification和代理回调的功能，取而代之的是KVO。一个典型的例子是NSOperation：获知一个NSOperation任务完成的唯一途径是通过使用KVO监听它的“isFinished”属性。</p>
+<h5 id="完善方案"><a href="#完善方案" class="headerlink" title="完善方案"></a>完善方案</h5><p>那么我们能为此做点什么？我不想一味地抱怨，所以我写了一个类来解决这个问题。你可以从我的<a href="https://github.com/mikeash/mikeash.com-svn/tree/master/" target="_blank" rel="noopener">public svn repository</a>获取它，使用如下方式：</p>
+<p>svn co <a href="http://www.mikeash.com/svn/MAKVONotificationCenter/" target="_blank" rel="noopener">http://www.mikeash.com/svn/MAKVONotificationCenter/</a></p>
+<p>你也可以点击上面的链接查看源代码。</p>
+<p>那么这个类具体实现是怎么样的？它利用了一个可以保证唯一性的指针：self指针。它不再直接使用目标对象注册某个监听通知（键值路径或者对象），取而代之的是为每个通知创建一个唯一的helper对象并且注册消息监听。随后，这个helper对象接收消息并派发给原有的监听者。因为helper对象对每一个监听者而言是唯一的，所以它可以以实例变量的方式持有关于监听者的元数据，而不需要依赖于上下文指针，至此上下文指针也完全作为函数所需的唯一指针。由于helper对象的职责就是监听KVO通知，监听者持有helper对象的生命周期，我们可以假设父类，NSObject，要么没有注册任何监听，要么监听同样持有一个helper作为监听助手。</p>
+<p>MAKVONotificationCenter避开了上述的三个缺陷：</p>
+<p>1、函数-addObserver:…中接受自定义回调函数作为参数，当被监听的键值路径发生变化时，自定义的回调函数会被调用。由于父类的回调函数是另外一个不同的函数，所以确保二者的监听不会互相干扰。</p>
+<p>2、注册监听的函数中提供一个userinfo参数。可以是一个包含监听者任意信息的对象。</p>
+<p>3、函数-removeObserver:…不再仅仅接受监听者和键值路径，还可以接受一个回调函数。这样即便子类和父类注册了同一键值路径或者同样的对象，二者都可以通过指定的回调函数注销监听，而不会影响彼此。</p>
+<p>代码中一些值得注意的特征：</p>
+<p>函数+defaultCenter中使用了<a href="https://www.mikeash.com/pyblog/late-night-cocoa.html" target="_blank" rel="noopener">a simple lockless atomic call</a>保证了单例模式的线程安全，不需要每次访问时进行加锁处理。这是一个不错的技术，创建一个安全的单例对象，不需要在每次被访问时提前初始化或是进行加解锁处理。</p>
+<p>以NSObjct分类的方式提供一组更为轻便和更优的API。这是一个相比于直接访问MAKVONotificationCenter类的单例更好的方式。在一个极端的情况，MAKVONotificationCenter类可能会从头文件移除，留下的只有NSObject的分类实现。</p>
+<p>这份代码压根没有被测试过。我所做过的测试都在代码Tester.m中。在你使用之前不要轻易相信这份代码。150行代码并不算多，但是使用的后果自负。</p>
+<p>如果你希望在你的项目里使用它，你也许只要注明代码出处就可以了。如果发现了代码的不足欢迎提供补丁。</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

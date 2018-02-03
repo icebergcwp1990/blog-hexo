@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用PlistBuddy命令动态修改APP名称 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="PlistBuddy," />
+  
+
+  <meta name="description" content="当一个工程里面包含多个target且每个target都有本地化的名称，一般做法是为每个target配备一个InfoList.strings文件。随着target数量和支持的语种增多，InfoList.strings文件数量也增加，更改和管理target名称也会变得复杂。 我们可以在工程里面只保留一个InfoList.strings文件用于显示当前编译的target本地化名称，并且将所有target">
+<meta name="keywords" content="PlistBuddy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用PlistBuddy命令动态修改APP名称">
+<meta property="og:url" content="http://icebergcwp.com/使用PlistBuddy动态修改APP名称.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="当一个工程里面包含多个target且每个target都有本地化的名称，一般做法是为每个target配备一个InfoList.strings文件。随着target数量和支持的语种增多，InfoList.strings文件数量也增加，更改和管理target名称也会变得复杂。 我们可以在工程里面只保留一个InfoList.strings文件用于显示当前编译的target本地化名称，并且将所有target">
+<meta property="og:updated_time" content="2017-12-21T15:14:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用PlistBuddy命令动态修改APP名称">
+<meta name="twitter:description" content="当一个工程里面包含多个target且每个target都有本地化的名称，一般做法是为每个target配备一个InfoList.strings文件。随着target数量和支持的语种增多，InfoList.strings文件数量也增加，更改和管理target名称也会变得复杂。 我们可以在工程里面只保留一个InfoList.strings文件用于显示当前编译的target本地化名称，并且将所有target">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-使用PlistBuddy动态修改APP名称" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">使用PlistBuddy命令动态修改APP名称</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.10.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>当一个工程里面包含多个target且每个target都有本地化的名称，一般做法是为每个target配备一个InfoList.strings文件。随着target数量和支持的语种增多，InfoList.strings文件数量也增加，更改和管理target名称也会变得复杂。</p>
+<p>我们可以在工程里面只保留一个InfoList.strings文件用于显示当前编译的target本地化名称，并且将所有target的本地化名称用一个plist文件统一管理，然后使用shell脚本和PlistBuddy命令在编译阶段动态修改target名称。以下是具体实现：</p>
+<p>假设工程中有4个target，本地化需求为英语（en）和西班牙语言（es）。</p>
+<p>1、在Xcode中创建一个名为ProductName.plist文件，并保存至工程根目录。注意：这个文件不需要和任何target关联。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>ProductId_1<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>en<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_1_EnglistName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>es<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_1_SpanishName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>ProductId_2<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>en<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_2_EnglistName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>es<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_2_SpanishName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>ProductId_3<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>en<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_3_EnglistName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>es<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_3_SpanishName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>ProductId_4<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>en<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_4_EnglistName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>es<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>ProductId_4_SpanishName<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、Info.plist中有个叫CFBundleDisplayName的key决定APP的名称，创建一个InfoList.string文件并关联所有的target。在InfoList.string文件修改CFBundleDisplayName即可更改APP名称,格式如下所示：</p>
+<p>CFBundleDisplayName=”xxxxxxxxxx”;</p>
+<p>3、在project的“Build Settings”中新建一个“Use_Defined Setting”命名为MY_PRODUCTID，然后为每一个target设置对应的ID。此处分别为四个target命名为：ProductId_1、ProductId_2、ProductId_3、ProductId_4。</p>
+<p>4、在工程的“build Phases”界面中新建一个脚本块，脚本内容如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#PRODUCT_NAEMS_FILE_PATH的路径</span></span><br><span class="line">PRODUCT_NAEMS_FILE_PATH=<span class="string">"<span class="variable">$&#123;SRCROOT&#125;</span>/PRODUCT_NAEMS_FILE_PATH"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取对应ProductId的plist</span></span><br><span class="line">/usr/libexec/PlistBuddy -c <span class="string">"print <span class="variable">$&#123;MY_PRODUCTID&#125;</span>"</span> -x <span class="string">"<span class="variable">$&#123;PRODUCT_NAEMS_FILE_PATH&#125;</span>"</span> &gt; <span class="string">"/var/tmp/<span class="variable">$&#123;MY_PRODUCTID&#125;</span>.plist"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取ProductId.plist对应的本地化名称</span></span><br><span class="line">EN_NAME=$(/usr/libexec/PlistBuddy -c <span class="string">"print en"</span> <span class="string">"/var/tmp/<span class="variable">$&#123;MY_PRODUCTID&#125;</span>.plist"</span> )</span><br><span class="line">ES_NAME=$(/usr/libexec/PlistBuddy -c <span class="string">"print es"</span> <span class="string">"/var/tmp/<span class="variable">$&#123;MY_PRODUCTID&#125;</span>.plist"</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置InfoPlist.strings对应的本地化文件中的CFBundleDisplayName字段值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"CFBundleDisplayName=\"<span class="variable">$&#123;EN_NAME&#125;</span>\";"</span> &gt; <span class="string">"<span class="variable">$&#123;SRCROOT&#125;</span>/en.lproj/InfoPlist.strings"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"CFBundleDisplayName=\"<span class="variable">$&#123;ES_NAME&#125;</span>\";"</span> &gt; <span class="string">"<span class="variable">$&#123;SRCROOT&#125;</span>/es.lproj/InfoPlist.strings"</span></span><br></pre></td></tr></table></figure>
+<p>5、编译target，即可在InfoPlist.strings看到对应的本地化名称。</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

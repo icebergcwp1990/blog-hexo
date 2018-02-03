@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>揭开ARC的神秘面纱系列-第3话 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="ARC," />
+  
+
+  <meta name="description" content="原文地址 “揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。 因此，思考一下下面的函数： 1234567void foo() &amp;#123;    @autoreleasepool &amp;#123;">
+<meta name="keywords" content="ARC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="揭开ARC的神秘面纱系列-第3话">
+<meta property="og:url" content="http://icebergcwp.com/揭开ARC的神秘面纱系列-第3话.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="原文地址 “揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。 因此，思考一下下面的函数： 1234567void foo() &amp;#123;    @autoreleasepool &amp;#123;">
+<meta property="og:updated_time" content="2017-12-17T15:06:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="揭开ARC的神秘面纱系列-第3话">
+<meta name="twitter:description" content="原文地址 “揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。LLVM提及到autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。 因此，思考一下下面的函数： 1234567void foo() &amp;#123;    @autoreleasepool &amp;#123;">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-揭开ARC的神秘面纱系列-第3话" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">揭开ARC的神秘面纱系列-第3话</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.02.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a> / <a class="article-category-link" href="/categories/专业/翻译/">翻译</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><a href="http://www.galloway.me.uk/2012/02/a-look-under-arcs-hood-episode-3/" target="_blank" rel="noopener">原文地址</a></p>
+<p>“揭开ARC的神秘面纱系列”的这篇续集全都是关于@autoreleasepool这一新指令的。<a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html#autoreleasepool" target="_blank" rel="noopener">LLVM提及到</a>autorelease pools（自动释放池）的语义已经在LLVM3.0版本中发生变化，尤其是，我觉得探究ARC模式更新之后是如何实现的会很有意思。</p>
+<p>因此，思考一下下面的函数：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">void</span> foo() &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="built_in">NSNumber</span> *number = [<span class="built_in">NSNumber</span> numberWithInt:<span class="number">0</span>];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"number = %p"</span>, number);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然，这完全是不和谐的代码段，但是它能让我看到发生什么。在非ARC模式下，我们可能会假设：number将会在numberWithInt:函数中被分配内存，并返回的是一个自动释放的对象。因此当自动释放池随后被销毁时，number对象将会被释放。所以让我们看看是否如上所述（一如往常，使用的是ARMv7指令集）：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">.globl</span>  _foo</span><br><span class="line">    <span class="meta">.align</span>  <span class="number">2</span></span><br><span class="line">    <span class="meta">.code</span>   <span class="number">16</span></span><br><span class="line">    <span class="meta">.thumb_func</span>     _foo</span><br><span class="line"><span class="symbol">_foo</span>:</span><br><span class="line">    <span class="keyword">push </span>   &#123;<span class="built_in">r4</span>, <span class="built_in">r7</span>, <span class="built_in">lr</span>&#125;</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r7</span>, <span class="built_in">sp</span>, <span class="number">#4</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPush</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r1</span>, :lower16:(L_OBJC_SELECTOR_REFERENCES_-(LPC0_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movs </span>   <span class="built_in">r2</span>, <span class="number">#0</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r1</span>, :upper16:(L_OBJC_SELECTOR_REFERENCES_-(LPC0_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r4</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r0</span>, :lower16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC0_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_0</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r1</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r0</span>, :upper16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC0_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_1</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r0</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r1</span>, [<span class="built_in">r1</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r0</span>]</span><br><span class="line">    <span class="keyword">blx </span>    _objc_msgSend</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r0</span>, :lower16:(L__unnamed_cfstring_-(LPC0_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r0</span>, :upper16:(L__unnamed_cfstring_-(LPC0_2+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_2</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r0</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">blx </span>    _NSLog</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r4</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPop</span><br><span class="line">    <span class="keyword">pop </span>    &#123;<span class="built_in">r4</span>, <span class="built_in">r7</span>, <span class="built_in">pc</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>不错，答案是肯定的。正是这样的。我们可以看到函数先将自动释放池入栈，然后调用numberWithInt:函数，然后将自动释放池出栈。正如我们所预料的。现在我们看看完全相同的代码在ARC模式编译出来是怎么样的：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">.globl</span>  _foo</span><br><span class="line">    <span class="meta">.align</span>  <span class="number">2</span></span><br><span class="line">    <span class="meta">.code</span>   <span class="number">16</span></span><br><span class="line">    <span class="meta">.thumb_func</span>     _foo</span><br><span class="line"><span class="symbol">_foo</span>:</span><br><span class="line">    <span class="keyword">push </span>   &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r7</span>, <span class="built_in">lr</span>&#125;</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r7</span>, <span class="built_in">sp</span>, <span class="number">#8</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPush</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r1</span>, :lower16:(L_OBJC_SELECTOR_REFERENCES_-(LPC0_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movs </span>   <span class="built_in">r2</span>, <span class="number">#0</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r1</span>, :upper16:(L_OBJC_SELECTOR_REFERENCES_-(LPC0_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r4</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r0</span>, :lower16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC0_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_0</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r1</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r0</span>, :upper16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC0_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC0_1</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r0</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r1</span>, [<span class="built_in">r1</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r0</span>]</span><br><span class="line">    <span class="keyword">blx </span>    _objc_msgSend</span><br><span class="line">    <span class="comment">@ InlineAsm Start</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r7</span>, <span class="built_in">r7</span>          <span class="comment">@ marker for objc_retainAutoreleaseReturnValue</span></span><br><span class="line">    <span class="comment">@ InlineAsm End</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_retainAutoreleasedReturnValue</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r5</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r0</span>, :lower16:(L__unnamed_cfstring_-(LPC0_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r0</span>, :upper16:(L__unnamed_cfstring_-(LPC0_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="built_in">r5</span></span><br><span class="line"><span class="symbol">LPC0_2</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r0</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">blx </span>    _NSLog</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_release</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r4</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPop</span><br><span class="line">    <span class="keyword">pop </span>    &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r7</span>, <span class="built_in">pc</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>留意上述代码中objc_retainAutoreleasedReturnValue函数和objc_release的调用。ARC已经为我们做了决定，完全不必担心自动释放池，因为ARC可以直接不然自动释放池生效，通过调用objc_retainAutoreleasedReturnValue函数对number对象进行retain一次，然后在后面在调用objc_release函数释放它。这意味着自动释放池的逻辑不一定执行，让人满意的结果。</p>
+<p>注意到自动释放池一直需要入栈和出栈，是因为ARC无法知晓numberWithInt函数和NSLog函数中会发生什么，不知道在函数中是否有对象会被加入释放池。如果说ARC知道这两个函数不会自动释放任何东西则实际上可以移除自动释放池的入栈和出栈操作。也许这种逻辑在ARC未来的版本中出现，尽管我不是很确定那时候ARC的语义会如何实现。</p>
+<p>现在让我思考另外一个例子，在这个例子中我们想要在自动释放池的作用域之外使用number对象。这应该告诉我们为什么ARC是一个神奇的工具。思考下面的代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">void</span> bar() &#123;</span><br><span class="line">    <span class="built_in">NSNumber</span> *number;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        number = [<span class="built_in">NSNumber</span> numberWithInt:<span class="number">0</span>];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"number = %p"</span>, number);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"number = %p"</span>, number);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可能会认为上述这段看似很和谐的代码会出问题。问题在于number对象将在自动释放池中创建，在自动释放池初衷时被释放，但是却在释放之后继续使用。噢！让我们通过在非ARC模式下编译上述代码来看看我们的猜想是否是正确的：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">.globl</span>  _bar</span><br><span class="line">    <span class="meta">.align</span>  <span class="number">2</span></span><br><span class="line">    <span class="meta">.code</span>   <span class="number">16</span></span><br><span class="line">    <span class="meta">.thumb_func</span>     _bar</span><br><span class="line"><span class="symbol">_bar</span>:</span><br><span class="line">    <span class="keyword">push </span>   &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r6</span>, <span class="built_in">r7</span>, <span class="built_in">lr</span>&#125;</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r7</span>, <span class="built_in">sp</span>, <span class="number">#12</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPush</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r1</span>, :lower16:(L_OBJC_SELECTOR_REFERENCES_-(LPC1_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movs </span>   <span class="built_in">r2</span>, <span class="number">#0</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r1</span>, :upper16:(L_OBJC_SELECTOR_REFERENCES_-(LPC1_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r4</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r0</span>, :lower16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC1_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC1_0</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r1</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r0</span>, :upper16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC1_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC1_1</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r0</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r1</span>, [<span class="built_in">r1</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r0</span>]</span><br><span class="line">    <span class="keyword">blx </span>    _objc_msgSend</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r6</span>, :lower16:(L__unnamed_cfstring_-(LPC1_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r6</span>, :upper16:(L__unnamed_cfstring_-(LPC1_2+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC1_2</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r6</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r5</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r6</span></span><br><span class="line">    <span class="keyword">blx </span>    _NSLog</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r4</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPop</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r6</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">blx </span>    _NSLog</span><br><span class="line">    <span class="keyword">pop </span>    &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r6</span>, <span class="built_in">r7</span>, <span class="built_in">pc</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>很明显，正如我们所期望的那样没有调用retain,release或者autorelease，因为我们没有显式调用这些函数以及使用ARC。编译的结果也正如我们之前推理的那样。接下来让我们在ARC的帮助下会是什么样：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">.globl</span>  _bar</span><br><span class="line">    <span class="meta">.align</span>  <span class="number">2</span></span><br><span class="line">    <span class="meta">.code</span>   <span class="number">16</span></span><br><span class="line">    <span class="meta">.thumb_func</span>     _bar</span><br><span class="line"><span class="symbol">_bar</span>:</span><br><span class="line">    <span class="keyword">push </span>   &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r6</span>, <span class="built_in">r7</span>, <span class="built_in">lr</span>&#125;</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r7</span>, <span class="built_in">sp</span>, <span class="number">#12</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPush</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r1</span>, :lower16:(L_OBJC_SELECTOR_REFERENCES_-(LPC1_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movs </span>   <span class="built_in">r2</span>, <span class="number">#0</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r1</span>, :upper16:(L_OBJC_SELECTOR_REFERENCES_-(LPC1_0+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r4</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r0</span>, :lower16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC1_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC1_0</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r1</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r0</span>, :upper16:(L_OBJC_CLASSLIST_REFERENCES_$_-(LPC1_1+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC1_1</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r0</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r1</span>, [<span class="built_in">r1</span>]</span><br><span class="line">    <span class="keyword">ldr </span>    <span class="built_in">r0</span>, [<span class="built_in">r0</span>]</span><br><span class="line">    <span class="keyword">blx </span>    _objc_msgSend</span><br><span class="line">    <span class="comment">@ InlineAsm Start</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r7</span>, <span class="built_in">r7</span>          <span class="comment">@ marker for objc_retainAutoreleaseReturnValue</span></span><br><span class="line">    <span class="comment">@ InlineAsm End</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_retainAutoreleasedReturnValue</span><br><span class="line">    <span class="keyword">movw </span>   <span class="built_in">r6</span>, :lower16:(L__unnamed_cfstring_-(LPC1_2+<span class="number">4</span>))</span><br><span class="line">    <span class="keyword">movt </span>   <span class="built_in">r6</span>, :upper16:(L__unnamed_cfstring_-(LPC1_2+<span class="number">4</span>))</span><br><span class="line"><span class="symbol">LPC1_2</span>:</span><br><span class="line">    <span class="keyword">add </span>    <span class="built_in">r6</span>, <span class="built_in">pc</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r5</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r6</span></span><br><span class="line">    <span class="keyword">blx </span>    _NSLog</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r4</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_autoreleasePoolPop</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r6</span></span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">blx </span>    _NSLog</span><br><span class="line">    <span class="keyword">mov </span>    <span class="built_in">r0</span>, <span class="built_in">r5</span></span><br><span class="line">    <span class="keyword">blx </span>    _objc_release</span><br><span class="line">    <span class="keyword">pop </span>    &#123;<span class="built_in">r4</span>, <span class="built_in">r5</span>, <span class="built_in">r6</span>, <span class="built_in">r7</span>, <span class="built_in">pc</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>此处应该有掌声！ARC识别出我们在自动释放池作用域之外使用了number对象，因此它如上一段代码一样对numberWithInt:函数的返回值进行了retain，但是这一次它将release操作放在了bar函数末尾而不是自动释放池出栈的时候。这一举措避免在一些代码中出现崩溃，我们可能会认为这些代码是正确的，但实际上却潜在着内存管理的bug。</p>
+
+    
+  </div>
+
+
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
