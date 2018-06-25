@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 
 
-  <html class="light page-archives">
+  <html class="light page-post">
 
 
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | Iceberg</title>
+  <title>JavaScript的this关键字 | Iceberg</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iceberg,Maxc OS/iOS,Python,电影,读书" />
+    <meta name="keywords" content="JavaSctript," />
   
 
-  <meta name="description" content="More horse than man.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Iceberg">
-<meta property="og:url" content="http://icebergcwp.com/archives/page/4/index.html">
+  <meta name="description" content="JavaScript的this关键字详解">
+<meta name="keywords" content="this">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript的this关键字">
+<meta property="og:url" content="http://icebergcwp.com/JavaScript的this关键字.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="More horse than man.">
+<meta property="og:description" content="JavaScript的this关键字详解">
+<meta property="og:updated_time" content="2018-06-25T00:24:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Iceberg">
-<meta name="twitter:description" content="More horse than man.">
+<meta name="twitter:title" content="JavaScript的this关键字">
+<meta name="twitter:description" content="JavaScript的this关键字详解">
 
   
 
@@ -83,17 +85,8 @@
     <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
   
 
-  <div class="content content-archive">
-  <div class="page-header">
-
-  
-    <div class="breadcrumb">
-      <div class="location">博客</div>
-      <i class="icon-location"></i>
-    </div>
-  
-
-  
+  <div class="post-header CENTER">
+   
   <div class="toolbox">
     <a class="toolbox-entry" href="/">
       <span class="toolbox-entry-text">盒子</span>
@@ -172,80 +165,96 @@
   </div>
 
 
+</div>
 
-  <div class="box-blog-info">
-    <a class="avatar" href="/">
-      <img src="/images/avatar.jpg" alt="" />
-    </a>
-    <div class="info">
-      <h3 class="name" style="font-family: calligraffittiregular">
-        Iceberg
-      </h3>
-      <div class="slogan">
-        Being the man in whom the tiger sniffs the rose
-      </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript的this关键字" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">JavaScript的this关键字</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.06.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/翻译/">翻译</a> / <a class="article-category-link" href="/categories/翻译/专业/">专业</a>
+  </span>
+
+
+
     </div>
-  </div>
+  </header>
 
-</div>
-
-
-  <div class="post-list-box archive-body">
-    <ul class="list-post">  <li class="item-year item item-title item-title-0">
-    <a href="/archives/2015" class="text-year">
-      2015
-      <i class="icon-yang"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">01-05</span>
-
-  
-  <a class="post-title" href="/Cocoa RunLoop 系列之基础知识.html">Cocoa RunLoop 系列之基础知识</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">01-01</span>
-
-  
-  <a class="post-title" href="/objective-c_runtime_解析.html">Objective-C Runtime 解析</a>
-
-
-</li>
-  <li class="item-year item item-title item-title-4">
-    <a href="/archives/2014" class="text-year">
-      2014
-      <i class="icon-ma"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">09-24</span>
-
-  
-  <a class="post-title" href="/hello-world.html">Hello,World</a>
-
-
-</li>
-</ul>
-  </div>
-
-  <div class="archive-footer">
+  <div class="article-content">
     
-  <div class="pagination">
-    <nav class="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span>
-    </nav>
+      <p>这是一篇翻译文章，原文地址<em><a href="http://davidshariff.com/blog/javascript-this-keyword/#first-article" target="_blank" rel="noopener">点击这里</a></em>。</p>
+<p>JavaScript中一个常用的语法特征就是this关键字，同时这也是JavaScript最容易被误解和造成困惑的特征。this关键字的含义是什么且决定其含义的依据是什么？</p>
+<p>这篇文章试着解开这个的疑惑并给出一个简单清晰的解释。</p>
+<p>对于有其他语言编程经验的人来说应该也使用过this关键字，且多数情况下this指向的是一个通过构造函数创建的新对象。举例来说，假设有一个Boat类，里面包含一个成员方法moveBoat()，我们可以在moveBoat()方法中通过this关键字访问当前的对象实例。</p>
+<p>在JavaSctript中，当使用new关键字创建一个新对象后，在构造函数中可以通过this关键字访问当前对象。然而，JavaScript中的this关键字指向的对象是随着函数调用的上下文变化而变化的。废话少说，直接看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Global scope</span></span><br><span class="line"></span><br><span class="line">foo = <span class="string">'abc'</span>;</span><br><span class="line">alert(foo); <span class="comment">//abc</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.foo = <span class="string">'def'</span>;</span><br><span class="line">alert(foo); <span class="comment">//def</span></span><br></pre></td></tr></table></figure>
+
+    
   </div>
 
 
-  </div>
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
 </div>
 
 
 
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
 
 
 
@@ -333,6 +342,31 @@
 </div>
 
 
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
 
   
 
