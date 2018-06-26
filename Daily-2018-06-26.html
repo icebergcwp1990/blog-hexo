@@ -7,25 +7,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JavaScript的this关键字 | Iceberg</title>
+  <title>Daily-关于真相 | Iceberg</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="JavaSctript," />
+    <meta name="keywords" content="iceberg,Maxc OS/iOS,Python,电影,读书" />
   
 
-  <meta name="description" content="JavaScript的this关键字详解">
-<meta name="keywords" content="this">
+  <meta name="description" content="都说现在的人越来越浮躁，愿意思考的人越来越少，导致整个社会都显得浮躁不安。我觉得其实我们一直以来都是这样的，与这个时代的关系不大。之所以当代人会这么认为，是因为大多数人相较于不熟悉的历史更了解自己当下生活的年代。一旦自己所处的社会没有达到自己的预期，往往更愿意相信以前的年代比现在更好，人也更单纯。现在网络上很多人都在追捧民国时代，认为那个年代更加自由与开明。这是因为他们看到的都是民国精英贵族的事迹">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript的this关键字">
-<meta property="og:url" content="http://icebergcwp.com/JavaScript的this关键字.html">
+<meta property="og:title" content="Daily-关于真相">
+<meta property="og:url" content="http://icebergcwp.com/Daily-2018-06-26.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="JavaScript的this关键字详解">
-<meta property="og:updated_time" content="2018-06-26T00:04:42.000Z">
+<meta property="og:description" content="都说现在的人越来越浮躁，愿意思考的人越来越少，导致整个社会都显得浮躁不安。我觉得其实我们一直以来都是这样的，与这个时代的关系不大。之所以当代人会这么认为，是因为大多数人相较于不熟悉的历史更了解自己当下生活的年代。一旦自己所处的社会没有达到自己的预期，往往更愿意相信以前的年代比现在更好，人也更单纯。现在网络上很多人都在追捧民国时代，认为那个年代更加自由与开明。这是因为他们看到的都是民国精英贵族的事迹">
+<meta property="og:updated_time" content="2018-06-26T15:41:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript的this关键字">
-<meta name="twitter:description" content="JavaScript的this关键字详解">
+<meta name="twitter:title" content="Daily-关于真相">
+<meta name="twitter:description" content="都说现在的人越来越浮躁，愿意思考的人越来越少，导致整个社会都显得浮躁不安。我觉得其实我们一直以来都是这样的，与这个时代的关系不大。之所以当代人会这么认为，是因为大多数人相较于不熟悉的历史更了解自己当下生活的年代。一旦自己所处的社会没有达到自己的预期，往往更愿意相信以前的年代比现在更好，人也更单纯。现在网络上很多人都在追捧民国时代，认为那个年代更加自由与开明。这是因为他们看到的都是民国精英贵族的事迹">
 
   
 
@@ -171,14 +170,14 @@
 
 
 <div class="content content-post CENTER">
-   <article id="post-JavaScript的this关键字" class="article article-type-post" itemprop="blogPost">
+   <article id="post-Daily-2018-06-26" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">JavaScript的this关键字</h1>
+    <h1 class="post-title">Daily-关于真相</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2017.06.07</span>
+        <span>2018.06.26</span>
       </span>
 
       
@@ -199,7 +198,7 @@
       
   <span class="article-category">
     <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/翻译/">翻译</a> / <a class="article-category-link" href="/categories/翻译/专业/">专业</a>
+    <a class="article-category-link" href="/categories/日记/">日记</a>
   </span>
 
 
@@ -209,15 +208,11 @@
 
   <div class="article-content">
     
-      <p>这是一篇翻译文章，原文地址<em><a href="http://davidshariff.com/blog/javascript-this-keyword/#first-article" target="_blank" rel="noopener">点击这里</a></em>。</p>
-<p>JavaScript中一个常用的语法特征就是this关键字，同时这也是JavaScript最容易被误解和造成困惑的特征。this关键字的含义是什么且决定其含义的依据是什么？</p>
-<p>这篇文章试着解开这个的疑惑并给出一个简单清晰的解释。</p>
-<p>对于有其他语言编程经验的人来说应该也使用过this关键字，且多数情况下this指向的是一个通过构造函数创建的新对象。举例来说，假设有一个Boat类，里面包含一个成员方法moveBoat()，我们可以在moveBoat()方法中通过this关键字访问当前的对象实例。</p>
-<p>在JavaSctript中，当使用new关键字创建一个新对象后，在构造函数中可以通过this关键字访问当前对象。然而，JavaScript中的this关键字指向的对象是随着函数调用的上下文变化而变化的。如果你不是很了解关于JavaScript执行上下文的知识，我推荐你看看我的另外一篇关于这个话题的<a href="http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/#first-article" target="_blank" rel="noopener">文章</a>。好了，讲得够多了，让我们看几个代码实例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Global scope</span></span><br><span class="line"></span><br><span class="line">foo = <span class="string">'abc'</span>;</span><br><span class="line">alert(foo); <span class="comment">//abc</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.foo = <span class="string">'def'</span>;</span><br><span class="line">alert(foo); <span class="comment">//def</span></span><br></pre></td></tr></table></figure>
-<p>无论何时，只要是在全局上下文而非函数体内使用this关键字，那么this总是指向全局对象的（JavaSctript中的全局对象一般是Windows，NodeJS中是global）。接下来看看在函数中使用this关键字的情景：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> boat = &#123;</span><br><span class="line">    size: <span class="string">'normal'</span>,</span><br><span class="line">    boatInfo: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="keyword">this</span> === boat);</span><br><span class="line">        alert(<span class="keyword">this</span>.size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">boat.boatInfo(); <span class="comment">// true, 'normal'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bigBoat = &#123;</span><br><span class="line">    size: <span class="string">'big'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">bigBoat.boatInfo = boat.boatInfo;</span><br><span class="line">bigBoat.boatInfo(); <span class="comment">// false, 'big'</span></span><br></pre></td></tr></table></figure>
-<p>上述代码中的this关键字指向是如何判断的？上述代码中有一个boat对象，包含了一个size属性和boatInfo方法。在boatInfo方法中有两条输出语句，分别是判断this关键字是否指向boat对象和输出this关键字指向的对象的size属性。因此，当执行代码boat.boatInfo()时，输出结果分别是true和normal。</p>
+      <p>都说现在的人越来越浮躁，愿意思考的人越来越少，导致整个社会都显得浮躁不安。我觉得其实我们一直以来都是这样的，与这个时代的关系不大。之所以当代人会这么认为，是因为大多数人相较于不熟悉的历史更了解自己当下生活的年代。一旦自己所处的社会没有达到自己的预期，往往更愿意相信以前的年代比现在更好，人也更单纯。现在网络上很多人都在追捧民国时代，认为那个年代更加自由与开明。这是因为他们看到的都是民国精英贵族的事迹，认为自己如果生活在那个年代会同样的潇洒与自由，但是如果你深入了解了民国普通老百姓的生活你就不会这么认为了，毕竟你我都是属于普通阶层。</p>
+<p>我觉得造成这种现象的原因至少包含了两个原因：一是大多数人缺乏辩证思想，往往会选择自己那些与自己意愿相符的事物来构成对某一件事情的认知，从而容易忽略其他的客观事实；其次是信息的不对称，如果对一件事情没有足够的深入了解是不可能接近真相的，我一直相信真相永远是掌握在少数人手里。</p>
+<p>记得心理学上有一个著名的“棉花糖实验”：研究者给幼儿园小朋友一颗棉花糖，并且说你可以现在就吃掉它，但如果你等上15分钟都不吃，就会得到第二颗棉花糖。根据后续跟踪，得到第二颗棉花糖的孩子在未来更加成功。这项研究发表在1990年，当时学者认为，忍耐不吃糖的小孩具备更强的意志力，能为了长远利益放弃暂时的欢愉，这种“延迟满足能力”正是他们成为人生赢家的原因。然而，研究者忽略了一个很重要的因素：小孩子的家庭背景。事情的真相是那些推迟吃掉棉花糖的小孩子几乎都是来自富裕家庭，棉花糖对于他们来说压根没有什么的诱惑力，日常生活中随时可以获得。而那些没有经受住诱惑的小孩子基本上是来自于经济条件较差的家庭，棉花糖对于他们来说是稀缺资源，因此也就很具有诱惑力。</p>
+<p>即便网络再发达，信息不对称还是会一直存在的。网络的出现只是帮助我们减缓信息不对称带来认知偏差。更何况人的言论都是带有倾向性的，说话的人的目的就是让听者认同自己的观点。因此，面对网络上海量的信息时，一定要学会思考，并尽量用辩证的态度去质疑和思考问题。</p>
+<p>最后想起一句话，历史是任人打扮的姑娘。因此，有些历史的真相也许是我们永远都不会知道的。</p>
 
     
   </div>
