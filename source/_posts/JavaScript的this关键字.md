@@ -3,8 +3,8 @@ date: 2017-06-07 23:33:07
 tags: 
 - JavaSctript
 categories: 
-- 翻译
 - 专业
+- 翻译
 keywords: 
 - this
 description: JavaScript的this关键字详解
