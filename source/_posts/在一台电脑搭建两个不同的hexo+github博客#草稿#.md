@@ -4,9 +4,8 @@ tags:
 - hexo
 - github
 categories: 
-- github
+- 专业
 keywords: hexo
-comments: true
 decription: 在一台电脑搭建两个不同的hexo+github博客
 
 ---
