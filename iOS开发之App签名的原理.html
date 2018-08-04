@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 
 
-  <html class="light page-archives201807">
+  <html class="light page-post">
 
 
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2018/7 | Iceberg</title>
+  <title>iOS开发之App签名的原理 | Iceberg</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iceberg,Maxc OS/iOS,Python,电影,读书" />
+    <meta name="keywords" content="补码," />
   
 
-  <meta name="description" content="More horse than man.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Iceberg">
-<meta property="og:url" content="http://icebergcwp.com/archives/2018/07/index.html">
+  <meta name="description" content="参考资料 个人疑点：  关于在苹果后天注册设备的步骤，自己在实际使用中并没有这一步操作。可能是在下载provisioning Profile时Xcode自动注册到苹果后天，有待验证。">
+<meta name="keywords" content="补码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发之App签名的原理">
+<meta property="og:url" content="http://icebergcwp.com/iOS开发之App签名的原理.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="More horse than man.">
+<meta property="og:description" content="参考资料 个人疑点：  关于在苹果后天注册设备的步骤，自己在实际使用中并没有这一步操作。可能是在下载provisioning Profile时Xcode自动注册到苹果后天，有待验证。">
+<meta property="og:updated_time" content="2018-08-04T14:10:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Iceberg">
-<meta name="twitter:description" content="More horse than man.">
+<meta name="twitter:title" content="iOS开发之App签名的原理">
+<meta name="twitter:description" content="参考资料 个人疑点：  关于在苹果后天注册设备的步骤，自己在实际使用中并没有这一步操作。可能是在下载provisioning Profile时Xcode自动注册到苹果后天，有待验证。">
 
   
 
@@ -83,17 +85,8 @@
     <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
   
 
-  <div class="content content-archive">
-  <div class="page-header">
-
-  
-    <div class="breadcrumb">
-      <div class="location">博客</div>
-      <i class="icon-location"></i>
-    </div>
-  
-
-  
+  <div class="post-header CENTER">
+   
   <div class="toolbox">
     <a class="toolbox-entry" href="/">
       <span class="toolbox-entry-text">盒子</span>
@@ -172,129 +165,93 @@
   </div>
 
 
-
-  <div class="box-blog-info">
-    <a class="avatar" href="/">
-      <img src="/images/avatar.jpg" alt="" />
-    </a>
-    <div class="info">
-      <h3 class="name" style="font-family: calligraffittiregular">
-        Iceberg
-      </h3>
-      <div class="slogan">
-        Being the man in whom the tiger sniffs the rose
-      </div>
-    </div>
-  </div>
-
 </div>
 
 
-  <div class="post-list-box archive-body">
-    <ul class="list-post">  <li class="item-year item item-title item-title-3">
-    <a href="/archives/2018" class="text-year">
-      2018
-      <i class="icon-gou"></i>
+
+
+<div class="content content-post CENTER">
+   <article id="post-iOS开发之App签名的原理" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">iOS开发之App签名的原理</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.03.14</span>
+      </span>
+
       
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">07-31</span>
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
 
-  
-  <a class="post-title" href="/Daily-2018-07-31.html">Daily-关于主动学习的一点体会</a>
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
 
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-30</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-30.html">Daily-几个典型的幸存者偏差现象</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-29</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-29.html">Daily-关于手机对现代人的重要性</a>
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a>
+  </span>
 
 
-</li>
-<li class="item-post item">
-  <span class="post-date">07-28</span>
 
-  
-  <a class="post-title" href="/Daily-2018-07-28.html">Daily-关于中国的户籍改革</a>
+    </div>
+  </header>
 
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-27</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-27.html">Daily-关于二元户籍制度</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-26</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-26.html">Daily-几个认知边际</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-25</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-25.html">Daily-经济学的基础：稀缺</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-25</span>
-
-  
-  <a class="post-title" href="/iOS开发之真机测试问题：Could not locate device support files.html">iOS开发之真机测试问题：Could not locate device support files</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-24</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-24.html">Daily-英语发音规则总结</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-23</span>
-
-  
-  <a class="post-title" href="/Daily-2018-07-23.html">Daily-关于专业学习</a>
-
-
-</li>
-</ul>
-  </div>
-
-  <div class="archive-footer">
+  <div class="article-content">
     
-  <div class="pagination">
-    <nav class="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2018/07/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/07/page/4/">4</a><a class="extend next" rel="next" href="/archives/2018/07/page/2/"><i class="icon-angle-right"></i></a>
-    </nav>
+      <p><a href="http://wereadteam.github.io/2017/03/13/Signature/" target="_blank" rel="noopener">参考资料</a></p>
+<p>个人疑点： </p>
+<p>关于在苹果后天注册设备的步骤，自己在实际使用中并没有这一步操作。可能是在下载provisioning Profile时Xcode自动注册到苹果后天，有待验证。</p>
+
+    
   </div>
 
 
-  </div>
+  
+        
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+   
+
+
+</article>
 </div>
 
 
 
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
 
 
 
@@ -382,6 +339,31 @@
 </div>
 
 
+
+  
+      <div class="fexo-comments comments-post">
+    
+<!-- Gitalk评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: 'fa6d900315185857f892',
+  clientSecret: 'b93e7901b0b17ae685221aacd6348824aa737d85',
+  repo: 'BlogComments',
+  owner: 'icebergcwp1990',
+  admin: ['icebergcwp1990'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('git')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
 
   
 

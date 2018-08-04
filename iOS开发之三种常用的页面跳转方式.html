@@ -7,25 +7,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>iOS开发之何为BitCode？ | Iceberg</title>
+  <title>iOS开发之storyboard中三种常用的页面跳转方式 | Iceberg</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iOS,BitCode," />
+    <meta name="keywords" content="iOS," />
   
 
-  <meta name="description" content="参考资料">
-<meta name="keywords" content="BitCode">
+  <meta name="description" content="页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。 方式一：建立Button与目标VC之间Segue方式二：建立源VC与目标VC之间Segue方式一：基于既有的Segue重复显示目标VCGitHub Demo">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS开发之何为BitCode？">
-<meta property="og:url" content="http://icebergcwp.com/iOS开发之何为BitCode#草稿#.html">
+<meta property="og:title" content="iOS开发之storyboard中三种常用的页面跳转方式">
+<meta property="og:url" content="http://icebergcwp.com/iOS开发之三种常用的页面跳转方式.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="参考资料">
+<meta property="og:description" content="页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。 方式一：建立Button与目标VC之间Segue方式二：建立源VC与目标VC之间Segue方式一：基于既有的Segue重复显示目标VCGitHub Demo">
 <meta property="og:updated_time" content="2018-08-04T14:10:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS开发之何为BitCode？">
-<meta name="twitter:description" content="参考资料">
+<meta name="twitter:title" content="iOS开发之storyboard中三种常用的页面跳转方式">
+<meta name="twitter:description" content="页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。 方式一：建立Button与目标VC之间Segue方式二：建立源VC与目标VC之间Segue方式一：基于既有的Segue重复显示目标VCGitHub Demo">
 
   
 
@@ -168,17 +168,22 @@
 </div>
 
 
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#方式一：建立Button与目标VC之间Segue"><span class="toc-text">方式一：建立Button与目标VC之间Segue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方式二：建立源VC与目标VC之间Segue"><span class="toc-text">方式二：建立源VC与目标VC之间Segue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方式一：基于既有的Segue重复显示目标VC"><span class="toc-text">方式一：基于既有的Segue重复显示目标VC</span></a></li></ol>
+  </div>
+
 
 
 <div class="content content-post CENTER">
-   <article id="post-iOS开发之何为BitCode#草稿#" class="article article-type-post" itemprop="blogPost">
+   <article id="post-iOS开发之三种常用的页面跳转方式" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">iOS开发之何为BitCode？</h1>
+    <h1 class="post-title">iOS开发之storyboard中三种常用的页面跳转方式</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2018.06.12</span>
+        <span>2018.07.12</span>
       </span>
 
       
@@ -209,7 +214,8 @@
 
   <div class="article-content">
     
-      <p><a href="https://www.jianshu.com/p/f42a33f5eb61" target="_blank" rel="noopener">参考资料</a></p>
+      <p>页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。</p>
+<h4 id="方式一：建立Button与目标VC之间Segue"><a href="#方式一：建立Button与目标VC之间Segue" class="headerlink" title="方式一：建立Button与目标VC之间Segue"></a>方式一：建立Button与目标VC之间Segue</h4><h4 id="方式二：建立源VC与目标VC之间Segue"><a href="#方式二：建立源VC与目标VC之间Segue" class="headerlink" title="方式二：建立源VC与目标VC之间Segue"></a>方式二：建立源VC与目标VC之间Segue</h4><h4 id="方式一：基于既有的Segue重复显示目标VC"><a href="#方式一：基于既有的Segue重复显示目标VC" class="headerlink" title="方式一：基于既有的Segue重复显示目标VC"></a>方式一：基于既有的Segue重复显示目标VC</h4><p><a href="https://github.com/icebergcwp1990/PageJumpDemo" target="_blank" rel="noopener">GitHub Demo</a></p>
 
     
   </div>
