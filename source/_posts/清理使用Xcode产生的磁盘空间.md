@@ -1,5 +1,5 @@
 title: 清理使用Xcode产生的衍生文件
-date: 2018-07-26 15:04:07
+date: 2018-05-26 15:04:07
 tags: 
 - Xcode
 categories: 
