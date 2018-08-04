@@ -1,4 +1,4 @@
-title: iOS App 签名的原理
+title: iOS开发之App签名的原理
 date: 2018-03-14 15:04:07
 tags: 
 - 补码
