@@ -7,25 +7,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>iOS开发之storyboard中三种常用的页面跳转方式 | Iceberg</title>
+  <title>Daily-这个是一个多元的世界 | Iceberg</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iOS," />
+    <meta name="keywords" content="iceberg,Maxc OS/iOS,Python,电影,读书" />
   
 
-  <meta name="description" content="页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。 方式一：建立Button与目标VC之间Segue这种方式可直接在storyboard上完成，右击源VC上的一个按钮会出现一个接菜单，选择菜单中的“Triggred Segues”下的“action”，然后与目标VC建立一条指定跳转类型（比如Present Modally）的seg">
-<meta name="keywords" content="iOS">
+  <meta name="description" content="世界是多元的，相比之下个人的生活圈显得单一，特别是像我这样在二线省会城市的普通青年。最近有两件事情让我感触挺深的，它们彼此之间没有交集，与我的生活也相差甚远。它们代表着世界在同一时段下的不同呈现方式，陌生却又是那么真实。 第一件事是在朋友圈看到了一篇关于全球变暖导致两极的生态圈剧变，进而威胁了生存于其中的生物的生命。文章图文并茂，措辞严厉，搭配的图片更是让人看得触目惊心。如果仅从周围的生活圈一片“">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS开发之storyboard中三种常用的页面跳转方式">
-<meta property="og:url" content="http://icebergcwp.com/iOS开发之三种常用的页面跳转方式.html">
+<meta property="og:title" content="Daily-这个是一个多元的世界">
+<meta property="og:url" content="http://icebergcwp.com/Daily-2018-08-05.html">
 <meta property="og:site_name" content="Iceberg">
-<meta property="og:description" content="页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。 方式一：建立Button与目标VC之间Segue这种方式可直接在storyboard上完成，右击源VC上的一个按钮会出现一个接菜单，选择菜单中的“Triggred Segues”下的“action”，然后与目标VC建立一条指定跳转类型（比如Present Modally）的seg">
-<meta property="og:updated_time" content="2018-08-05T07:23:48.000Z">
+<meta property="og:description" content="世界是多元的，相比之下个人的生活圈显得单一，特别是像我这样在二线省会城市的普通青年。最近有两件事情让我感触挺深的，它们彼此之间没有交集，与我的生活也相差甚远。它们代表着世界在同一时段下的不同呈现方式，陌生却又是那么真实。 第一件事是在朋友圈看到了一篇关于全球变暖导致两极的生态圈剧变，进而威胁了生存于其中的生物的生命。文章图文并茂，措辞严厉，搭配的图片更是让人看得触目惊心。如果仅从周围的生活圈一片“">
+<meta property="og:updated_time" content="2018-08-05T15:31:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS开发之storyboard中三种常用的页面跳转方式">
-<meta name="twitter:description" content="页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。 方式一：建立Button与目标VC之间Segue这种方式可直接在storyboard上完成，右击源VC上的一个按钮会出现一个接菜单，选择菜单中的“Triggred Segues”下的“action”，然后与目标VC建立一条指定跳转类型（比如Present Modally）的seg">
+<meta name="twitter:title" content="Daily-这个是一个多元的世界">
+<meta name="twitter:description" content="世界是多元的，相比之下个人的生活圈显得单一，特别是像我这样在二线省会城市的普通青年。最近有两件事情让我感触挺深的，它们彼此之间没有交集，与我的生活也相差甚远。它们代表着世界在同一时段下的不同呈现方式，陌生却又是那么真实。 第一件事是在朋友圈看到了一篇关于全球变暖导致两极的生态圈剧变，进而威胁了生存于其中的生物的生命。文章图文并茂，措辞严厉，搭配的图片更是让人看得触目惊心。如果仅从周围的生活圈一片“">
 
   
 
@@ -168,22 +167,17 @@
 </div>
 
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#方式一：建立Button与目标VC之间Segue"><span class="toc-text">方式一：建立Button与目标VC之间Segue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方式二：建立源VC与目标VC之间Segue"><span class="toc-text">方式二：建立源VC与目标VC之间Segue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方式一：基于既有的Segue重复显示同一个目标VC"><span class="toc-text">方式一：基于既有的Segue重复显示同一个目标VC</span></a></li></ol>
-  </div>
-
 
 
 <div class="content content-post CENTER">
-   <article id="post-iOS开发之三种常用的页面跳转方式" class="article article-type-post" itemprop="blogPost">
+   <article id="post-Daily-2018-08-05" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">iOS开发之storyboard中三种常用的页面跳转方式</h1>
+    <h1 class="post-title">Daily-这个是一个多元的世界</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2018.07.12</span>
+        <span>2018.08.05</span>
       </span>
 
       
@@ -204,7 +198,7 @@
       
   <span class="article-category">
     <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/专业/">专业</a> / <a class="article-category-link" href="/categories/专业/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/日记/">日记</a>
   </span>
 
 
@@ -214,14 +208,10 @@
 
   <div class="article-content">
     
-      <p>页面跳转属于iOS开发中很常用的一个功能，然而即便是这个看似简单的功能也可以根据不同需求有三个实现方式。下面一一介绍。</p>
-<h4 id="方式一：建立Button与目标VC之间Segue"><a href="#方式一：建立Button与目标VC之间Segue" class="headerlink" title="方式一：建立Button与目标VC之间Segue"></a>方式一：建立Button与目标VC之间Segue</h4><p>这种方式可直接在storyboard上完成，右击源VC上的一个按钮会出现一个接菜单，选择菜单中的“Triggred Segues”下的“action”，然后与目标VC建立一条指定跳转类型（比如Present Modally）的segue。</p>
-<p>特点：操作简单，在storyboard上即可完成，不需要额外的手写代码。</p>
-<h4 id="方式二：建立源VC与目标VC之间Segue"><a href="#方式二：建立源VC与目标VC之间Segue" class="headerlink" title="方式二：建立源VC与目标VC之间Segue"></a>方式二：建立源VC与目标VC之间Segue</h4><p>这种方式是在两个VC之间建立一条segue，然后在代码中根据Identify来获取对应的segue对象，调用performSegue函数来触发跳转。</p>
-<p>特点：可以将跳转操作的触发与任意的控件绑定，需要添加额外的手写代码来完成绑定功能。</p>
-<h4 id="方式一：基于既有的Segue重复显示同一个目标VC"><a href="#方式一：基于既有的Segue重复显示同一个目标VC" class="headerlink" title="方式一：基于既有的Segue重复显示同一个目标VC"></a>方式一：基于既有的Segue重复显示同一个目标VC</h4><p>这种方式其实是建立在第二种方式之上的，不同的地方在于这种方式会retain目标VC，这样确保在除第一次跳转之后不会再创建新的VC。因为前面两中方式都会在每次跳转时创建一个新的VC。</p>
-<p>特点：可以重复使用和显示目标VC的数据。</p>
-<p><a href="https://github.com/icebergcwp1990/PageJumpDemo" target="_blank" rel="noopener">GitHub Demo</a></p>
+      <p>世界是多元的，相比之下个人的生活圈显得单一，特别是像我这样在二线省会城市的普通青年。最近有两件事情让我感触挺深的，它们彼此之间没有交集，与我的生活也相差甚远。它们代表着世界在同一时段下的不同呈现方式，陌生却又是那么真实。</p>
+<p>第一件事是在朋友圈看到了一篇关于全球变暖导致两极的生态圈剧变，进而威胁了生存于其中的生物的生命。文章图文并茂，措辞严厉，搭配的图片更是让人看得触目惊心。如果仅从周围的生活圈一片“欣欣向荣”的样子，很难联想到离我们很远的地方正在为人类肆无忌惮地地污染环境而深受其害。可悲地是，我并不觉得这种文章会产生多少影响力，很多人包括我很可能只是停留在看完之后的一丝感叹与自责之中，随后又恢复到原有的生活节奏之中。我们常常听到的环保标语是“拯救地球母亲”，然而真相是地球并不需要拯救，真正需要拯救是人类本身，可是我们这个国家举国上下都似乎沉迷于高速的经济发展之中，恐怕想让他们出于环保的目的而放弃既得利益是一件很难做到的事情吧？</p>
+<p>第二件事是下午在YouTube上面看到一段采访视频，采访的主人公是一个在美国纽约追梦的中国女孩。她个人是纽约大学房地产金融专业硕士毕业，毕业之后选择留在纽约拼搏，证明自己的价值。她给我印象最深的除了高学历之外，更多地是一种由内而外的自信。如果仅从大众的审美角度来说算不上美女，属于一个很普通的女生类型。但是她得体的言谈举止、自律的生活节奏和不卑不亢的工作态度在不经意间让人心生敬佩。我认为自信分很多种，最常见也是最肤浅的自信来源于出众外貌或身材，这些先天的优势很容易让人产生优越感，本能也，无可厚非。而最稀缺也是最可贵的自信来源于内心的自律和成熟的心智，也许看似样貌平平无奇，一经接触或交谈便能吸引对方，让人觉得有趣。外貌总会随着时间的流逝慢慢失去了往昔的风采，而一个有趣或者说自信的灵魂却是随着在岁月中酝酿得愈加香醇浓郁。</p>
+<p>世界是多元的，且需要从宏观和微观地双重角度去看待。有时候太局限于个人的生活圈，容易变成井底之蛙，进而变得盲目乐观或者自大，导致对事物的判断出现严重的偏差。我一直觉得，贫穷不是一个人最可怕的状态，无知才是。</p>
 
     
   </div>
