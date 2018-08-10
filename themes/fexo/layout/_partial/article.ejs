@@ -42,8 +42,8 @@
   </div>
 
 <% if (page.comments && theme.url){ %>
-  <% if (theme.gitment_shortname){ %>
-        <%- partial('component/gitment') %>
+  <% if (theme.disqus_shortname){ %>
+        <%- partial('component/disqus') %>
    <% } else if (theme.gitalk_shortname) { %>
         <%- partial('component/gitalk') %>
    <% }%>

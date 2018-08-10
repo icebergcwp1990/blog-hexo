@@ -10,18 +10,18 @@ avatar: /images/avatar.jpg
 favicon: /favicon.ico
 
 # For seo
-keywords: iceberg,Maxc OS/iOS,Python,电影,读书
+keywords: Horseman, Mac OS/iOS, Python, 健身, 读书, 尤克里里
 
 home_nav:
   - name: Blog
     url: /archives
     target_blank: false #不在新页面打开
-  - name: Project
-    url: /project/
-    target_blank: true #在新页面打开
-  - name: Github
-    url: https://github.com/icebergcwp1990
-    target_blank: true
+  #- name: Project
+  #  url: /project/
+  #  target_blank: true #在新页面打开
+  #- name: Github
+  #  url: https://github.com/icebergcwp1990
+  #  target_blank: true
   - name: About
     url: /about/
     target_blank: false
@@ -64,7 +64,7 @@ search_slogan:
 
 link_slogan:
   isShow: true # true|fase
-  text: 交换友链可以邮件 icebergcwp1990@gmail.com
+  text: Send email to industriousonesoft@gmail.com or icebergcwp1990@163.com
 
 
 # set backtop show or hide
@@ -121,10 +121,10 @@ google_analytics:
 baidu_analytics: 275aa94150d7be3f234542686997bdfa
 
 # Comment service
-# disqus_shortname: iceberg
-# duoshuo_shortname: iceberg
-# gitment_shortname: iceberg
-gitalk_shortname: iceberg
+disqus_shortname: Horseman
+# duoshuo_shortname: Horseman
+# gitment_shortname: Horseman
+# gitalk_shortname: Horseman
 
 busuanzi: true
 
@@ -142,7 +142,7 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "目前处于个人创业阶段，从事MacOS/iOS开发，研究Objective-C与Python源码。"
+    - "一个正在努力让自己变得有趣的人，目前以从事MacOS/iOS开发谋生，非传统意义上的程序员，喜欢健身和读书，偏好心理、历史、传记和经济方面的书籍。"
   - type: Github
     icon: icon-github
     text_key: Github
@@ -156,16 +156,32 @@ about:
   - type: mail
     icon: icon-mail
     text_key: Gmail
-    text_value: "icebergcwp1990@gmail.com"
+    text_value: "industriousonesoft@gmail.com"
   - type: location
     icon: icon-location
     text_value: ChangSha
 
 link:
-  - name: 阮一峰
+  - name: 阮一峰的个人网站
     info: ruanyf
     url: http://www.ruanyifeng.com/home.html
     avatar: https://avatars1.githubusercontent.com/u/905434?v=3&s=400
+  - name: 王垠个人博客
+    info: 当然我在扯淡
+    url: http://www.yinwang.org
+    avatar: http://cdn.v2ex.com/avatar/6f6d/7ea7/5645_large.png?m=1335126528
+  - name: 小卷的胡言乱语
+    info: 一个有趣且会享受的生活的人
+    url: https://salu099.github.io/blog/
+    avatar: https://salu099.github.io/blog/img/headimg.png
+  - name: Sergio Chan
+    info: Full Stack, Born hacker, Professional Manager
+    url: http://sergiochan.xyz/archives/
+    avatar: https://avatars2.githubusercontent.com/u/10103766?v=3&s=460
+  - name: 唐巧的博客
+    info: 记录下自己学习的点滴
+    url: http://blog.devtang.com
+    avatar: http://ww4.sinaimg.cn/small/65dc76a3jw8exkme9y57dj20yi0ymabn.jpg
   - name: KALZUMEUS
     info: Patrick McKenzie
     url: http://www.kalzumeus.com/
@@ -174,6 +190,8 @@ link:
     info: I am a Cocoa Developer & Enthusiast working on Mac & iOS apps. 
     url: http://cocoasamurai.blogspot.jp/
     avatar: https://avatars3.githubusercontent.com/u/2963?v=3&s=400
+  
+    
 
 project:
   - type: public
