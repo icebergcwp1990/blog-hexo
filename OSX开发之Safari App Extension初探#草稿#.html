@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://icebergcwp.com/OSX开发之Safari App Extension初探#草稿#.html">
 <meta property="og:site_name" content="Iceberg">
 <meta property="og:description" content="Safari App Extension简介什么是Safari App ExtensionSafari App Extension，即Safari浏览器应用拓展。它是苹果新推出的一种Safari扩展开发技术，最低支持Safari10.0，主要由三个部分组成分别是：  Safari App Axtension: 扩展app本身，使用JS、CSS等前端脚本语言。主要功能是包括两方面：  在插件运行之前">
-<meta property="og:updated_time" content="2018-08-12T14:51:49.000Z">
+<meta property="og:updated_time" content="2018-08-19T09:26:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OSX开发之Safari App Extension初探">
 <meta name="twitter:description" content="Safari App Extension简介什么是Safari App ExtensionSafari App Extension，即Safari浏览器应用拓展。它是苹果新推出的一种Safari扩展开发技术，最低支持Safari10.0，主要由三个部分组成分别是：  Safari App Axtension: 扩展app本身，使用JS、CSS等前端脚本语言。主要功能是包括两方面：  在插件运行之前">
@@ -170,7 +170,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Safari-App-Extension简介"><span class="toc-text">Safari App Extension简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#什么是Safari-App-Extension"><span class="toc-text">什么是Safari App Extension</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个Safari-App-Extension"><span class="toc-text">创建一个Safari App Extension</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#核心代码讲解"><span class="toc-text">核心代码讲解</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Safari-App-Extension简介"><span class="toc-text">Safari App Extension简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#什么是Safari-App-Extension"><span class="toc-text">什么是Safari App Extension</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#与-Safari-Extension-的异同"><span class="toc-text">与 Safari Extension 的异同</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个Safari-App-Extension"><span class="toc-text">创建一个Safari App Extension</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#附录"><span class="toc-text">附录</span></a></li></ol>
   </div>
 
 
@@ -239,21 +239,38 @@
 </li>
 </ul>
 <p>结合上述的分析，Safari App Extension可使用两种组合的形式发布产品。一种是三个部分的App同时存在；另外一种是Host App只是作为发布工具，仅在第一次打开并完成扩展app安装之后就不再需要，因为安装好的扩展可在Safari-&gt;偏好设置-&gt;扩展中找到。</p>
-<ol>
-<li>与 Safari Extension 的异同 <a href="https://developer.apple.com/documentation/safariservices/safari_app_extensions/converting_a_legacy_safari_extension_to_a_safari_app_extension?language=objc" target="_blank" rel="noopener">参考资料</a></li>
-</ol>
+<h5 id="与-Safari-Extension-的异同"><a href="#与-Safari-Extension-的异同" class="headerlink" title="与 Safari Extension 的异同"></a>与 Safari Extension 的异同</h5><p>Safari App Extension和Safari Extension的名称很相似，以至于在最开始研究的时候，我错以为二者是同一个东西，结果瞎忙活的一天才发现自己南辕北辙。不过，二者确实存在一些相似的地方。<a href="https://developer.apple.com/documentation/safariservices/safari_app_extensions/converting_a_legacy_safari_extension_to_a_safari_app_extension?language=objc" target="_blank" rel="noopener">苹果的这篇官方文档</a>具体介绍了如何将Safari Extension转换为Safari App Extension。简单来说，二者共同点在于js和css代码是完全可以复用的，不同的地方是Safari Extension的配置、开发以及发布平台都是基于Safari浏览器，而Safari App Extension则是基于Xcode，且产品发布平台是Apple App Store。</p>
 <h4 id="创建一个Safari-App-Extension"><a href="#创建一个Safari-App-Extension" class="headerlink" title="创建一个Safari App Extension"></a>创建一个Safari App Extension</h4><ol>
-<li>创建</li>
-<li>App配置</li>
-<li>运行 （Safari配置以及在Xcode中运行host app并不会加载Safari App Extension，但是如果双击启动host app则会加载）</li>
-<li>调试 <a href="https://medium.com/@euginedubinin/ios-debugging-application-extension-without-a-host-app-89abf35a36af" target="_blank" rel="noopener">参考资料</a></li>
+<li><p>创建</p>
+<p> 因为Safari App Extension是以插件（plugin）的形式存在于Host App中的，因此需要首先创建一个Host App，也就是普通的Mac OSX的应用程序。然后再添加一个Safari App Extension的Target即可。</p>
+</li>
+<li><p>配置info.plist</p>
+<p> Safari App Extension在被加载之前，Safari浏览器会通过读取info.plist文件以获得扩展的一些基本信息。</p>
+<p> <strong>NSExtension</strong>，包括：</p>
+<ul>
+<li><p>NSExtensionPointIdentifier：定值，必须是com.apple.Safari.extension，表示Safari扩展</p>
+</li>
+<li><p>NSExtensionPrincipalClass：扩展的核心类名，默认是SafariExtensionHandler类，里面一些部分实现了NSExtensionRequestHandling和SFSafariExtensionHandling协议，作为与Safari扩展通信和交互的接口。</p>
+</li>
+<li><p>SFSafariContentScript：用于指定注入的js脚本，以数组的形式表示，在扩展加载之前注入Safari浏览器当前的tab页。缺省值是只有一个文件script.js，也可以注入多个js文件，注入顺序依据数组中的顺序。</p>
+</li>
+<li><p>SFSafariToolbarItem：用于配置Safari扩展在工具栏中按钮的类型、图片以及tooltip等。按钮类型包括comman、popover等。</p>
+</li>
+<li><p>SFSafariWebsiteAccess：包括Allowed Domains和Level两个属性，分别表示允许访问的网站域名列表和网页访问权限。其中Level可以是Some和All，分别表示部分访问和无限制访问。</p>
+<p><strong>NSHumanReadableDescription</strong></p>
+<p>顾名思义，用于向用户阐述扩展基本功能的文字描述。在Safari浏览器的扩展管理器中选择某个插件就会显示对于的描述。</p>
+</li>
+</ul>
+</li>
+<li><p>运行 </p>
+<p> 这里有一个坑，如果是Xcode中运行Host App并不会加载包含于其中的Safari App Extension，解决办法是编辑Safari App Extension的scheme，指定可执行文件为Host App，再编译运行即可。此外，如果是双击的方式打开某个已经编译好的Host App也会自动加载其中的扩展插件。然后在Safari-&gt;Preference-&gt;Extensions中可看到对应的扩展。值得注意的是，如果扩展插件不是从Apple App Store中下载的，那么是不能正常加载的，即便App在本地已经打包签名也一样。解决方法是勾选Safari Menu-&gt;Develop-&gt;Allow Unsigend Extensions即可。</p>
+</li>
+<li><p>调试 </p>
+<p> Safari App Extension调试有两个值得注意的地方，第一，因为扩展插件是依附于Host App运行的，因为Xcode默认激活的是Host App进程，因此想要设置断点调试扩展插件，需要手动激活扩展进程。步骤是：在通过Xcode编译运行扩展进程之后，进入Safari Menu-&gt;Debug-&gt;Attach to process，选择对应的扩展进程。第二，在扩展插件中添加的NSLog调试信息不能在Xcode的终端输出，只能在电脑的控制台中查看。但是，lldb可以正常使用和输出。<a href="https://medium.com/@euginedubinin/ios-debugging-application-extension-without-a-host-app-89abf35a36af" target="_blank" rel="noopener">更多细节参考这篇博客</a></p>
+</li>
 </ol>
-<h4 id="核心代码讲解"><a href="#核心代码讲解" class="headerlink" title="核心代码讲解"></a>核心代码讲解</h4><ol>
-<li>Extension 与 containing app 以及 containing app 与 host app 之间的通信实现 <a href="https://developer.apple.com/documentation/safariservices/safari_app_extensions/passing_messages_between_safari_app_extensions_and_injected_scripts?language=objc" target="_blank" rel="noopener">参考资料</a></li>
-<li>SFSafariApplication等几个核心类介绍</li>
-</ol>
-<p><a href="https://github.com/icebergcwp1990/SafariAppExtensionDemo" target="_blank" rel="noopener">GitHub Demo</a></p>
-<p><a href="https://developer.apple.com/videos/play/wwdc2016/214/" target="_blank" rel="noopener">Extending your App with Safari App Extensions WWDC 2016</a></p>
+<h4 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h4><p>一个关于Safari App Extensions的Demo:<a href="https://github.com/icebergcwp1990/SafariAppExtensionDemo" target="_blank" rel="noopener">GitHub Demo</a></p>
+<p>苹果2016年WWDC关于Safari App Extensions的介绍：<a href="https://developer.apple.com/videos/play/wwdc2016/214/" target="_blank" rel="noopener">Extending your App with Safari App Extensions WWDC 2016</a></p>
 
     
   </div>
