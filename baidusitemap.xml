@@ -4,12 +4,30 @@
 
     
   <url>
+    <loc>http://icebergcwp.com/Daily-2018-09-07.html</loc>
+    <lastmod>2018-09-07T16:01:03.000Z</lastmod>
+    <data>
+        <display>
+        <title>Daily-关于日记改为周记的说明</title>
+        <pubTime>2018-09-07T02:48:07.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="日记" url="http://icebergcwp.com/categories/%E6%97%A5%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://icebergcwp.com/Daily-2018-09-06.html</loc>
-    <lastmod>2018-09-07T00:56:13.000Z</lastmod>
+    <lastmod>2018-09-07T15:54:14.000Z</lastmod>
     <data>
         <display>
         <title>Daily-如何阅读一本书</title>
-        <pubTime>2018-09-05T02:48:07.000Z</pubTime>
+        <pubTime>2018-09-06T02:48:07.000Z</pubTime>
         
          
            
@@ -875,28 +893,6 @@
 
     
   <url>
-    <loc>http://icebergcwp.com/%E5%9C%A8%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E6%90%AD%E5%BB%BA%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%9A%84hexo+github%E5%8D%9A%E5%AE%A2#%E8%8D%89%E7%A8%BF#.html</loc>
-    <lastmod>2018-08-03T14:46:48.000Z</lastmod>
-    <data>
-        <display>
-        <title>在一台电脑搭建两个不同的hexo+github博客</title>
-        <pubTime>2018-02-03T13:55:07.000Z</pubTime>
-        
-        <tag>hexo</tag>
-         
-        <tag>github</tag>
-         
-         
-           
-             
-              <breadCrumb title="专业" url="http://icebergcwp.com/categories/%E4%B8%93%E4%B8%9A/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://icebergcwp.com/iOS%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9C%9F%E6%9C%BA%E6%B5%8B%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%9ACould%20not%20locate%20device%20support%20files.html</loc>
     <lastmod>2018-08-03T14:46:48.000Z</lastmod>
     <data>
@@ -928,6 +924,28 @@
         <pubTime>2018-01-19T10:45:07.000Z</pubTime>
         
         <tag>Core Audio</tag>
+         
+         
+           
+             
+              <breadCrumb title="专业" url="http://icebergcwp.com/categories/%E4%B8%93%E4%B8%9A/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://icebergcwp.com/%E5%9C%A8%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E6%90%AD%E5%BB%BA%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%9A%84hexo+github%E5%8D%9A%E5%AE%A2#%E8%8D%89%E7%A8%BF#.html</loc>
+    <lastmod>2018-08-03T14:46:48.000Z</lastmod>
+    <data>
+        <display>
+        <title>在一台电脑搭建两个不同的hexo+github博客</title>
+        <pubTime>2018-02-03T13:55:07.000Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+        <tag>github</tag>
          
          
            
@@ -1687,6 +1705,26 @@
 
     
   <url>
+    <loc>http://icebergcwp.com/%E5%89%96%E6%9E%90@synchronized%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.html</loc>
+    <lastmod>2018-02-03T13:05:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>剖析@synchronizd底层实现原理</title>
+        <pubTime>2017-06-11T14:28:07.000Z</pubTime>
+        
+        <tag>Objective-C</tag>
+         
+         
+           
+             
+              <breadCrumb title="专业" url="http://icebergcwp.com/categories/%E4%B8%93%E4%B8%9A/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://icebergcwp.com/%E5%9C%A8MacOS%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV%E5%BA%93%EF%BC%88sandbox%20supported%EF%BC%89.html</loc>
     <lastmod>2018-02-03T13:05:20.000Z</lastmod>
     <data>
@@ -1713,26 +1751,6 @@
         <display>
         <title>解除NSTimer潜在的“保留环”问题</title>
         <pubTime>2017-02-12T14:28:07.000Z</pubTime>
-        
-        <tag>Objective-C</tag>
-         
-         
-           
-             
-              <breadCrumb title="专业" url="http://icebergcwp.com/categories/%E4%B8%93%E4%B8%9A/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://icebergcwp.com/%E5%89%96%E6%9E%90@synchronized%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.html</loc>
-    <lastmod>2018-02-03T13:05:20.000Z</lastmod>
-    <data>
-        <display>
-        <title>剖析@synchronizd底层实现原理</title>
-        <pubTime>2017-06-11T14:28:07.000Z</pubTime>
         
         <tag>Objective-C</tag>
          
