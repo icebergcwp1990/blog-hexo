@@ -19,9 +19,9 @@ home_nav:
   #- name: Project
   #  url: /project/
   #  target_blank: true #在新页面打开
-  #- name: Github
-  #  url: https://github.com/icebergcwp1990
-  #  target_blank: true
+  - name: Github
+    url: https://github.com/icebergcwp1990
+    target_blank: true
   - name: About
     url: /about/
     target_blank: false
@@ -56,7 +56,7 @@ breadcrumb:
 # 盒子
 toolbox:
   isShow: true # true|fase
-  text: 盒子
+  text: 导航
 
 search_slogan:
   isShow: true # true|fase
@@ -121,7 +121,7 @@ google_analytics:
 baidu_analytics: 275aa94150d7be3f234542686997bdfa
 
 # Comment service
-disqus_shortname: Horseman
+disqus_shortname: http-icebergcwp-com
 # duoshuo_shortname: Horseman
 # gitment_shortname: Horseman
 # gitalk_shortname: Horseman
@@ -190,8 +190,10 @@ link:
     info: I am a Cocoa Developer & Enthusiast working on Mac & iOS apps. 
     url: http://cocoasamurai.blogspot.jp/
     avatar: https://avatars3.githubusercontent.com/u/2963?v=3&s=400
-  
-    
+  - name: Aditya Bhargava
+    info: You've reached Adit's homepage
+    url: http://adit.io/
+    avatar: https://avatars0.githubusercontent.com/u/97219?s=460&v=4
 
 project:
   - type: public

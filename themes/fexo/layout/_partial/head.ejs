@@ -24,6 +24,7 @@
   } else if (is_tag()){
     title = 'Tag: ' + page.tag;
   }
+    
   %>
   <title><% if (title){ %><%= title %> | <% } %><%= config.title %></title>
 
@@ -59,7 +60,7 @@
     <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <% } %>
 
-  <% if (theme.busuanzi || theme.duoshuo_shortname){ %>
+  <% if (theme.busuanzi || theme.disqus_shortname){ %>
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <% } %>
 </head>

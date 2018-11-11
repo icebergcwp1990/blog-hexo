@@ -66,6 +66,9 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: fexo
 
+encrypt: 
+  password: horseman
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
