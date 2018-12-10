@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://icebergcwp.com/在一台电脑搭建两个不同的hexo+github博客.html">
 <meta property="og:site_name" content="Iceberg">
 <meta property="og:description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
-<meta property="og:updated_time" content="2018-12-10T16:01:11.205Z">
+<meta property="og:updated_time" content="2018-12-10T16:01:46.067Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在一台电脑搭建多个不同的hexo+github博客">
 <meta name="twitter:description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
@@ -236,7 +236,7 @@
 <p>将新的映射对应的公钥配置到新的github账号中后，就可以使用以下命令检测是否绑定成功：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh -T git@test.github.com   <span class="comment">#ssh -T 用户名@本地host名</span></span></span><br><span class="line">Hi test! You've successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
 <p>现在，我们解决了一台电脑绑定多个账户的问题。接下来弄清楚hexo对github依赖的实现方式，便可实现在一台电脑搭建多个hexo博客。</p>
-<p><strong>此处省略了hexo博客搭建的过程，网上有很多教程，可自行查阅</strong></p>
+<p><em>此处省略了hexo博客搭建的过程，网上有很多教程，可自行查阅</em></p>
 <p>在完成hexo的安装和初始化后，通过终端进入在对应的目录下，并执行命令ls -la</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ./Hexo所在的根目录 &amp;&amp; ls -la</span><br></pre></td></tr></table></figure>
 <p>找到名为.deploy_git的目录，这是一个隐藏目录，用于存储与同步hexo生成好的博客文件到github账号中。本质上这是一个github的本地仓库，类似于用git init命令创建的本地仓库一样。因此对git的配置都需要在这个目录下完成。以下是配置过程：</p>
