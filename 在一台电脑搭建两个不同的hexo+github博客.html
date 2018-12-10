@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://icebergcwp.com/在一台电脑搭建两个不同的hexo+github博客.html">
 <meta property="og:site_name" content="Iceberg">
 <meta property="og:description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
-<meta property="og:updated_time" content="2018-12-02T14:27:10.018Z">
+<meta property="og:updated_time" content="2018-12-10T16:01:11.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在一台电脑搭建多个不同的hexo+github博客">
 <meta name="twitter:description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
@@ -221,10 +221,8 @@
 <ul>
 <li><p>打开终端，并输入如下命令ssh-keygen：</p>
   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -b 4096 -C <span class="string">"your_email@example.com"</span></span></span><br></pre></td></tr></table></figure>
+<p>  其中-t表示密钥类型为rsa，-b指定密钥的长度，-C为密钥添加的注释，这个注释你可以输入任何内容，很多网站和软件用这个注释作为密钥的名字。</p>
 </li>
-</ul>
-<pre><code>其中-t表示密钥类型为rsa，-b指定密钥的长度，-C为密钥添加的注释，这个注释你可以输入任何内容，很多网站和软件用这个注释作为密钥的名字。
-</code></pre><ul>
 <li><p>密钥创建完成后会提示你指定密钥存储路径：</p>
   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]</span><br></pre></td></tr></table></figure>
 <p>  这一步需要注意的是，如果是直接回车则默认存储在~/.ssh/id_rsa中。因为我们已经有一对名id_rsa的密钥。我们需要将新创建的秘钥存储在新的文件中以作区分。比如存储在文件~/.ssh/test_id_rsa中。</p>
