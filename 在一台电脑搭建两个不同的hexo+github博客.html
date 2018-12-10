@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>在一台电脑搭建多个不同的hexo+github博客 | Iceberg</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="hexo,github," />
+  
+
+  <meta name="description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在一台电脑搭建多个不同的hexo+github博客">
+<meta property="og:url" content="http://icebergcwp.com/在一台电脑搭建两个不同的hexo+github博客.html">
+<meta property="og:site_name" content="Iceberg">
+<meta property="og:description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
+<meta property="og:updated_time" content="2018-12-02T14:27:10.018Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在一台电脑搭建多个不同的hexo+github博客">
+<meta name="twitter:description" content="hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。 本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于： 12345# de">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?275aa94150d7be3f234542686997bdfa";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+   <script type="text/javascript">
+   (function(){
+       var bp = document.createElement('script');
+       var curProtocol = window.location.protocol.split(':')[0];
+       if (curProtocol === 'https') {
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+       }
+       else {
+           bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+       }
+       var s = document.getElementsByTagName("script")[0];
+       s.parentNode.insertBefore(bp, s);
+   })();
+   </script>
+ 
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-在一台电脑搭建两个不同的hexo+github博客" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">在一台电脑搭建多个不同的hexo+github博客</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>iceberg</span>
+        </span>
+      
+
+      
+        <i class="fa fa-eye"></i> 
+          <span id="busuanzi_container_page_pv">
+            &nbsp热度 <span id="busuanzi_value_page_pv">
+          <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/专业/">专业</a>
+  </span>
+
+
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>hexo+github是目前比较受欢迎的搭建个人博客的组合，hexo最终的发布依赖于github的。因此解决在同一台电脑搭建多个不同的hexo+github博客的根本在于：解决如何在一台电脑上绑定多个github账号。</p>
+<p>本地电脑对github服务器访问是基于ssh的，一般情况下git命令会默认在~/.ssh/config文件中写入对github远程host的映射与配置，类似于：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> default</span></span><br><span class="line">Host default.github.com //本地使用的host名，可以自定义</span><br><span class="line">HostName github.com //远程的host名，必须是目标服务的域名</span><br><span class="line">User git  //本地ssh登录使用的用户名，登录github服务器只能是git</span><br><span class="line">IdentityFile ~/.ssh/id_rsa  //ssh访问使用的秘钥</span><br></pre></td></tr></table></figure>
+<p>这个文件所表达的意思是：将本地host名：github.com映射到远程的host名：github.com，并且使用路径：~/.ssh/id_rsa下的秘钥进行ssh访问。</p>
+<p>在此之前，我们需要将与私钥~/.ssh/id_rsa成对出现的公钥~/.ssh/id_rsa.pub配置到自己的github账号中。具体步骤很简单，参考github官方文档：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank" rel="noopener">adding-a-new-ssh-key-to-your-github-account</a>。</p>
+<p>在配置好github账号中的公钥之后，可通过以下命令检测是否配置成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh -T git@default.github.com   <span class="comment">#ssh -T 用户名@本地host名</span></span></span><br><span class="line">Hi “你绑定的github账号名”! You've successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+<p>在理解远程登录github背后的原理之后，在一台电脑上绑定多个github账户的思路也变得清晰，即将多个本地host映射到同一个github的host上。</p>
+<p>又因为每一个新的映射需要一对新的密钥对（公钥和私钥）用于ssh访问，在配置新的host映射之前需要先创建一对新的密钥。具体步骤如下：</p>
+<ul>
+<li><p>打开终端，并输入如下命令ssh-keygen：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -b 4096 -C <span class="string">"your_email@example.com"</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>其中-t表示密钥类型为rsa，-b指定密钥的长度，-C为密钥添加的注释，这个注释你可以输入任何内容，很多网站和软件用这个注释作为密钥的名字。
+</code></pre><ul>
+<li><p>密钥创建完成后会提示你指定密钥存储路径：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]</span><br></pre></td></tr></table></figure>
+<p>  这一步需要注意的是，如果是直接回车则默认存储在~/.ssh/id_rsa中。因为我们已经有一对名id_rsa的密钥。我们需要将新创建的秘钥存储在新的文件中以作区分。比如存储在文件~/.ssh/test_id_rsa中。</p>
+</li>
+<li><p>接下来为秘钥提供访问密码，如果直接回车表示空密码。如果输入了密码，这个密码在后续在hexo中绑定github时使用到。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enter passphrase (empty for no passphrase): [Type a passphrase]</span><br><span class="line">Enter same passphrase again: [Type passphrase again]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>创建完密钥之后，在文件~/.ssh/config中加入新的host映射：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> default</span></span><br><span class="line">Host default.github.com //本地使用的host名，可以自定义</span><br><span class="line">HostName github.com //远程的host名，必须是目标服务的域名</span><br><span class="line">User git  //本地ssh登录使用的用户名，登录github服务器只能是git</span><br><span class="line">IdentityFile ~/.ssh/id_rsa  //ssh访问使用的秘钥</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">test</span></span></span><br><span class="line">Host test.github.com </span><br><span class="line">HostName github.com </span><br><span class="line">User git  </span><br><span class="line">IdentityFile ~/.ssh/test_id_rsa  //使用新创建的私钥</span><br></pre></td></tr></table></figure>
+<p>将新的映射对应的公钥配置到新的github账号中后，就可以使用以下命令检测是否绑定成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh -T git@test.github.com   <span class="comment">#ssh -T 用户名@本地host名</span></span></span><br><span class="line">Hi test! You've successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+<p>现在，我们解决了一台电脑绑定多个账户的问题。接下来弄清楚hexo对github依赖的实现方式，便可实现在一台电脑搭建多个hexo博客。</p>
+<p><strong>此处省略了hexo博客搭建的过程，网上有很多教程，可自行查阅</strong></p>
+<p>在完成hexo的安装和初始化后，通过终端进入在对应的目录下，并执行命令ls -la</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ./Hexo所在的根目录 &amp;&amp; ls -la</span><br></pre></td></tr></table></figure>
+<p>找到名为.deploy_git的目录，这是一个隐藏目录，用于存储与同步hexo生成好的博客文件到github账号中。本质上这是一个github的本地仓库，类似于用git init命令创建的本地仓库一样。因此对git的配置都需要在这个目录下完成。以下是配置过程：</p>
+<ul>
+<li><p>进入.deploy_git目录中，执行如下命令：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\# 取消全局 git用户名/git注册邮箱</span><br><span class="line">git config –global –unset user.name</span><br><span class="line">git config –global –unset user.email</span><br><span class="line">\# 单独设置每个repo git用户名/git注册邮箱</span><br><span class="line">git config user.email “xxxx@xx.com”</span><br><span class="line">git config user.name “xxxx”</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新关联git项目，比如讲hexo部署到本地host:test对应的github账号上：</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin</span><br><span class="line">git remote add origin git@test.github.com:GitHub账户名/hexo对应的仓库名</span><br></pre></td></tr></table></figure>
+<p>至此，我们实现了在一台电脑上搭建多个hexo博客的想法。</p>
+
+    
+  </div>
+
+
+  
+        
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'http-icebergcwp-com';
+    
+    var disqus_url = 'http://icebergcwp.com/在一台电脑搭建两个不同的hexo+github博客.html';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//http-icebergcwp-com.disqus.com/count.js" async></script>
+
+
+
+   
+
+
+</article>
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+    
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
